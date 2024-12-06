@@ -1,14 +1,14 @@
 import Header from "../../components/Header/Header.jsx";
-import SignInForm from "../../components/SignIn/SignInForm.tsx";
-import './Login.css'
+import './Registration.css'
+import SignUpForm from "../../components/SignUp/SignUpForm.tsx";
 
 
-export default function LoginPage() {
+export default function Registration() {
     return (
         <>
             <Header/>
             <div className="loginBox">
-                <SignInForm/>
+                <SignUpForm/>
             </div>
         </>
     )
