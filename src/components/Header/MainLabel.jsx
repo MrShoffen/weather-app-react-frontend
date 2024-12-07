@@ -16,8 +16,8 @@ export function MainLabel() {
                     color: 'inherit',
                     textDecoration: 'none',
                     '&:hover': {
-                        color: 'inherit', // Указываем, что цвет не должен меняться при наведении
-                        textDecoration: 'none', // Убираем любые дополнительные изменения декорации ссылки
+                        color: 'inherit',
+                        textDecoration: 'none',
                     },
                 }}
             >

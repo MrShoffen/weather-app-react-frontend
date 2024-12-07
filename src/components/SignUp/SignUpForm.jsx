@@ -1,20 +1,17 @@
 import * as React from 'react';
+import {useEffect} from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import MuiCard from '@mui/material/Card';
 import {styled} from '@mui/material/styles';
-import {useCallback, useRef} from "react";
-import {CSSTransition} from "react-transition-group";
-import '../TextField/CustomTextField.css'
-import {IconButton, InputAdornment} from "@mui/material";
-import {Visibility, VisibilityOff} from "@mui/icons-material";
+import '../InputElements/FadeAnimation.css'
 import {sendRegistrationForm} from "../../services/SendRegistrationForm.js"
 
-import CustomAnimatedTextField from '../TextField/CustomAnimatedTextField.jsx'
+import CustomValidatedTextField from '../InputElements/TextField/CustomValidatedTextField.jsx'
+
+import AnimatedElement from '../InputElements/AnimatedElement.jsx'
+import {Link} from 'react-router-dom';
 
 const Card = styled(MuiCard)(({theme}) => ({
     display: 'flex',
@@ -34,13 +31,15 @@ const Card = styled(MuiCard)(({theme}) => ({
 
 export default function SignUpForm() {
 
-    const [username, setUsername] = React.useState('');
+    const [username, setUsername] = React.useState(() => {
+        // Изначально проверяем `localStorage` для значения темы
+        const username = localStorage.getItem('username');
+        return username || '';
+    })
     const [usernameError, setUsernameError] = React.useState(false);
     const [usernameErrorMessage, setUsernameErrorMessage] = React.useState('');
 
-    const validateUsername = (e) => {
-        const value = e.target.value;
-
+    const validateUsername = (value) => {
         let isValid = true;
         let errMessage = '';
 
@@ -65,15 +64,19 @@ export default function SignUpForm() {
             setUsernameErrorMessage(errMessage);
         }
         setUsername(value);
+        localStorage.setItem('username', value);
+
     }
 
 
-    const [password, setPassword] = React.useState('');
+    const [password, setPassword] = React.useState(() => {
+        // Изначально проверяем `localStorage` для значения темы
+        const password = localStorage.getItem('password');
+        return password || '';
+    })
     const [passwordError, setPasswordError] = React.useState(false);
     const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
     const validatePassword = (value) => {
-
-
         let isValid = true;
         let errMessage = '';
 
@@ -81,7 +84,7 @@ export default function SignUpForm() {
             errMessage = 'Password length must be greater than 5 characters.';
             isValid = false;
         }
-        if (value && !/^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>[\]\/`~+=-_'; ]*$/.test(value)) {
+        if (value && !/^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>[\]/`~+=-_';]*$/.test(value)) {
             errMessage += 'Only latin letters, numbers and special symbols are allowed.';
             isValid = false;
         }
@@ -98,39 +101,49 @@ export default function SignUpForm() {
             setPasswordErrorMessage(errMessage);
         }
         setPassword(value);
+        localStorage.setItem('password', value);
 
         if (confirmPassword && confirmPassword.length > 0) {
             validatePasswordConfirm(confirmPassword);
         }
+
     }
 
     const [confirmPassword, setConfirmPassword] = React.useState('');
     const [confirmPasswordError, setConfirmPasswordError] = React.useState(false);
     const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = React.useState('');
     const validatePasswordConfirm = (value) => {
-        const passwordEl = document.getElementById('password') as HTMLInputElement;
-        let firstPassword = passwordEl.value;
+        const passwordEl = document.getElementById('password');
+
+        if (passwordEl) {
+            let firstPassword = passwordEl.value;
 
 
-        let isValid = true;
-        let errMessage = '';
+            let isValid = true;
+            let errMessage = '';
 
-        if (value !== firstPassword) {
-            errMessage = 'Passwords do not match!';
-            isValid = false;
+            if (value !== firstPassword) {
+                errMessage = 'Passwords do not match!';
+                isValid = false;
+            }
+
+            if (isValid) {
+                setConfirmPasswordError(false);
+                setConfirmPasswordErrorMessage('');
+            } else {
+                setConfirmPasswordError(true);
+                setConfirmPasswordErrorMessage(errMessage);
+            }
+            setConfirmPassword(value);
         }
-
-        if (isValid) {
-            setConfirmPasswordError(false);
-            setConfirmPasswordErrorMessage('');
-        } else {
-            setConfirmPasswordError(true);
-            setConfirmPasswordErrorMessage(errMessage);
-        }
-        setConfirmPassword(value);
-
     }
 
+
+    useEffect(() => {
+        validateUsername(username)
+        validatePassword(password)
+        validatePasswordConfirm(confirmPassword)
+    })
 
     const handleSubmit = async () => {
         if (usernameError || passwordError || confirmPasswordError) {
@@ -166,7 +179,7 @@ export default function SignUpForm() {
                 }}
             >
 
-                <CustomAnimatedTextField
+                <CustomValidatedTextField
                     id="username"
                     label="Username"
                     autoComplete="username"
@@ -174,50 +187,50 @@ export default function SignUpForm() {
                     type="text"
 
                     value={username}
-                    onChange={validateUsername}
+                    onChange={(e) => validateUsername(e.target.value)}
                     error={usernameError}
                     helperText={usernameErrorMessage}
                 />
 
-                <CustomAnimatedTextField
-                    animatePopupCondition={!usernameError && username.length > 0}
 
-                    id="password"
-                    label="Password"
-                    autoComplete="current-password"
-                    placeholder="Latin latters and numbers"
-                    type="password"
+                <AnimatedElement
+                    condition={!usernameError && username.length > 0}>
 
-                    value={password}
-                    onChange={(e) => validatePassword(e.target.value)}
-                    error={passwordError}
-                    helperText={passwordErrorMessage}
+                    <CustomValidatedTextField
+                        id="password"
+                        label="Password"
+                        autoComplete="current-password"
+                        placeholder="Latin latters and numbers"
+                        type="password"
 
-                />
+                        value={password}
+                        onChange={(e) => validatePassword(e.target.value)}
+                        error={passwordError}
+                        helperText={passwordErrorMessage}
 
+                    />
+                </AnimatedElement>
 
-                <CustomAnimatedTextField
-                    animatePopupCondition={!passwordError && !usernameError && username.length > 0 && password.length > 0}
+                <AnimatedElement
+                    condition={!passwordError && !usernameError && username.length > 0 && password.length > 0}>
 
-                    id="password"
-                    label="Confirm Password"
-                    autoComplete="off"
-                    placeholder="Latin latters and numbers"
-                    type="password"
+                    <CustomValidatedTextField
+                        id="password"
+                        label="Confirm Password"
+                        autoComplete="off"
+                        placeholder="Latin latters and numbers"
+                        type="password"
 
-                    value={confirmPassword}
-                    onChange={(e) => validatePasswordConfirm(e.target.value)}
-                    error={confirmPasswordError}
-                    helperText={confirmPasswordErrorMessage}
-                />
+                        value={confirmPassword}
+                        onChange={(e) => validatePasswordConfirm(e.target.value)}
+                        error={confirmPasswordError}
+                        helperText={confirmPasswordErrorMessage}
+                    />
+                </AnimatedElement>
 
+                <AnimatedElement
+                    condition={!passwordError && !usernameError && !confirmPasswordError && username.length > 0 && password.length > 0 && confirmPassword.length > 0}>
 
-                <CSSTransition
-                    in={!passwordError && !usernameError && !confirmPasswordError && username.length > 0 && password.length > 0}
-                    timeout={300}
-                    classNames="fade"
-                    unmountOnExit
-                >
                     <div>
                         <Button
                             onClick={handleSubmit}
@@ -228,7 +241,20 @@ export default function SignUpForm() {
                             Sign up
                         </Button>
                     </div>
-                </CSSTransition>
+                </AnimatedElement>
+
+
+                <Typography
+                    variant="body2"
+                    component="p"
+                    sx={{textAlign: 'center', marginTop: 2}}
+                >
+                    Already have an account?{' '}
+                    <Link to="/login" style={{color: '#1976d2'}}>
+                        Sign in
+                    </Link>
+                </Typography>
+
 
             </Box>
         </Card>

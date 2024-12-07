@@ -10,12 +10,12 @@ export const sendRegistrationForm = async (registrationData) =>{
         });
 
         if (!response.ok) {
-            throw new Error('Registration failed');
+            throw new Error('RegistrationPage failed');
         }
 
         const data = await response.json();
-        console.log('Registration successful:', data);
-        alert('Registration successful!');
+        console.log('RegistrationPage successful:', data);
+        alert('RegistrationPage successful!');
     } catch (error) {
         console.error('Error during registration:', error);
         alert('Error: ' + error.message);

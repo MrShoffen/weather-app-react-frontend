@@ -1,6 +1,6 @@
 .fade-enter {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-50px);
 }
 
 /* Анимация входа */
@@ -19,6 +19,6 @@
 /* Анимация выхода */
 .fade-exit-active {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-50px);
     transition: opacity 300ms, transform 300ms;
 }

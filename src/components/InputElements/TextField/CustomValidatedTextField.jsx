@@ -3,14 +3,11 @@ import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import * as React from "react";
-import {CSSTransition} from "react-transition-group";
 import {IconButton, InputAdornment} from "@mui/material";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
-import './CustomTextField.css'
 
 
-const CustomAnimatedTextField = ({
-                             animatePopupCondition = true,
+const CustomValidatedTextField = ({
                              id,
                              label,
                              value,
@@ -38,13 +35,6 @@ const CustomAnimatedTextField = ({
     }));
 
     return (
-
-        <CSSTransition
-            in={animatePopupCondition}
-            timeout={300}
-            classNames="fade"
-            unmountOnExit
-        >
             <FormControl variant='outlined' style={{marginBottom: 25}}>
                 <StyledFormLabel htmlFor={id}>{label}</StyledFormLabel>
                 <TextField
@@ -78,8 +68,7 @@ const CustomAnimatedTextField = ({
                         : null}
                 />
             </FormControl>
-        </CSSTransition>
     );
 };
 
-export default CustomAnimatedTextField;
+export default CustomValidatedTextField;
