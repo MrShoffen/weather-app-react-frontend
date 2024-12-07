@@ -1,12 +1,13 @@
-import React, { createContext, useState, useMemo, useEffect, useContext } from 'react';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import React, {createContext, useContext, useMemo, useState} from 'react';
+import {createTheme, ThemeProvider} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+
 
 const ThemeContext = createContext();
 
 export const useThemeContext = () => useContext(ThemeContext);
 
-export const CustomThemeContext = ({ children }) => {
+export const CustomThemeContext = ({children}) => {
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem('isDarkMode');
         return savedTheme ? JSON.parse(savedTheme) : false; // По умолчанию -> light
@@ -31,9 +32,9 @@ export const CustomThemeContext = ({ children }) => {
     );
 
     return (
-        <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
+        <ThemeContext.Provider value={{isDarkMode, toggleTheme}}>
             <ThemeProvider theme={theme}>
-                <CssBaseline />
+                <CssBaseline/>
                 {children}
             </ThemeProvider>
         </ThemeContext.Provider>
