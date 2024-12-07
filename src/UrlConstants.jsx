@@ -1,6 +1,6 @@
 
 
-export const API_BASE_URL = 'http://localhost:8080';
+export const API_BASE_URL = 'http://192.168.0.190:8080';
 
 export const API_CONTEXT = '/tennis-scoreboard/api';
 

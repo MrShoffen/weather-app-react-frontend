@@ -9,11 +9,12 @@ import MuiCard from '@mui/material/Card';
 import {styled} from '@mui/material/styles';
 import {useCallback, useRef} from "react";
 import {CSSTransition} from "react-transition-group";
-import './SignUp.css'
+import '../TextField/CustomTextField.css'
 import {IconButton, InputAdornment} from "@mui/material";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {sendRegistrationForm} from "../../services/SendRegistrationForm.js"
 
-import {API_NEW_MATCH} from "../../UrlConstants"
+import CustomAnimatedTextField from '../TextField/CustomAnimatedTextField.jsx'
 
 const Card = styled(MuiCard)(({theme}) => ({
     display: 'flex',
@@ -37,7 +38,7 @@ export default function SignUpForm() {
     const [usernameError, setUsernameError] = React.useState(false);
     const [usernameErrorMessage, setUsernameErrorMessage] = React.useState('');
 
-    const validateUsername = useCallback((e) => {
+    const validateUsername = (e) => {
         const value = e.target.value;
 
         let isValid = true;
@@ -64,13 +65,12 @@ export default function SignUpForm() {
             setUsernameErrorMessage(errMessage);
         }
         setUsername(value);
-    }, [setUsername]);
+    }
 
 
     const [password, setPassword] = React.useState('');
     const [passwordError, setPasswordError] = React.useState(false);
     const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
-    const [showPassword, setShowPassword] = React.useState(false);
     const validatePassword = (value) => {
 
 
@@ -99,19 +99,14 @@ export default function SignUpForm() {
         }
         setPassword(value);
 
-        if(confirmPassword && confirmPassword.length > 0) {
+        if (confirmPassword && confirmPassword.length > 0) {
             validatePasswordConfirm(confirmPassword);
         }
     }
 
-    const handlePasswordVisibility = () => {
-        setShowPassword((prev) => !prev); // Переключение состояния видимости пароля
-    };
-
     const [confirmPassword, setConfirmPassword] = React.useState('');
     const [confirmPasswordError, setConfirmPasswordError] = React.useState(false);
     const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = React.useState('');
-    const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
     const validatePasswordConfirm = (value) => {
         const passwordEl = document.getElementById('password') as HTMLInputElement;
         let firstPassword = passwordEl.value;
@@ -135,54 +130,20 @@ export default function SignUpForm() {
         setConfirmPassword(value);
 
     }
-    const handleConfirmPasswordVisibility = () => {
-        setShowConfirmPassword((prev) => !prev);
-    };
 
-    const StyledFormLabel = styled(FormLabel)(({theme}) => ({
-        position: "absolute", // Для размещения поверх TextField
-        left: theme.spacing(1.5), // Смещение влево
-        top: 0, // Начальная позиция чуть выше TextField
-        transform: "translateY(-50%)", // Поднимаем label вверх
-        backgroundColor: theme.palette.background.default, // Задаём фон для перекрытия границы поля
-        padding: "0 4px", // Добавляем padding для надписи
-        zIndex: 1,
-    }));
 
-    //todo move to service . think about response after registration
     const handleSubmit = async () => {
-
         if (usernameError || passwordError || confirmPasswordError) {
             return alert('Please fix the errors in the form');
         }
-
 
         const requestData = {
             username,
             password,
         };
 
-
-        try {
-            const response = await fetch(API_NEW_MATCH , {
-                method: 'POST',
-
-                body: JSON.stringify(requestData),
-            });
-
-            if (!response.ok) {
-                throw new Error('Registration failed');
-            }
-
-            const data = await response.json();
-            console.log('Registration successful:', data);
-            alert('Registration successful!');
-        } catch (error) {
-            console.error('Error during registration:', error);
-            alert('Error: ' + error.message);
-        }
+        await sendRegistrationForm(requestData);
     };
-
 
 
     return (
@@ -195,6 +156,7 @@ export default function SignUpForm() {
             >
                 Sign up
             </Typography>
+
             <Box
                 sx={{
                     display: 'flex',
@@ -204,103 +166,50 @@ export default function SignUpForm() {
                 }}
             >
 
-                <FormControl variant="outlined" style={{marginBottom: 25}}>
-                    <StyledFormLabel htmlFor="username">Username</StyledFormLabel>
-                    <TextField
-                        value={username}
-                        onChange={validateUsername}
-                        error={usernameError}
-                        helperText={usernameErrorMessage}
-                        id="username"
-                        name="username"
-                        placeholder="Latin letters and underline"
-                        autoComplete="off"
-                        variant="outlined"
+                <CustomAnimatedTextField
+                    id="username"
+                    label="Username"
+                    autoComplete="username"
+                    placeholder="Latin letters and underline"
+                    type="text"
 
-                    />
-                </FormControl>
+                    value={username}
+                    onChange={validateUsername}
+                    error={usernameError}
+                    helperText={usernameErrorMessage}
+                />
 
+                <CustomAnimatedTextField
+                    animatePopupCondition={!usernameError && username.length > 0}
 
-                <CSSTransition
-                    in={!usernameError && username.length > 0}
-                    timeout={300}
-                    classNames="fade"
-                    unmountOnExit
-                >
-                    <FormControl variant="outlined" style={{marginBottom: 25}}>
-                        <StyledFormLabel htmlFor="password">Password</StyledFormLabel>
-                        <TextField
-                            value={password}
-                            onChange={(e) => validatePassword(e.target.value)}
-                            error={passwordError}
-                            helperText={passwordErrorMessage}
-                            name="password"
-                            disabled={usernameError || username.length == 0}
-                            placeholder="Latin latters and numbers"
-                            type={showPassword ? "text" : "password"}
-                            id="password"
-                            autoComplete="current-password"
-                            variant="outlined"
-                            slotProps={{
-                                input: {
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                onClick={handlePasswordVisibility}
-                                                edge="end"
-                                                aria-label="toggle password visibility"
-                                            >
-                                                {showPassword ? <Visibility/> : <VisibilityOff/>}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                },
-                            }}
-                        />
-                    </FormControl>
-                </CSSTransition>
+                    id="password"
+                    label="Password"
+                    autoComplete="current-password"
+                    placeholder="Latin latters and numbers"
+                    type="password"
+
+                    value={password}
+                    onChange={(e) => validatePassword(e.target.value)}
+                    error={passwordError}
+                    helperText={passwordErrorMessage}
+
+                />
 
 
-                <CSSTransition
-                    in={!passwordError && !usernameError && username.length > 0 && password.length > 0}
-                    timeout={300}
-                    classNames="fade"
-                    unmountOnExit
-                >
-                    <FormControl variant="outlined" style={{marginBottom: 25}}>
-                        <StyledFormLabel htmlFor="password_repeat">Repeat password</StyledFormLabel>
-                        <TextField
-                            value={confirmPassword}
-                            onChange={(e) => validatePasswordConfirm(e.target.value)}
-                            error={confirmPasswordError}
-                            helperText={confirmPasswordErrorMessage}
-                            name="password_repeat"
-                            placeholder="Latin latters and numbers"
-                            type={showConfirmPassword ? "text" : "password"}
-                            id="password_repeat"
-                            disabled={passwordError || password.length == 0}
-                            autoComplete="current-password"
-                            required
-                            fullWidth
-                            variant="outlined"
-                            slotProps={{
-                                input: {
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                onClick={handleConfirmPasswordVisibility}
-                                                edge="end"
-                                                aria-label="toggle password visibility"
-                                            >
-                                                {showConfirmPassword ? <Visibility/> : <VisibilityOff/>}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                },
-                            }}
-                        />
-                    </FormControl>
-                </CSSTransition>
+                <CustomAnimatedTextField
+                    animatePopupCondition={!passwordError && !usernameError && username.length > 0 && password.length > 0}
+
+                    id="password"
+                    label="Confirm Password"
+                    autoComplete="off"
+                    placeholder="Latin latters and numbers"
+                    type="password"
+
+                    value={confirmPassword}
+                    onChange={(e) => validatePasswordConfirm(e.target.value)}
+                    error={confirmPasswordError}
+                    helperText={confirmPasswordErrorMessage}
+                />
 
 
                 <CSSTransition
@@ -323,5 +232,5 @@ export default function SignUpForm() {
 
             </Box>
         </Card>
-    );
+    )
 }
