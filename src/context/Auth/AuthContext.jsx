@@ -16,10 +16,15 @@ export const AuthProvider = ({ children }) => {
 
     // Проверяем localStorage при загрузке страницы
     useEffect(() => {
-        const isAuth = localStorage.getItem("isAuthenticated");
-        if (isAuth) {
-            setAuth({ isAuthenticated: true });
-        }
+        setTimeout(() => {
+            const isAuth = localStorage.getItem("isAuthenticated");
+            if (isAuth) {
+                setAuth({ isAuthenticated: true });
+            }
+
+        }, 500)
+
+
     }, []);
 
     // Войти (сохраняем токен)

@@ -11,6 +11,13 @@ function ProfilePage() {
                 <h2>Профиль</h2>
                 {/* Здесь можно разместить содержимое для домашней страницы */}
             </div>
+            <div> first</div>
+            <div> first</div>
+            <div> first first first first first first first first first first first first first first first first first
+                first first first first first first first
+            </div>
+            <div> first</div>
+            <div> first</div>
         </>
     );
 }
