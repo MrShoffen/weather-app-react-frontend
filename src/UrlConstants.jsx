@@ -1,8 +1,10 @@
 
 
-export const API_BASE_URL = 'http://localhost:8080';
+export const API_BASE_URL = 'http://192.168.0.190:8080';
 
-export const API_CONTEXT = '/api/users';
+export const API_CONTEXT = '/weather/api';
 
 
-export const API_NEW_MATCH = API_BASE_URL + API_CONTEXT ;
+export const API_REGISTRATION = API_BASE_URL + API_CONTEXT + '/auth/registration' ;
+export const API_LOGIN = API_BASE_URL + API_CONTEXT + '/auth/login';
+export const API_LOGOUT = API_BASE_URL + API_CONTEXT + '/auth/logout';

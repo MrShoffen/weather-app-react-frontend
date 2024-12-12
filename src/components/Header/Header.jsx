@@ -6,10 +6,16 @@ import {AvatarMenu} from "./AvatarMenu.jsx";
 import {MainLabel} from "./MainLabel.jsx";
 import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 import Box from "@mui/material/Box";
+import {useAuth} from "../../context/Auth/AuthContext.jsx";
 
 
 function Header() {
     const {isDarkMode, toggleTheme} = useThemeContext();
+
+    const { auth } = useAuth();
+
+
+
 
     return (
         <AppBar component="nav">
@@ -25,6 +31,7 @@ function Header() {
                         onChange={toggleTheme}
                     />
                     <AvatarMenu/>
+
                 </Toolbar>
             </Container>
         </AppBar>

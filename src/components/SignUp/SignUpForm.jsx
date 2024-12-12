@@ -155,6 +155,8 @@ export default function SignUpForm() {
             password,
         };
 
+        console.log(requestData);
+
         await sendRegistrationForm(requestData);
     };
 

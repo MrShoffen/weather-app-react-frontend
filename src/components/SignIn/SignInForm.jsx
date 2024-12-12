@@ -5,12 +5,15 @@ import Typography from '@mui/material/Typography';
 import MuiCard from '@mui/material/Card';
 import {styled} from '@mui/material/styles';
 import '../InputElements/FadeAnimation.css'
-import { Link } from 'react-router-dom';
-import {sendRegistrationForm} from "../../services/SendRegistrationForm.js"
+import {Link} from 'react-router-dom';
+import {sendLoginForm} from "../../services/SendLoginForm.js"
 
 import CustomValidatedTextField from '../InputElements/TextField/CustomValidatedTextField.jsx'
 
 import AnimatedElement from '../InputElements/AnimatedElement.jsx'
+import {useAuth} from "../../context/Auth/AuthContext.jsx";
+import UserNotFoundException from "../../exception/UserNotFoundException.jsx";
+import IncorrectPasswordException from "../../exception/IncorrectPasswordException.jsx";
 
 
 const Card = styled(MuiCard)(({theme}) => ({
@@ -29,11 +32,13 @@ const Card = styled(MuiCard)(({theme}) => ({
     },
 }));
 
-export default function SignUpForm() {
+export default function SignInForm() {
 
     const [username, setUsername] = React.useState('');
     const [usernameError, setUsernameError] = React.useState(false);
     const [usernameErrorMessage, setUsernameErrorMessage] = React.useState('');
+
+    const {login, auth} = useAuth();
 
     const validateUsername = (e) => {
         const value = e.target.value;
@@ -97,7 +102,7 @@ export default function SignUpForm() {
 
 
     const handleSubmit = async () => {
-        if (usernameError || passwordError ) {
+        if (usernameError || passwordError) {
             return alert('Please fix the errors in the form');
         }
 
@@ -106,7 +111,25 @@ export default function SignUpForm() {
             password,
         };
 
-        await sendRegistrationForm(requestData);
+        try {
+            await sendLoginForm(requestData);
+            login();
+        } catch (error) {
+            switch (true) {
+                case error instanceof UserNotFoundException:
+                    setUsernameError(true);
+                    setUsernameErrorMessage(error.message);
+                    break;
+                case error instanceof IncorrectPasswordException:
+                    setPasswordError(true);
+                    setPasswordErrorMessage(error.message);
+                    break;
+
+                default:
+                    alert('Unknown error occurred! ');
+                    window.location.reload();
+            }
+        }
     };
 
 
@@ -162,7 +185,7 @@ export default function SignUpForm() {
                 </AnimatedElement>
 
                 <AnimatedElement
-                    condition={!passwordError && !usernameError  && username.length > 0 && password.length > 0 }>
+                    condition={!passwordError && !usernameError && username.length > 0 && password.length > 0}>
 
                     <div>
                         <Button
@@ -179,10 +202,10 @@ export default function SignUpForm() {
                 <Typography
                     variant="body2"
                     component="p"
-                    sx={{ textAlign: 'center', marginTop: 2 }}
+                    sx={{textAlign: 'center', marginTop: 2}}
                 >
                     Don't have an account?{' '}
-                    <Link to="/registration" style={{ color: '#1976d2' }}>
+                    <Link to="/registration" style={{color: '#1976d2'}}>
                         Sign up
                     </Link>
                 </Typography>
