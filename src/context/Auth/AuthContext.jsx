@@ -12,10 +12,12 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated: false,
     });
 
+    const [isLoading, setIsLoading] = useState(true);
+
     // Проверяем localStorage при загрузке страницы
     useEffect(() => {
-        const storedToken = localStorage.getItem("isAuthenticated");
-        if (storedToken) {
+        const isAuth = localStorage.getItem("isAuthenticated");
+        if (isAuth) {
             setAuth({ isAuthenticated: true });
         }
     }, []);

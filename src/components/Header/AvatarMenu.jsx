@@ -80,7 +80,7 @@ export function AvatarMenu() {
 
     return (
         <Box sx={{flexGrow: 0}}>
-            <Tooltip title={auth.isAuthenticated ? "Profile" : "Authenticate"}>
+            <Tooltip title={auth.isAuthenticated ? "Home" : "Authenticate"}>
                 <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
                     {
                         auth.isAuthenticated

@@ -1,22 +1,17 @@
 import React from "react";
-import { Route, Navigate } from "react-router-dom"; // Если используете react-router-dom v6
-import { useAuth } from "./AuthContext.jsx";
+import {Navigate} from "react-router-dom"; // Если используете react-router-dom v6
+import {useAuth} from "./AuthContext.jsx";
+import HomePage from "../../pages/Home/HomePage.jsx";
 
-const ProtectedRoute = ({ element: Component, ...rest }) => {
-    const { auth } = useAuth();
+const ProtectedRoute = ({children}) => {
+    const {auth} = useAuth();
+    console.log(auth.isAuthenticated);
+    const element = auth.isAuthenticated
+        ? children
+        : <HomePage/>;
 
-    return (
-        <Route
-            {...rest}
-            element={
-                auth.isAuthenticated ? (
-                    Component
-                ) : (
-                    <Navigate to="/login" replace={true} />
-                )
-            }
-        />
-    );
+    return element
+
 };
 
 export default ProtectedRoute;
