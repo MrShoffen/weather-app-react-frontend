@@ -7,9 +7,11 @@ import loadingPage from "../../pages/Loading/LoadingPage.jsx";
 const ProtectedRoute = ({children}) => {
     const {auth} = useAuth();
 
+    console.log(auth);
+
     return auth.isAuthenticated
         ? children
-        : <LoadingPage />;
+        : <LoadingPage/>;
 
 };
 

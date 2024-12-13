@@ -112,8 +112,8 @@ export default function SignInForm() {
         };
 
         try {
-            await sendLoginForm(requestData);
-            login();
+            const profile = await sendLoginForm(requestData);
+            login(profile);
         } catch (error) {
             switch (true) {
                 case error instanceof UserNotFoundException:

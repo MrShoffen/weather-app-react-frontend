@@ -1,5 +1,4 @@
 import {API_LOGIN} from "../UrlConstants.jsx";
-import UserNotFoundException from "../exception/UserNotFoundException.jsx";
 import {throwSpecifyException} from "../exception/ThrowSpecifyException.jsx";
 
 
@@ -21,6 +20,5 @@ export const sendLoginForm = async (registrationData) => {
         throwSpecifyException(error);
     }
 
-    console.log(response.headers);
-
+    return await response.json(response);
 }

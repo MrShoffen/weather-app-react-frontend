@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, {createContext, useContext, useState, useEffect} from "react";
 
 // Создаем контекст
 const AuthContext = createContext();
@@ -7,40 +7,48 @@ const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 // Провайдер для контекста
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({children}) => {
     const [auth, setAuth] = useState({
         isAuthenticated: false,
+        user: null
     });
 
-    const [isLoading, setIsLoading] = useState(true);
-
-    // Проверяем localStorage при загрузке страницы
     useEffect(() => {
         setTimeout(() => {
             const isAuth = localStorage.getItem("isAuthenticated");
-            if (isAuth) {
-                setAuth({ isAuthenticated: true });
+            const userData = localStorage.getItem("user");
+
+            if (isAuth && userData) {
+                // Устанавливаем состояние с данными из localStorage
+                setAuth({
+                    isAuthenticated: true,
+                    user: JSON.parse(userData), // Парсим сохранённый JSON из localStorage
+                });
             }
-
         }, 500)
-
-
     }, []);
 
-    // Войти (сохраняем токен)
-    const login = () => {
-        localStorage.setItem("isAuthenticated", true);
-        setAuth({ /*token,*/ isAuthenticated: true });
+    const login = (userInfo) => {
+        localStorage.setItem("isAuthenticated", "true"); // Сохраняем, что пользователь авторизован
+        localStorage.setItem("user", JSON.stringify(userInfo)); // Сохраняем данные пользователя как строку в формате JSON
+        setAuth({
+            isAuthenticated: true,
+            user: userInfo,
+        });
     };
 
     // Выйти (удаляем токен)
     const logout = () => {
-        localStorage.removeItem("isAuthenticated");
-        setAuth({ /*token: null,*/ isAuthenticated: false });
+        localStorage.removeItem("isAuthenticated"); // Удаляем флаг авторизации
+        localStorage.removeItem("user"); // Удаляем данные пользователя
+        setAuth({
+            isAuthenticated: false,
+            user: null,
+        });
     };
 
     return (
-        <AuthContext.Provider value={{ auth, login, logout }}>
+        <AuthContext.Provider value={{auth, login, logout}}>
             {children}
         </AuthContext.Provider>
     );

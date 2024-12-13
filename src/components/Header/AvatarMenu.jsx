@@ -22,11 +22,9 @@ export function AvatarMenu() {
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
-    const {auth} = useAuth();
+    const {auth, logout} = useAuth();
 
     const navigate = useNavigate();
-
-    const {logout} = useAuth();
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
@@ -84,7 +82,9 @@ export function AvatarMenu() {
                 <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
                     {
                         auth.isAuthenticated
-                            ? <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg"/>
+                            ? <Avatar alt={auth.user.username} src="/static/images/avatar/2.jpg">
+                                {auth.user.username.slice(0, 2)}
+                            </Avatar>
                             : <MenuIcon/>
                     }
                 </IconButton>
