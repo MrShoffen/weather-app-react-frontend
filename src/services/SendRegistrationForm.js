@@ -1,33 +1,23 @@
-import {API_REGISTRATION} from "../UrlConstants.jsx";
+import {API_LOGIN, API_REGISTRATION} from "../UrlConstants.jsx";
+import {throwSpecifyException} from "../exception/ThrowSpecifyException.jsx";
 
 
 export const sendRegistrationForm = async (registrationData) =>{
-    try {
-        const response = await fetch(API_REGISTRATION , {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify(registrationData),
-        });
+    const response = await fetch(API_REGISTRATION, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
 
-        if (!response.ok) {
-            console.log(response);
-            throw new Error('RegistrationPage failed');
-        }
-        console.log(response.headers);
-
-        console.log(response)
-        console.log(response.headers.get("location"));
-
-        // const data = await response.json();
-        // console.log('RegistrationPage successful:', data);
-        // alert('RegistrationPage successful!');
+        body: JSON.stringify(registrationData),
+    });
 
 
-    } catch (error) {
-        console.error('Error during registration:', error);
-        alert('Error: ' + error.message);
+    if (!response.ok) {
+        const error = await response.json();
+        throwSpecifyException(error);
     }
+
+    return await response.json(response);
 }

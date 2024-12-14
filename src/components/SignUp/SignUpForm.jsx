@@ -12,6 +12,10 @@ import CustomValidatedTextField from '../InputElements/TextField/CustomValidated
 
 import AnimatedElement from '../InputElements/AnimatedElement.jsx'
 import {Link} from 'react-router-dom';
+import {sendLoginForm} from "../../services/SendLoginForm.js";
+import UserNotFoundException from "../../exception/UserNotFoundException.jsx";
+import IncorrectPasswordException from "../../exception/IncorrectPasswordException.jsx";
+import UserAlreadyExistException from "../../exception/UserAlreadyExistException.jsx";
 
 const Card = styled(MuiCard)(({theme}) => ({
     display: 'flex',
@@ -139,15 +143,26 @@ export default function SignUpForm() {
     }
 
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     validateUsername(username)
+    //     validatePassword(password)
+    //     validatePasswordConfirm(confirmPassword)
+    // })
+
+    const clearPasswordFields = () => {
+        const passwordEl = document.getElementById('password');
+        const passwordConfirmEl = document.getElementById('password_confirm');
+        setPassword('')
+        setConfirmPassword('')
+
+    }
+
+    const handleSubmit = async () => {
         validateUsername(username)
         validatePassword(password)
         validatePasswordConfirm(confirmPassword)
-    })
-
-    const handleSubmit = async () => {
         if (usernameError || passwordError || confirmPasswordError) {
-            return alert('Please fix the errors in the form');
+            return ;
         }
 
         const requestData = {
@@ -155,9 +170,20 @@ export default function SignUpForm() {
             password,
         };
 
-        console.log(requestData);
+        try {
+            const profile = await sendRegistrationForm(requestData);
+        } catch (error) {
+            switch (true) {
+                case error instanceof UserAlreadyExistException:
+                    setUsernameError(true);
+                    setUsernameErrorMessage(error.message);
+                    break;
 
-        await sendRegistrationForm(requestData);
+                default:
+                    alert('Unknown error occurred! ');
+                    window.location.reload();
+            }
+        }
     };
 
 
@@ -217,11 +243,11 @@ export default function SignUpForm() {
                     condition={!passwordError && !usernameError && username.length > 0 && password.length > 0}>
 
                     <CustomValidatedTextField
-                        id="password"
+                        id="password_confirm"
                         label="Confirm Password"
                         autoComplete="off"
                         placeholder="Latin latters and numbers"
-                        type="password"
+                        type="password_confirm"
 
                         value={confirmPassword}
                         onChange={(e) => validatePasswordConfirm(e.target.value)}

@@ -15,6 +15,8 @@ import {useAuth} from "../../context/Auth/AuthContext.jsx";
 import UserNotFoundException from "../../exception/UserNotFoundException.jsx";
 import IncorrectPasswordException from "../../exception/IncorrectPasswordException.jsx";
 
+const MINIMUM_PASSWORD_LENGTH = 5;
+
 
 const Card = styled(MuiCard)(({theme}) => ({
     display: 'flex',
@@ -77,7 +79,7 @@ export default function SignInForm() {
         let isValid = true;
         let errMessage = '';
 
-        if (value && value.length < 5) {
+        if (value && value.length < MINIMUM_PASSWORD_LENGTH) {
             errMessage = 'Password length must be greater than 5 characters.';
             isValid = false;
         }
