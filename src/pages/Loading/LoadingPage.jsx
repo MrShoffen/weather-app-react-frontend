@@ -9,21 +9,16 @@ function LoadingPage(children) {
 
 
     return (
-        <>
-            <Header/>
+        <div style={styles.container}>
+            <Skeleton style={styles.skeleton} animation="wave" width={windowWidth * 0.4} height={80}/>
+            <Skeleton style={styles.skeleton} animation="wave" width={windowWidth * 0.6}/>
+            <Skeleton style={styles.skeleton} animation="wave" width={windowWidth * 0.7}/>
+            <Skeleton style={styles.skeleton} animation="wave" width={windowWidth * 0.6}/>
+            <Skeleton style={styles.skeleton} animation="wave" width={windowWidth * 0.7}/>
+            <Skeleton style={styles.skeleton} animation="wave" width={windowWidth * 0.6}/>
+            <Skeleton style={styles.skeleton} animation="wave" width={windowWidth * 0.7}/>
 
-            <div style={styles.container}>
-                <Skeleton style={styles.skeleton} animation="wave" width={windowWidth*0.4} height={80}/>
-                <Skeleton style={styles.skeleton} animation="wave" width={windowWidth*0.6}/>
-                <Skeleton style={styles.skeleton} animation="wave" width={windowWidth*0.7}/>
-                <Skeleton style={styles.skeleton} animation="wave" width={windowWidth*0.6}/>
-                <Skeleton style={styles.skeleton} animation="wave" width={windowWidth*0.7}/>
-                <Skeleton style={styles.skeleton} animation="wave" width={windowWidth*0.6}/>
-                <Skeleton style={styles.skeleton} animation="wave" width={windowWidth*0.7}/>
-
-            </div>
-
-        </>
+        </div>
     );
 }
 

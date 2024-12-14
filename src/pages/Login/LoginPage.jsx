@@ -5,11 +5,8 @@ import './Login.css'
 
 export default function LoginPage() {
     return (
-        <>
-            <Header/>
             <div className="loginBox">
                 <SignInForm/>
             </div>
-        </>
     )
 }

@@ -7,8 +7,7 @@ import './Error.css'
 
 const ErrorPage = ({status, description}) => {
     return (
-        <>
-            <Header/>
+
             <Container disableGutters>
                 <div className={"errorContainer"}>
                     <h1 style={{width: "100%", marginBottom: 0}}>{status}</h1>
@@ -17,7 +16,6 @@ const ErrorPage = ({status, description}) => {
                 </div>
             </Container>
 
-        </>
     )
 }
 

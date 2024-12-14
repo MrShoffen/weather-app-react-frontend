@@ -7,8 +7,10 @@ import PageNotFound from "./pages/Error/ErrorPage.jsx";
 import RegistrationPage from "./pages/Registration/RegistrationPage.jsx";
 import {AuthProvider} from "./context/Auth/AuthContext.jsx";
 import HomePage from "./pages/Home/HomePage.jsx";
-import ProtectedRoute from "./context/Auth/ProtectedRoute.jsx";
+import AvailableAfterLoginRoute from "./context/Auth/AvailableAfterLoginRoute.jsx";
 import LoadingPage from "./pages/Loading/LoadingPage.jsx";
+import Layout from "./pages/Layout/Layout.jsx";
+import UnavailableAfterLoginRoute from "./context/Auth/UnavailableAfterLoginRoute.jsx";
 
 
 function App() {
@@ -18,12 +20,18 @@ function App() {
                 <BrowserRouter>
 
                     <Routes>
-                        <Route path="/profile" element={<ProtectedRoute><ProfilePage/></ProtectedRoute>}/>
-                        <Route path="/" element={<HomePage/>}/>
-                        <Route path="/loading" element={<LoadingPage/>}/>
-                        <Route path="/registration" element={<RegistrationPage/>}/>
-                        <Route path="/login" element={<LoginPage/>}/>
-                        <Route path="/*" element={<PageNotFound status={404} description={'Page Not Found!'}/>}/>
+                        <Route path="/" element={<Layout/>}>
+                            <Route index element={<HomePage/>}/>
+                            <Route path="*" element={<PageNotFound status={404} description={'Page Not Found!'}/>}/>
+                            <Route path="loading" element={<LoadingPage/>}/>
+
+                            <Route path="login"
+                                   element={<UnavailableAfterLoginRoute><LoginPage/></UnavailableAfterLoginRoute>}/>
+                            <Route path="registration" element={
+                                <UnavailableAfterLoginRoute><RegistrationPage/></UnavailableAfterLoginRoute>}/>
+                            <Route path="profile"
+                                   element={<AvailableAfterLoginRoute><ProfilePage/></AvailableAfterLoginRoute>}/>
+                        </Route>
                     </Routes>
 
                 </BrowserRouter>

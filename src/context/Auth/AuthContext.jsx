@@ -8,25 +8,25 @@ export const useAuth = () => useContext(AuthContext);
 
 // Провайдер для контекста
 export const AuthProvider = ({children}) => {
-    const [auth, setAuth] = useState({
-        isAuthenticated: false,
-        user: null
-    });
+    const [auth, setAuth] = useState(extractAuthUser);
 
-    useEffect(() => {
-        setTimeout(() => {
-            const isAuth = localStorage.getItem("isAuthenticated");
-            const userData = localStorage.getItem("user");
+    function extractAuthUser() {
+        const isAuth = localStorage.getItem("isAuthenticated");
+        const userData = localStorage.getItem("user");
 
-            if (isAuth && userData) {
-                // Устанавливаем состояние с данными из localStorage
-                setAuth({
-                    isAuthenticated: true,
-                    user: JSON.parse(userData), // Парсим сохранённый JSON из localStorage
-                });
-            }
-        }, 500)
-    }, []);
+        if (isAuth && userData) {
+            // Устанавливаем состояние с данными из localStorage
+            return {
+                isAuthenticated: true,
+                user: JSON.parse(userData), // Парсим сохранённый JSON из localStorage
+            };
+        }
+
+        return {
+            isAuthenticated: false,
+            user: null // Парсим сохранённый JSON из localStorage
+        };
+    }
 
     const login = (userInfo) => {
         localStorage.setItem("isAuthenticated", "true"); // Сохраняем, что пользователь авторизован

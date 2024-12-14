@@ -15,6 +15,8 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import {useMemo} from "react";
+import {createTheme} from "@mui/material/styles";
 
 
 export function AvatarMenu() {
@@ -61,14 +63,20 @@ export function AvatarMenu() {
     function getAuthMenu() {
         return <>
             <MenuItem key='Profile' style={{display: 'flex', justifyContent: 'space-between'}}
-                      onClick={() => {navigate("/login") ; handleCloseUserMenu()}}>
+                      onClick={() => {
+                          navigate("/login");
+                          handleCloseUserMenu()
+                      }}>
                 <Typography sx={{textAlign: 'center', marginLeft: '5px'}}>Sign in</Typography>
                 <LoginIcon/>
             </MenuItem>
             <Divider/>
 
             <MenuItem key='Logout' style={{display: 'flex', justifyContent: 'space-between'}}
-                      onClick={() => {navigate("/registration") ; handleCloseUserMenu()}}>
+                      onClick={() => {
+                          navigate("/registration");
+                          handleCloseUserMenu()
+                      }}>
 
                 <Typography sx={{textAlign: 'center', marginLeft: '5px'}}>Sign up</Typography>
                 <PersonAddIcon/>
@@ -76,17 +84,19 @@ export function AvatarMenu() {
         </>;
     }
 
+    function getIcon() {
+        return auth.isAuthenticated
+            ? <Avatar alt={auth.user.username} src="/static/images/avatar/2.jpg">
+                {auth.user.username.slice(0, 2)}
+            </Avatar>
+            : <MenuIcon/>
+    }
+
     return (
         <Box sx={{flexGrow: 0}}>
             <Tooltip title={auth.isAuthenticated ? "Home" : "Authenticate"}>
                 <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                    {
-                        auth.isAuthenticated
-                            ? <Avatar alt={auth.user.username} src="/static/images/avatar/2.jpg">
-                                {auth.user.username.slice(0, 2)}
-                            </Avatar>
-                            : <MenuIcon/>
-                    }
+                    {getIcon()}
                 </IconButton>
             </Tooltip>
 
