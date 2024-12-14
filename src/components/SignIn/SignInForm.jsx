@@ -48,6 +48,7 @@ export default function SignInForm() {
         let isValid = true;
         let errMessage = '';
 
+
         if (value && value.length < 5) {
             errMessage = 'Username length must be greater than 5 characters.';
             isValid = false;
