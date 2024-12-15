@@ -10,13 +10,13 @@ export const useThemeContext = () => useContext(ThemeContext);
 export const CustomThemeContext = ({children}) => {
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem('isDarkMode');
-        return savedTheme ? JSON.parse(savedTheme) : false; // По умолчанию -> light
+        return savedTheme ? JSON.parse(savedTheme) : false;
     });
 
     const toggleTheme = () => {
         setIsDarkMode((prevMode) => {
             const newMode = !prevMode;
-            localStorage.setItem('isDarkMode', JSON.stringify(newMode)); // Сохранение в localStorage
+            localStorage.setItem('isDarkMode', JSON.stringify(newMode));
             return newMode;
         });
     };

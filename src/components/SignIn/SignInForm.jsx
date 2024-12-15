@@ -14,7 +14,7 @@ import AnimatedElement from '../InputElements/AnimatedElement.jsx'
 import {useAuth} from "../../context/Auth/AuthContext.jsx";
 import UserNotFoundException from "../../exception/UserNotFoundException.jsx";
 import IncorrectPasswordException from "../../exception/IncorrectPasswordException.jsx";
-import {Dialog} from "@mui/material";
+import PrevPageInfoBadge from "../PreviusPageInformationBadge/PrevPageInfoBadge.jsx";
 
 const MINIMUM_PASSWORD_LENGTH = 5;
 
@@ -22,21 +22,19 @@ const MINIMUM_PASSWORD_LENGTH = 5;
 const Card = styled(MuiCard)(({theme}) => ({
     display: 'flex',
     flexDirection: 'column',
-    // backgroundColor: theme.palette.secondary.main,
     alignSelf: 'center',
-    width: '300px', // Фиксированная ширина для ПК
+    width: '300px',
     maxWidth: '300px',
     padding: theme.spacing(4),
     gap: theme.spacing(2),
     margin: 'auto',
     [theme.breakpoints.up('sm')]: {
-        width: '400px', // Фиксированная ширина для ПК
+        width: '400px',
         maxWidth: '400px',
     },
 }));
 
 export default function SignInForm() {
-
     const [username, setUsername] = React.useState('');
     const [usernameError, setUsernameError] = React.useState(false);
     const [usernameErrorMessage, setUsernameErrorMessage] = React.useState('');
@@ -140,6 +138,8 @@ export default function SignInForm() {
     return (
         <Card variant="outlined">
 
+            <PrevPageInfoBadge/>
+
             <Typography
                 component="h1"
                 variant="h4"
@@ -214,7 +214,6 @@ export default function SignInForm() {
                     </Link>
                 </Typography>
 
-                <Dialog />
 
             </Box>
         </Card>

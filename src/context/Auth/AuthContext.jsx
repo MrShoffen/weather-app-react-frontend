@@ -1,12 +1,9 @@
 import React, {createContext, useContext, useState, useEffect} from "react";
 
-// Создаем контекст
 const AuthContext = createContext();
 
-// Кастомный хук для доступа к контексту
 export const useAuth = () => useContext(AuthContext);
 
-// Провайдер для контекста
 export const AuthProvider = ({children}) => {
     const [auth, setAuth] = useState(extractAuthUser);
 
@@ -15,32 +12,30 @@ export const AuthProvider = ({children}) => {
         const userData = localStorage.getItem("user");
 
         if (isAuth && userData) {
-            // Устанавливаем состояние с данными из localStorage
             return {
                 isAuthenticated: true,
-                user: JSON.parse(userData), // Парсим сохранённый JSON из localStorage
+                user: JSON.parse(userData),
             };
         }
 
         return {
             isAuthenticated: false,
-            user: null // Парсим сохранённый JSON из localStorage
+            user: null
         };
     }
 
     const login = (userInfo) => {
-        localStorage.setItem("isAuthenticated", "true"); // Сохраняем, что пользователь авторизован
-        localStorage.setItem("user", JSON.stringify(userInfo)); // Сохраняем данные пользователя как строку в формате JSON
+        localStorage.setItem("isAuthenticated", "true");
+        localStorage.setItem("user", JSON.stringify(userInfo));
         setAuth({
             isAuthenticated: true,
             user: userInfo,
         });
     };
 
-    // Выйти (удаляем токен)
     const logout = () => {
-        localStorage.removeItem("isAuthenticated"); // Удаляем флаг авторизации
-        localStorage.removeItem("user"); // Удаляем данные пользователя
+        localStorage.removeItem("isAuthenticated");
+        localStorage.removeItem("user");
         setAuth({
             isAuthenticated: false,
             user: null,
@@ -48,7 +43,7 @@ export const AuthProvider = ({children}) => {
     };
 
     return (
-        <AuthContext.Provider value={{auth,  login, logout}}>
+        <AuthContext.Provider value={{auth, login, logout}}>
             {children}
         </AuthContext.Provider>
     );

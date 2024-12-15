@@ -12,7 +12,5 @@ export default function AnimatedElement({children, condition}) {
         >
             {children}
         </CSSTransition>
-
-
     )
 }

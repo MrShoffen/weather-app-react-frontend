@@ -1,5 +1,4 @@
 import * as React from 'react';
-import {useEffect} from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -11,24 +10,20 @@ import {sendRegistrationForm} from "../../services/SendRegistrationForm.js"
 import CustomValidatedTextField from '../InputElements/TextField/CustomValidatedTextField.jsx'
 
 import AnimatedElement from '../InputElements/AnimatedElement.jsx'
-import {Link} from 'react-router-dom';
-import {sendLoginForm} from "../../services/SendLoginForm.js";
-import UserNotFoundException from "../../exception/UserNotFoundException.jsx";
-import IncorrectPasswordException from "../../exception/IncorrectPasswordException.jsx";
+import {Link, useNavigate} from 'react-router-dom';
 import UserAlreadyExistException from "../../exception/UserAlreadyExistException.jsx";
 
 const Card = styled(MuiCard)(({theme}) => ({
     display: 'flex',
     flexDirection: 'column',
-    // backgroundColor: theme.palette.secondary.main,
     alignSelf: 'center',
-    width: '300px', // Фиксированная ширина для ПК
+    width: '300px',
     maxWidth: '300px',
     padding: theme.spacing(4),
     gap: theme.spacing(2),
     margin: 'auto',
     [theme.breakpoints.up('sm')]: {
-        width: '400px', // Фиксированная ширина для ПК
+        width: '400px',
         maxWidth: '400px',
     },
 }));
@@ -36,7 +31,6 @@ const Card = styled(MuiCard)(({theme}) => ({
 export default function SignUpForm() {
 
     const [username, setUsername] = React.useState(() => {
-        // Изначально проверяем `localStorage` для значения темы
         const username = localStorage.getItem('username');
         return username || '';
     })
@@ -74,7 +68,6 @@ export default function SignUpForm() {
 
 
     const [password, setPassword] = React.useState(() => {
-        // Изначально проверяем `localStorage` для значения темы
         const password = localStorage.getItem('password');
         return password || '';
     })
@@ -142,27 +135,14 @@ export default function SignUpForm() {
         }
     }
 
-
-    // useEffect(() => {
-    //     validateUsername(username)
-    //     validatePassword(password)
-    //     validatePasswordConfirm(confirmPassword)
-    // })
-
-    const clearPasswordFields = () => {
-        const passwordEl = document.getElementById('password');
-        const passwordConfirmEl = document.getElementById('password_confirm');
-        setPassword('')
-        setConfirmPassword('')
-
-    }
+    const navigate = useNavigate();
 
     const handleSubmit = async () => {
         validateUsername(username)
         validatePassword(password)
         validatePasswordConfirm(confirmPassword)
         if (usernameError || passwordError || confirmPasswordError) {
-            return ;
+            return;
         }
 
         const requestData = {
@@ -172,6 +152,13 @@ export default function SignUpForm() {
 
         try {
             const profile = await sendRegistrationForm(requestData);
+
+            navigate("/login", {
+                state: {
+                    message: "You've successfully signed up. Now you can log in to your account.",
+                    type: "info"
+                },
+            });
         } catch (error) {
             switch (true) {
                 case error instanceof UserAlreadyExistException:

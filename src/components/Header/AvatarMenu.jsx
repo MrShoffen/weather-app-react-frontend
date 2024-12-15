@@ -2,6 +2,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import {useState} from "react";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
@@ -15,49 +16,37 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import {useMemo, useState} from "react";
-import {createTheme} from "@mui/material/styles";
 import ProfileModal from '../ProfileModal/ProfileModal.jsx'
 
 
-export function AvatarMenu() {
+export default function AvatarMenu() {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
-    const {auth, logout} = useAuth();
-
-    const navigate = useNavigate();
-
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
 
+    const navigate = useNavigate();
+    const {auth, logout} = useAuth();
     const handleLogout = async () => {
-
         try {
             await sendLogout();
             logout();
-            navigate("/login");
+            setTimeout(() => navigate("/login"), 200)
         } catch (error) {
             alert('Unknown error occurred! ');
         }
-
-
     };
+
     const [isProfileModalOpen, setProfileModalOpen] = useState(false);
-
-
     const handleCloseProfileModal = () => {
         setProfileModalOpen(false);
     };
 
-    const handleProfileClick = () => {
-        setProfileModalOpen(true);
-    };
-
     const handleProfile = async () => {
-        handleProfileClick();
+        setProfileModalOpen(true);
     }
 
     function getAvatarMenu() {
@@ -115,12 +104,11 @@ export function AvatarMenu() {
                 </IconButton>
             </Tooltip>
 
-
             <Menu
                 sx={{
                     mt: '45px',
                     "& .MuiPaper-root": {
-                        width: "140px", // Установка ширины меню
+                        width: "140px",
                     }
                 }}
                 id="menu-appbar"
@@ -137,15 +125,11 @@ export function AvatarMenu() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
             >
-
-
                 {
                     auth.isAuthenticated
                         ? getAvatarMenu()
                         : getAuthMenu()
                 }
-
-
             </Menu>
 
             <ProfileModal open={isProfileModalOpen} onClose={handleCloseProfileModal}/>

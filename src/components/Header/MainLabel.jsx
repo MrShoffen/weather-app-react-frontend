@@ -1,7 +1,7 @@
 import Typography from "@mui/material/Typography";
 import CloudIcon from '@mui/icons-material/Cloud';
 
-export function MainLabel() {
+export default function MainLabel() {
     return (
             <Typography
                 variant="h5"

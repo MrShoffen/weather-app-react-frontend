@@ -1,26 +1,24 @@
-import React, {useState, useEffect} from "react";
-import {AppBar, Toolbar, Button, Box, Modal, TextField, Typography} from "@mui/material";
+import React, {useEffect} from "react";
+import {Box, Button, Modal, TextField, Typography} from "@mui/material";
 import {useAuth} from "../../context/Auth/AuthContext.jsx";
 
-const ProfileModal = ({open, onClose}) => {
+export default function ProfileModal({open, onClose}) {
 
     const {auth, login} = useAuth();
-    // Загружаем данные пользователя из localStorage при открытии модального окна
+
     useEffect(() => {
         if (open) {
 
         }
     }, [open]);
 
-    // Обработчик изменения полей ввода
     const handleInputChange = (e) => {
         const {name, value} = e.target;
     };
 
-    // Сохранение данных в localStorage
     const handleSave = () => {
         localStorage.setItem("User", JSON.stringify(userData));
-        onClose(); // Закрываем модальное окно
+        onClose();
     };
 
     if (auth.isAuthenticated) {
@@ -38,7 +36,7 @@ const ProfileModal = ({open, onClose}) => {
                         left: "50%",
                         backgroundColor: "background.paper",
                         transform: "translate(-50%, -50%)",
-                         width: 400,
+                        width: 400,
                         boxShadow: 24,
                         p: 4,
                         borderRadius: "8px",
@@ -77,5 +75,3 @@ const ProfileModal = ({open, onClose}) => {
         );
     }
 };
-
-export default ProfileModal;

@@ -1,21 +1,15 @@
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
-import {MaterialUISwitch} from "./MaterialUISwitch.jsx";
-import {AvatarMenu} from "./AvatarMenu.jsx";
-import {MainLabel} from "./MainLabel.jsx";
+import {ThemeSwitcher} from "./ThemeSwitcher.jsx";
+import AvatarMenu from "./AvatarMenu.jsx";
+import MainLabel from "./MainLabel.jsx";
 import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 import Box from "@mui/material/Box";
-import {useAuth} from "../../context/Auth/AuthContext.jsx";
 
 
-function Header() {
+export default function Header() {
     const {isDarkMode, toggleTheme} = useThemeContext();
-
-    const { auth } = useAuth();
-
-
-
 
     return (
         <AppBar component="nav">
@@ -25,7 +19,7 @@ function Header() {
 
                     <Box sx={{flexGrow: 1,}}/>
 
-                    <MaterialUISwitch
+                    <ThemeSwitcher
                         sx={{m: 1}}
                         checked={isDarkMode}
                         onChange={toggleTheme}
@@ -38,5 +32,3 @@ function Header() {
 
     );
 }
-
-export default Header;
