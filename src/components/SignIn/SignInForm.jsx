@@ -14,6 +14,7 @@ import AnimatedElement from '../InputElements/AnimatedElement.jsx'
 import {useAuth} from "../../context/Auth/AuthContext.jsx";
 import UserNotFoundException from "../../exception/UserNotFoundException.jsx";
 import IncorrectPasswordException from "../../exception/IncorrectPasswordException.jsx";
+import {Dialog} from "@mui/material";
 
 const MINIMUM_PASSWORD_LENGTH = 5;
 
@@ -212,6 +213,8 @@ export default function SignInForm() {
                         Sign up
                     </Link>
                 </Typography>
+
+                <Dialog />
 
             </Box>
         </Card>

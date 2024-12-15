@@ -15,8 +15,9 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import {useMemo} from "react";
+import {useMemo, useState} from "react";
 import {createTheme} from "@mui/material/styles";
+import ProfileModal from '../ProfileModal/ProfileModal.jsx'
 
 
 export function AvatarMenu() {
@@ -44,11 +45,25 @@ export function AvatarMenu() {
 
 
     };
+    const [isProfileModalOpen, setProfileModalOpen] = useState(false);
+
+
+    const handleCloseProfileModal = () => {
+        setProfileModalOpen(false);
+    };
+
+    const handleProfileClick = () => {
+        setProfileModalOpen(true);
+    };
+
+    const handleProfile = async () => {
+        handleProfileClick();
+    }
 
     function getAvatarMenu() {
         return <>
             <MenuItem key='Profile' style={{display: 'flex', justifyContent: 'space-between'}}
-                      onClick={handleCloseUserMenu}>
+                      onClick={handleProfile}>
                 <Typography sx={{textAlign: 'center'}}>Profile</Typography>
                 <AccountBoxIcon/>
             </MenuItem>
@@ -132,6 +147,8 @@ export function AvatarMenu() {
 
 
             </Menu>
+
+            <ProfileModal open={isProfileModalOpen} onClose={handleCloseProfileModal}/>
         </Box>
     )
 }
