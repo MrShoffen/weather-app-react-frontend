@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useState} from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -12,6 +13,17 @@ import CustomValidatedTextField from '../InputElements/TextField/CustomValidated
 import AnimatedElement from '../InputElements/AnimatedElement.jsx'
 import {Link, useNavigate} from 'react-router-dom';
 import UserAlreadyExistException from "../../exception/UserAlreadyExistException.jsx";
+
+import AddIcon from "@mui/icons-material/Add";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import FormLabel from "@mui/material/FormLabel";
+import FormControl from "@mui/material/FormControl";
+import {useTheme} from "@mui/material";
+import ValidatedAvatarInput from "../InputElements/AvatarInput/ValidatedAvatarInput.jsx";
+import {API_IMAGES, API_REGISTRATION} from "../../UrlConstants.jsx";
+import {throwSpecifyException} from "../../exception/ThrowSpecifyException.jsx";
+import {uploadAvatar} from "../../services/UploadAvatar.js"; // Иконка плюса
 
 const Card = styled(MuiCard)(({theme}) => ({
     display: 'flex',
@@ -148,7 +160,9 @@ export default function SignUpForm() {
         const requestData = {
             username,
             password,
+            avatarUrl
         };
+
 
         try {
             const profile = await sendRegistrationForm(requestData);
@@ -173,6 +187,7 @@ export default function SignUpForm() {
         }
     };
 
+    const [avatarUrl, setAvatarUrl] = React.useState('');
 
     return (
         <Card variant="outlined">
@@ -185,6 +200,7 @@ export default function SignUpForm() {
                 Sign up
             </Typography>
 
+
             <Box
                 sx={{
                     display: 'flex',
@@ -193,6 +209,7 @@ export default function SignUpForm() {
                     gap: 2,
                 }}
             >
+                <ValidatedAvatarInput setAvatarUrl={setAvatarUrl}/>
 
                 <CustomValidatedTextField
                     id="username"

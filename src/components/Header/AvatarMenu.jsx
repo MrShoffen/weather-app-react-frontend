@@ -17,6 +17,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ProfileModal from '../ProfileModal/ProfileModal.jsx'
+import {API_BASE_URL} from "../../UrlConstants.jsx";
 
 
 export default function AvatarMenu() {
@@ -90,7 +91,7 @@ export default function AvatarMenu() {
 
     function getIcon() {
         return auth.isAuthenticated
-            ? <Avatar alt={auth.user.username} src="/static/images/avatar/2.jpg">
+            ? <Avatar alt={auth.user.username} src={API_BASE_URL + auth.user.avatarUrl}>
                 {auth.user.username.slice(0, 2)}
             </Avatar>
             : <MenuIcon/>
