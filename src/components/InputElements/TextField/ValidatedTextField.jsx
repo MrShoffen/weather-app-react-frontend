@@ -7,7 +7,7 @@ import {IconButton, InputAdornment} from "@mui/material";
 import {Image, Visibility, VisibilityOff} from "@mui/icons-material";
 
 
-export default function CustomValidatedTextField({
+export default function ValidatedTextField({
                                                      id,
                                                      label,
                                                      value,

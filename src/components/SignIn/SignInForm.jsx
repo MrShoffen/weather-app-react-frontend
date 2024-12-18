@@ -8,13 +8,17 @@ import '../InputElements/FadeAnimation.css'
 import {Link} from 'react-router-dom';
 import {sendLoginForm} from "../../services/SendLoginForm.js"
 
-import CustomValidatedTextField from '../InputElements/TextField/CustomValidatedTextField.jsx'
+import ValidatedTextField from '../InputElements/TextField/ValidatedTextField.jsx'
 
 import AnimatedElement from '../InputElements/AnimatedElement.jsx'
 import {useAuth} from "../../context/Auth/AuthContext.jsx";
 import UserNotFoundException from "../../exception/UserNotFoundException.jsx";
 import IncorrectPasswordException from "../../exception/IncorrectPasswordException.jsx";
 import PrevPageInfoBadge from "../PreviusPageInformationBadge/PrevPageInfoBadge.jsx";
+import LoadingButton from "@mui/lab/LoadingButton";
+import {useState} from "react";
+import ValidatedUsernameTextField from "../InputElements/TextField/ValidatedUsernameTextField.jsx";
+import ValidatedPasswordField from "../InputElements/TextField/ValidatedPasswordField.jsx";
 
 const MINIMUM_PASSWORD_LENGTH = 5;
 
@@ -35,77 +39,19 @@ const Card = styled(MuiCard)(({theme}) => ({
 }));
 
 export default function SignInForm() {
-    const [username, setUsername] = React.useState('');
-    const [usernameError, setUsernameError] = React.useState(false);
-    const [usernameErrorMessage, setUsernameErrorMessage] = React.useState('');
-
     const {login, auth} = useAuth();
 
-    const validateUsername = (e) => {
-        const value = e.target.value;
-
-        let isValid = true;
-        let errMessage = '';
-
-
-        if (value && value.length < 5) {
-            errMessage = 'Username length must be greater than 5 characters.';
-            isValid = false;
-        }
-        if (value && !/^[a-zA-Z]+[a-zA-Z_]*[a-zA-Z]+$/.test(value)) {
-            errMessage += 'Only letters and under line allowed.';
-            isValid = false;
-        }
-        if (value && value.length > 20) {
-            errMessage += 'Username length must be less than 20 characters.';
-            isValid = false;
-        }
-
-        if (isValid) {
-            setUsernameError(false);
-            setUsernameErrorMessage('');
-        } else {
-            setUsernameError(true);
-            setUsernameErrorMessage(errMessage);
-        }
-        setUsername(value);
-    }
-
+    const [username, setUsername] = React.useState('');
+    const [usernameError, setUsernameError] = React.useState('');
 
     const [password, setPassword] = React.useState('');
-    const [passwordError, setPasswordError] = React.useState(false);
-    const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
-    const validatePassword = (value) => {
-        let isValid = true;
-        let errMessage = '';
+    const [passwordError, setPasswordError] = React.useState('');
 
-        if (value && value.length < MINIMUM_PASSWORD_LENGTH) {
-            errMessage = 'Password length must be greater than 5 characters.';
-            isValid = false;
-        }
-        if (value && !/^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>[\]/`~+=-_';]*$/.test(value)) {
-            errMessage += 'Only latin letters, numbers and special symbols are allowed.';
-            isValid = false;
-        }
-        if (value && value.length > 20) {
-            errMessage += 'Password length must be less than 20 characters.';
-            isValid = false;
-        }
-
-        if (isValid) {
-            setPasswordError(false);
-            setPasswordErrorMessage('');
-        } else {
-            setPasswordError(true);
-            setPasswordErrorMessage(errMessage);
-        }
-        setPassword(value);
-    }
-
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async () => {
         if (usernameError || passwordError) {
-            return alert('Please fix the errors in the form');
+            return
         }
 
         const requestData = {
@@ -114,17 +60,17 @@ export default function SignInForm() {
         };
 
         try {
+            setLoading(true);
             const profile = await sendLoginForm(requestData);
             login(profile);
         } catch (error) {
             switch (true) {
                 case error instanceof UserNotFoundException:
-                    setUsernameError(true);
-                    setUsernameErrorMessage(error.message);
+                    setUsernameError(error.message);
                     break;
                 case error instanceof IncorrectPasswordException:
-                    setPasswordError(true);
-                    setPasswordErrorMessage(error.message);
+                    console.log(error.message);
+                    setPasswordError(error.message);
                     break;
 
                 default:
@@ -132,6 +78,7 @@ export default function SignInForm() {
                     window.location.reload();
             }
         }
+        setLoading(false);
     };
 
 
@@ -157,49 +104,37 @@ export default function SignInForm() {
                 }}
             >
 
-                <CustomValidatedTextField
-                    id="username"
-                    label="Username"
-                    autoComplete="username"
-                    placeholder="Latin letters and underline"
-                    type="text"
-
-                    value={username}
-                    onChange={validateUsername}
-                    error={usernameError}
-                    helperText={usernameErrorMessage}
+                <ValidatedUsernameTextField
+                    username={username}
+                    setUsername={setUsername}
+                    usernameError={usernameError}
+                    setUsernameError={setUsernameError}
                 />
 
                 <AnimatedElement
                     condition={!usernameError && username.length > 0}>
-
-                    <CustomValidatedTextField
-                        id="password"
-                        label="Password"
-                        autoComplete="current-password"
-                        placeholder="Latin latters and numbers"
-                        type="password"
-
-                        value={password}
-                        onChange={(e) => validatePassword(e.target.value)}
-                        error={passwordError}
-                        helperText={passwordErrorMessage}
-
+                    <ValidatedPasswordField
+                        password={password}
+                        setPassword={setPassword}
+                        passwordError={passwordError}
+                        setPasswordError={setPasswordError}
                     />
                 </AnimatedElement>
 
                 <AnimatedElement
                     condition={!passwordError && !usernameError && username.length > 0 && password.length > 0}>
-
                     <div>
-                        <Button
-                            onClick={handleSubmit}
-                            type="submit"
+                        <LoadingButton
                             fullWidth
+                            type="submit"
                             variant="contained"
+                            // size="small"
+                            onClick={handleSubmit}
+                            loading={loading}
+                            loadingPosition="end"
                         >
                             Sign in
-                        </Button>
+                        </LoadingButton>
                     </div>
                 </AnimatedElement>
 

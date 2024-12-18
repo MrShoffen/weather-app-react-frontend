@@ -1,29 +1,20 @@
 import * as React from 'react';
 import {useState} from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import MuiCard from '@mui/material/Card';
 import {styled} from '@mui/material/styles';
 import '../InputElements/FadeAnimation.css'
+import LoadingButton from '@mui/lab/LoadingButton';
 import {sendRegistrationForm} from "../../services/SendRegistrationForm.js"
-
-import CustomValidatedTextField from '../InputElements/TextField/CustomValidatedTextField.jsx'
 
 import AnimatedElement from '../InputElements/AnimatedElement.jsx'
 import {Link, useNavigate} from 'react-router-dom';
 import UserAlreadyExistException from "../../exception/UserAlreadyExistException.jsx";
-
-import AddIcon from "@mui/icons-material/Add";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import FormLabel from "@mui/material/FormLabel";
-import FormControl from "@mui/material/FormControl";
-import {useTheme} from "@mui/material";
 import ValidatedAvatarInput from "../InputElements/AvatarInput/ValidatedAvatarInput.jsx";
-import {API_IMAGES, API_REGISTRATION} from "../../UrlConstants.jsx";
-import {throwSpecifyException} from "../../exception/ThrowSpecifyException.jsx";
-import {uploadAvatar} from "../../services/UploadAvatar.js"; // Иконка плюса
+import ValidatedUsernameTextField from "../InputElements/TextField/ValidatedUsernameTextField.jsx";
+import ValidatedPasswordField from "../InputElements/TextField/ValidatedPasswordField.jsx";
+import ValidatedPasswordConfirmField from "../InputElements/TextField/ValidatedPasswordConfirmField.jsx"; // Иконка плюса
 
 const Card = styled(MuiCard)(({theme}) => ({
     display: 'flex',
@@ -41,118 +32,21 @@ const Card = styled(MuiCard)(({theme}) => ({
 }));
 
 export default function SignUpForm() {
+    const [avatarUrl, setAvatarUrl] = React.useState('');
 
-    const [username, setUsername] = React.useState(() => {
-        const username = localStorage.getItem('username');
-        return username || '';
-    })
-    const [usernameError, setUsernameError] = React.useState(false);
-    const [usernameErrorMessage, setUsernameErrorMessage] = React.useState('');
+    const [username, setUsername] = React.useState('')
+    const [usernameError, setUsernameError] = React.useState('');
 
-    const validateUsername = (value) => {
-        let isValid = true;
-        let errMessage = '';
-
-        if (value && value.length < 5) {
-            errMessage = 'Username length must be greater than 5 characters.';
-            isValid = false;
-        }
-        if (value && !/^[a-zA-Z]+[a-zA-Z_]*[a-zA-Z]+$/.test(value)) {
-            errMessage += 'Only letters and under line allowed.';
-            isValid = false;
-        }
-        if (value && value.length > 20) {
-            errMessage += 'Username length must be less than 20 characters.';
-            isValid = false;
-        }
-
-        if (isValid) {
-            setUsernameError(false);
-            setUsernameErrorMessage('');
-        } else {
-            setUsernameError(true);
-            setUsernameErrorMessage(errMessage);
-        }
-        setUsername(value);
-        localStorage.setItem('username', value);
-
-    }
-
-
-    const [password, setPassword] = React.useState(() => {
-        const password = localStorage.getItem('password');
-        return password || '';
-    })
-    const [passwordError, setPasswordError] = React.useState(false);
-    const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
-    const validatePassword = (value) => {
-        let isValid = true;
-        let errMessage = '';
-
-        if (value && value.length < 5) {
-            errMessage = 'Password length must be greater than 5 characters.';
-            isValid = false;
-        }
-        if (value && !/^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>[\]/`~+=-_';]*$/.test(value)) {
-            errMessage += 'Only latin letters, numbers and special symbols are allowed.';
-            isValid = false;
-        }
-        if (value && value.length > 20) {
-            errMessage += 'Password length must be less than 20 characters.';
-            isValid = false;
-        }
-
-        if (isValid) {
-            setPasswordError(false);
-            setPasswordErrorMessage('');
-        } else {
-            setPasswordError(true);
-            setPasswordErrorMessage(errMessage);
-        }
-        setPassword(value);
-        localStorage.setItem('password', value);
-
-        if (confirmPassword && confirmPassword.length > 0) {
-            validatePasswordConfirm(confirmPassword);
-        }
-
-    }
+    const [password, setPassword] = React.useState('')
+    const [passwordError, setPasswordError] = React.useState('');
 
     const [confirmPassword, setConfirmPassword] = React.useState('');
-    const [confirmPasswordError, setConfirmPasswordError] = React.useState(false);
-    const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = React.useState('');
-    const validatePasswordConfirm = (value) => {
-        const passwordEl = document.getElementById('password');
+    const [confirmPasswordError, setConfirmPasswordError] = React.useState('');
 
-        if (passwordEl) {
-            let firstPassword = passwordEl.value;
-
-
-            let isValid = true;
-            let errMessage = '';
-
-            if (value !== firstPassword) {
-                errMessage = 'Passwords do not match!';
-                isValid = false;
-            }
-
-            if (isValid) {
-                setConfirmPasswordError(false);
-                setConfirmPasswordErrorMessage('');
-            } else {
-                setConfirmPasswordError(true);
-                setConfirmPasswordErrorMessage(errMessage);
-            }
-            setConfirmPassword(value);
-        }
-    }
-
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async () => {
-        validateUsername(username)
-        validatePassword(password)
-        validatePasswordConfirm(confirmPassword)
         if (usernameError || passwordError || confirmPasswordError) {
             return;
         }
@@ -163,9 +57,9 @@ export default function SignUpForm() {
             avatarUrl
         };
 
-
         try {
-            const profile = await sendRegistrationForm(requestData);
+            setLoading(true);
+            await sendRegistrationForm(requestData);
 
             navigate("/login", {
                 state: {
@@ -176,8 +70,8 @@ export default function SignUpForm() {
         } catch (error) {
             switch (true) {
                 case error instanceof UserAlreadyExistException:
-                    setUsernameError(true);
-                    setUsernameErrorMessage(error.message);
+                    console.log(error.message);
+                    setUsernameError(error.message);
                     break;
 
                 default:
@@ -185,9 +79,9 @@ export default function SignUpForm() {
                     window.location.reload();
             }
         }
+        setLoading(false);
     };
 
-    const [avatarUrl, setAvatarUrl] = React.useState('');
 
     return (
         <Card variant="outlined">
@@ -209,69 +103,56 @@ export default function SignUpForm() {
                     gap: 2,
                 }}
             >
-                <ValidatedAvatarInput setAvatarUrl={setAvatarUrl}/>
-
-                <CustomValidatedTextField
-                    id="username"
-                    label="Username"
-                    autoComplete="username"
-                    placeholder="Latin letters and underline"
-                    type="text"
-
-                    value={username}
-                    onChange={(e) => validateUsername(e.target.value)}
-                    error={usernameError}
-                    helperText={usernameErrorMessage}
+                <ValidatedAvatarInput
+                    setAvatarUrl={setAvatarUrl}
                 />
 
+                <ValidatedUsernameTextField
+                    username={username}
+                    setUsername={setUsername}
+
+                    usernameError={usernameError}
+                    setUsernameError={setUsernameError}
+                />
 
                 <AnimatedElement
                     condition={!usernameError && username.length > 0}>
+                    <ValidatedPasswordField
+                        password={password}
+                        setPassword={setPassword}
 
-                    <CustomValidatedTextField
-                        id="password"
-                        label="Password"
-                        autoComplete="current-password"
-                        placeholder="Latin latters and numbers"
-                        type="password"
-
-                        value={password}
-                        onChange={(e) => validatePassword(e.target.value)}
-                        error={passwordError}
-                        helperText={passwordErrorMessage}
-
+                        passwordError={passwordError}
+                        setPasswordError={setPasswordError}
                     />
                 </AnimatedElement>
 
                 <AnimatedElement
                     condition={!passwordError && !usernameError && username.length > 0 && password.length > 0}>
+                    <ValidatedPasswordConfirmField
+                        confirmPassword={confirmPassword}
+                        setConfirmPassword={setConfirmPassword}
 
-                    <CustomValidatedTextField
-                        id="password_confirm"
-                        label="Confirm Password"
-                        autoComplete="off"
-                        placeholder="Latin latters and numbers"
-                        type="password_confirm"
+                        confirmPasswordError={confirmPasswordError}
+                        setConfirmPasswordError={setConfirmPasswordError}
 
-                        value={confirmPassword}
-                        onChange={(e) => validatePasswordConfirm(e.target.value)}
-                        error={confirmPasswordError}
-                        helperText={confirmPasswordErrorMessage}
+                        originalPassword={password}
                     />
                 </AnimatedElement>
 
                 <AnimatedElement
                     condition={!passwordError && !usernameError && !confirmPasswordError && username.length > 0 && password.length > 0 && confirmPassword.length > 0}>
-
                     <div>
-                        <Button
-                            onClick={handleSubmit}
-                            type="submit"
+                        <LoadingButton
                             fullWidth
+                            type="submit"
                             variant="contained"
+                            // size="small"
+                            onClick={handleSubmit}
+                            loading={loading}
+                            loadingPosition="end"
                         >
                             Sign up
-                        </Button>
+                        </LoadingButton>
                     </div>
                 </AnimatedElement>
 

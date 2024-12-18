@@ -18,6 +18,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ProfileModal from '../ProfileModal/ProfileModal.jsx'
 import {API_BASE_URL} from "../../UrlConstants.jsx";
+import LoadingPage from "../../pages/Loading/LoadingPage.jsx";
+import LoadingButton from "@mui/lab/LoadingButton";
+import sunset from "../../assets/img/weather-state/sunset.svg"
 
 
 export default function AvatarMenu() {
@@ -31,14 +34,24 @@ export default function AvatarMenu() {
 
     const navigate = useNavigate();
     const {auth, logout} = useAuth();
+    const [loading, setLoading] = useState(false);
     const handleLogout = async () => {
         try {
+            setLoading(true);
             await sendLogout();
             logout();
-            setTimeout(() => navigate("/login"), 200)
+            setTimeout(() => navigate("/login", {
+                state: {
+                    message: "You have successfully logged out.",
+                    type: "info"
+                },
+            }), 200)
+
+            handleCloseUserMenu()
         } catch (error) {
             alert('Unknown error occurred! ');
         }
+        setLoading(false);
     };
 
     const [isProfileModalOpen, setProfileModalOpen] = useState(false);
@@ -49,6 +62,7 @@ export default function AvatarMenu() {
     const handleProfile = async () => {
         setProfileModalOpen(true);
     }
+
 
     function getAvatarMenu() {
         return <>
@@ -95,6 +109,12 @@ export default function AvatarMenu() {
                 {auth.user.username.slice(0, 2)}
             </Avatar>
             : <MenuIcon/>
+    }
+
+
+    if (loading) {
+        return <img src={sunset} alt style={{height: '60px'}}/>
+
     }
 
     return (
