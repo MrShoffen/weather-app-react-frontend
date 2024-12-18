@@ -82,7 +82,6 @@ export default function SignUpForm() {
         setLoading(false);
     };
 
-
     return (
         <Card variant="outlined">
 

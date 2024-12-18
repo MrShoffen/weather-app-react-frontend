@@ -1,27 +1,20 @@
 import * as React from 'react';
+import {useState} from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import MuiCard from '@mui/material/Card';
 import {styled} from '@mui/material/styles';
 import '../InputElements/FadeAnimation.css'
 import {Link} from 'react-router-dom';
 import {sendLoginForm} from "../../services/SendLoginForm.js"
-
-import ValidatedTextField from '../InputElements/TextField/ValidatedTextField.jsx'
-
 import AnimatedElement from '../InputElements/AnimatedElement.jsx'
 import {useAuth} from "../../context/Auth/AuthContext.jsx";
 import UserNotFoundException from "../../exception/UserNotFoundException.jsx";
 import IncorrectPasswordException from "../../exception/IncorrectPasswordException.jsx";
 import PrevPageInfoBadge from "../PreviusPageInformationBadge/PrevPageInfoBadge.jsx";
 import LoadingButton from "@mui/lab/LoadingButton";
-import {useState} from "react";
 import ValidatedUsernameTextField from "../InputElements/TextField/ValidatedUsernameTextField.jsx";
 import ValidatedPasswordField from "../InputElements/TextField/ValidatedPasswordField.jsx";
-
-const MINIMUM_PASSWORD_LENGTH = 5;
-
 
 const Card = styled(MuiCard)(({theme}) => ({
     display: 'flex',
@@ -39,7 +32,7 @@ const Card = styled(MuiCard)(({theme}) => ({
 }));
 
 export default function SignInForm() {
-    const {login, auth} = useAuth();
+    const {login} = useAuth();
 
     const [username, setUsername] = React.useState('');
     const [usernameError, setUsernameError] = React.useState('');
@@ -80,7 +73,6 @@ export default function SignInForm() {
         }
         setLoading(false);
     };
-
 
     return (
         <Card variant="outlined">
@@ -148,8 +140,6 @@ export default function SignInForm() {
                         Sign up
                     </Link>
                 </Typography>
-
-
             </Box>
         </Card>
     )

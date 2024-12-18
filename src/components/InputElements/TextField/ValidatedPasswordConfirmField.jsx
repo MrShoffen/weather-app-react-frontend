@@ -3,42 +3,39 @@ import * as React from "react";
 import {useEffect} from "react";
 
 
-export default function ValidatedPasswordConfirmField({confirmPassword, setConfirmPassword,
-                                                      confirmPasswordError, setConfirmPasswordError,
-                                                      originalPassword}) {
+export default function ValidatedPasswordConfirmField({
+                                                          confirmPassword, setConfirmPassword,
+                                                          confirmPasswordError, setConfirmPasswordError,
+                                                          originalPassword,
+                                                          label="Confirm Password"
+                                                      }) {
 
     const validatePasswordConfirm = (value) => {
-        const passwordEl = document.getElementById('password');
+        let isValid = true;
+        let errMessage = '';
 
-        if (passwordEl) {
-            let firstPassword = passwordEl.value;
-
-
-            let isValid = true;
-            let errMessage = '';
-
-            if (value !== firstPassword) {
-                errMessage = 'Passwords do not match!';
-                isValid = false;
-            }
-
-            if (isValid) {
-                setConfirmPasswordError('');
-            } else {
-                setConfirmPasswordError(errMessage);
-            }
-            setConfirmPassword(value);
+        if (value !== originalPassword) {
+            errMessage = 'Passwords do not match!';
+            isValid = false;
         }
+
+        if (isValid) {
+            setConfirmPasswordError('');
+        } else {
+            setConfirmPasswordError(errMessage);
+        }
+        setConfirmPassword(value);
+
     }
 
     useEffect(() => {
         validatePasswordConfirm(confirmPassword);
-    },[originalPassword]);
+    }, [originalPassword]);
 
     return (
         <ValidatedTextField
             id="password_confirm"
-            label="Confirm Password"
+            label={label}
             autoComplete="off"
             placeholder="Latin latters and numbers"
             type="password_confirm"

@@ -4,7 +4,8 @@ import {useEffect} from "react";
 
 
 export default function ValidatedPasswordField({password, setPassword,
-                                               passwordError, setPasswordError}) {
+                                               passwordError, setPasswordError,
+                                               label='Password'}) {
     const validatePassword = (value) => {
         let isValid = true;
         let errMessage = '';
@@ -39,7 +40,7 @@ export default function ValidatedPasswordField({password, setPassword,
     return (
         <ValidatedTextField
             id="password"
-            label="Password"
+            label={label}
             autoComplete="current-password"
             placeholder="Latin latters and numbers"
             type="password"
