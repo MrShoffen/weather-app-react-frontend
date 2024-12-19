@@ -15,9 +15,10 @@ import UnavailableAfterLoginRoute from "./context/Auth/UnavailableAfterLoginRout
 
 function App() {
     return (
-        <AuthProvider>
-            <CustomThemeContext>
-                <BrowserRouter>
+        <BrowserRouter>
+            <AuthProvider>
+                <CustomThemeContext>
+
 
                     <Routes>
                         <Route path="/" element={<Layout/>}>
@@ -34,9 +35,10 @@ function App() {
                         </Route>
                     </Routes>
 
-                </BrowserRouter>
-            </CustomThemeContext>
-        </AuthProvider>
+
+                </CustomThemeContext>
+            </AuthProvider>
+        </BrowserRouter>
     )
 }
 

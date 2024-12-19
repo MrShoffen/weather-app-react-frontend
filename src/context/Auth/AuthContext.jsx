@@ -1,4 +1,6 @@
 import React, {createContext, useContext, useState, useEffect} from "react";
+import {checkSession} from "../../services/CheckSession.js";
+import {useNavigate} from "react-router-dom";
 
 const AuthContext = createContext();
 
@@ -41,6 +43,39 @@ export const AuthProvider = ({children}) => {
             user: null,
         });
     };
+
+    const navigate = useNavigate();
+
+    const validateSession = async () => {
+        if (auth.isAuthenticated) {
+
+          try {
+              await checkSession();
+          } catch (error){
+              logout();
+              navigate("/login", {
+                  state: {
+                      message: "Session is expired! Please login again",
+                      type: "error"
+                  },
+              });
+              window.location.reload();
+
+          }
+        }
+
+    };
+
+    useEffect(() => {
+        const SESSION_CHECK_INTERVAL = 5 * 60 * 1000; // Каждые 5 минут
+        const intervalId = setInterval(validateSession, SESSION_CHECK_INTERVAL);
+
+        // Также сразу проверяем сессию при загрузке приложения
+
+        validateSession();
+
+        return () => clearInterval(intervalId); // Очищаем интервал при размонтировании
+    }, []);
 
     return (
         <AuthContext.Provider value={{auth, login, logout}}>
