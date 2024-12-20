@@ -15,5 +15,5 @@ export const checkSession = async () => {
         throw new UserUnauthorizedException(error.detail);
     }
 
-
+    return await response.json();
 }

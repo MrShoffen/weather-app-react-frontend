@@ -10,8 +10,12 @@ export const sendLogout = async () => {
         credentials: 'include'
     });
 
+    console.log('heere');
+
 
     if (!response.ok) {
+        console.log('heere 22');
+
         const error = await response.json();
         throwSpecifyException(error);
     }

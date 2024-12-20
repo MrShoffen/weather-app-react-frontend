@@ -49,19 +49,24 @@ export const AuthProvider = ({children}) => {
     const validateSession = async () => {
         if (auth.isAuthenticated) {
 
-          try {
-              await checkSession();
-          } catch (error){
-              logout();
-              navigate("/login", {
-                  state: {
-                      message: "Session is expired! Please login again",
-                      type: "error"
-                  },
-              });
-              window.location.reload();
+            try {
+                const user = await checkSession();
+                if (user !== auth.user) {
+                    console.log('Im heeeere');
+                    login(user);
+                }
 
-          }
+            } catch (error) {
+                logout();
+                navigate("/login", {
+                    state: {
+                        message: "Session is expired! Please login again",
+                        type: "error"
+                    },
+                });
+                window.location.reload();
+
+            }
         }
 
     };
@@ -78,7 +83,7 @@ export const AuthProvider = ({children}) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{auth, login, logout}}>
+        <AuthContext.Provider value={{auth, login, logout, validateSession}}>
             {children}
         </AuthContext.Provider>
     );

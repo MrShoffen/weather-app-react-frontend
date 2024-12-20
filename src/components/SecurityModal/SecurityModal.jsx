@@ -36,23 +36,19 @@ const Card = styled(MuiCard)(({theme}) => ({
 }));
 
 
-export default function ProfileModal({open, onClose}) {
+export default function SecurityModal({open, onClose}) {
 
-    const {auth, login, validateSession} = useAuth();
-
-    const [avatarUrl, setAvatarUrl] = React.useState('');
-
-    const [username, setUsername] = React.useState('');
-    const [usernameError, setUsernameError] = React.useState('');
+    const {auth, login} = useAuth();
 
 
-    useEffect(() => {
-        validateSession();
-        setAvatarUrl(auth.isAuthenticated ? auth.user.avatarUrl : '');
-        setUsername(auth.isAuthenticated ? auth.user.username : '')
+    const [oldPassword, setOldPassword] = React.useState('');
+    const [oldPasswordError, setOldPasswordError] = React.useState('');
 
+    const [newPassword, setNewPassword] = React.useState('')
+    const [newPasswordError, setNewPasswordError] = React.useState('');
 
-    }, [open, auth.isAuthenticated]);
+    const [confirmPassword, setConfirmPassword] = React.useState('');
+    const [confirmPasswordError, setConfirmPasswordError] = React.useState('');
 
 
     const [loading, setLoading] = useState(false);
@@ -62,19 +58,19 @@ export default function ProfileModal({open, onClose}) {
         try {
             setSuccessMessage('');
             setLoading(true);
+
             const editInformation = {
-                newUsername: username,
-                newAvatarUrl: avatarUrl,
+                oldPassword: oldPassword,
+                newPassword: newPassword,
             }
 
-            const newData = await sendEdit(editInformation, "/profile");
+            const newData = await sendEdit(editInformation, "/password");
+            setSuccessMessage("Password updated!.");
 
-            login(newData);
-            setSuccessMessage("Information updated successfully.");
         } catch (error) {
             switch (true) {
-                case error instanceof UserAlreadyExistException:
-                    setUsernameError(error.message);
+                case error instanceof IncorrectPasswordException:
+                    setOldPasswordError(error.message);
                     break;
 
                 default:
@@ -83,7 +79,8 @@ export default function ProfileModal({open, onClose}) {
             }
         }
         setLoading(false);
-
+        setNewPassword('')
+        setConfirmPassword('')
         // onClose();
     };
 
@@ -97,7 +94,7 @@ export default function ProfileModal({open, onClose}) {
                 open={open}
                 onClose={() => {
                     onClose();
-                    setSuccessMessage("");
+                    setSuccessMessage('');
                 }}
                 aria-labelledby="profile-modal"
                 aria-describedby="profile-modal-description"
@@ -117,18 +114,13 @@ export default function ProfileModal({open, onClose}) {
                       }}
                 >
 
-
-
-
                     <Typography
                         component="h1"
                         variant="h4"
                         sx={{width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)'}}
                     >
-                        Edit Profile
+                        Security Settings
                     </Typography>
-
-                    <InformationBadge message={successMessage} type="info" />
 
 
                     <Box
@@ -139,32 +131,75 @@ export default function ProfileModal({open, onClose}) {
                             gap: 2,
                         }}
                     >
-                        <ValidatedAvatarInput
-                            setAvatarUrl={setAvatarUrl}
-                            initialAvatarUrl={avatarUrl}
+
+                        <InformationBadge message={successMessage} type="info" />
+
+                        <ValidatedPasswordField
+                            password={oldPassword}
+                            setPassword={setOldPassword}
+
+                            passwordError={oldPasswordError}
+                            setPasswordError={setOldPasswordError}
+
+                            label="Current Password"
                         />
 
-                        <ValidatedUsernameTextField
-                            username={username}
-                            setUsername={setUsername}
 
-                            usernameError={usernameError}
-                            setUsernameError={setUsernameError}
-                        />
+
+                        <AnimatedElement
+                            condition={!oldPasswordError && oldPassword.length > 0}>
+                            <ValidatedPasswordField
+                                password={newPassword}
+                                setPassword={setNewPassword}
+
+                                passwordError={newPasswordError}
+                                setPasswordError={setNewPasswordError}
+
+                                label="New Password"
+                            />
+                        </AnimatedElement>
+
+                        <AnimatedElement
+                            condition={!oldPasswordError && oldPassword.length > 0 && !newPasswordError && newPassword.length > 0}>
+                            <ValidatedPasswordConfirmField
+                                confirmPassword={confirmPassword}
+                                setConfirmPassword={setConfirmPassword}
+
+                                confirmPasswordError={confirmPasswordError}
+                                setConfirmPasswordError={setConfirmPasswordError}
+
+                                originalPassword={newPassword}
+
+                                label="Confirm New Password"
+                            />
+                        </AnimatedElement>
+
 
                         <Box display="flex" justifyContent="flex-end" gap={2}>
                             <Button variant="outlined" onClick={onClose}>
                                 Cancel
                             </Button>
+
+
                             <LoadingButton
                                 variant="contained"
                                 onClick={handleSave}
                                 loading={loading}
-                                disabled={ (usernameError || username === auth.user.username || username.length === 0) && (avatarUrl === auth.user.avatarUrl) }
+                                disabled={oldPasswordError || oldPassword.length === 0 || newPasswordError || newPassword.length === 0 || confirmPasswordError || confirmPassword.length === 0}
                             >
-                                Save
+                                Change Password
                             </LoadingButton>
+
                         </Box>
+
+                        <AnimatedElement
+                            condition={!oldPasswordError && oldPassword.length > 0}>
+                            <div>
+                                <Button style={{width: "100%"}} variant="outlined" onClick={onClose} color="error">
+                                    Delete Account
+                                </Button>
+                            </div>
+                        </AnimatedElement>
 
                     </Box>
                 </Card>

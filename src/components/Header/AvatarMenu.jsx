@@ -20,7 +20,9 @@ import ProfileModal from '../ProfileModal/ProfileModal.jsx'
 import {API_BASE_URL} from "../../UrlConstants.jsx";
 import LoadingPage from "../../pages/Loading/LoadingPage.jsx";
 import LoadingButton from "@mui/lab/LoadingButton";
+import KeyIcon from '@mui/icons-material/Key';
 import sunset from "../../assets/img/weather-state/sunset.svg"
+import SecurityModal from "../SecurityModal/SecurityModal.jsx";
 
 
 export default function AvatarMenu() {
@@ -64,12 +66,26 @@ export default function AvatarMenu() {
     }
 
 
+    const [isSecurityModalOpen, setSecurityModalOpen] = useState(false);
+    const handleCloseSecurityModal = () => {
+        setSecurityModalOpen(false);
+    };
+
+    const handleSecurity = async () => {
+        setSecurityModalOpen(true);
+    }
+
     function getAvatarMenu() {
         return <>
             <MenuItem key='Profile' style={{display: 'flex', justifyContent: 'space-between'}}
                       onClick={handleProfile}>
                 <Typography sx={{textAlign: 'center'}}>Profile</Typography>
                 <AccountBoxIcon/>
+            </MenuItem>
+            <MenuItem key='Security' style={{display: 'flex', justifyContent: 'space-between'}}
+                      onClick={handleSecurity}>
+                <Typography sx={{textAlign: 'center'}}>Security</Typography>
+                <KeyIcon/>
             </MenuItem>
             <Divider/>
             <MenuItem key='Logout' style={{display: 'flex', justifyContent: 'space-between'}} onClick={handleLogout}>
@@ -154,6 +170,7 @@ export default function AvatarMenu() {
             </Menu>
 
             <ProfileModal open={isProfileModalOpen} onClose={handleCloseProfileModal}/>
+            <SecurityModal open={isSecurityModalOpen} onClose={handleCloseSecurityModal}/>
         </Box>
     )
 }
