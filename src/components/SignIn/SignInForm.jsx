@@ -15,6 +15,7 @@ import PrevPageInfoBadge from "../PreviusPageInformationBadge/PrevPageInfoBadge.
 import LoadingButton from "@mui/lab/LoadingButton";
 import ValidatedUsernameTextField from "../InputElements/TextField/ValidatedUsernameTextField.jsx";
 import ValidatedPasswordField from "../InputElements/TextField/ValidatedPasswordField.jsx";
+import SessionNotFoundException from "../../exception/SessionNotFoundException.jsx";
 
 const Card = styled(MuiCard)(({theme}) => ({
     display: 'flex',
@@ -65,7 +66,10 @@ export default function SignInForm() {
                     console.log(error.message);
                     setPasswordError(error.message);
                     break;
-
+                case error instanceof SessionNotFoundException:
+                    console.log(error.message);
+                    await handleSubmit();
+                    break;
                 default:
                     alert('Unknown error occurred! ');
                     window.location.reload();

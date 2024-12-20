@@ -82,6 +82,20 @@ export const AuthProvider = ({children}) => {
         return () => clearInterval(intervalId); // Очищаем интервал при размонтировании
     }, []);
 
+    const validateCookieIsAlive = async () => {
+        if (!auth.isAuthenticated) {
+            const user = await checkSession();
+            if (user) {
+                login(user);
+            }
+        }
+    };
+
+    useEffect(() => {
+        validateCookieIsAlive()// Очищаем интервал при размонтировании
+    }, []);
+
+
     return (
         <AuthContext.Provider value={{auth, login, logout, validateSession}}>
             {children}

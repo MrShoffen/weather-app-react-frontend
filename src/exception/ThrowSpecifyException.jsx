@@ -1,6 +1,7 @@
 import UserNotFoundException from "./UserNotFoundException.jsx";
 import IncorrectPasswordException from "./IncorrectPasswordException.jsx";
 import UserAlreadyExistException from "./UserAlreadyExistException.jsx";
+import SessionNotFoundException from "./SessionNotFoundException.jsx";
 
 
 export const throwSpecifyException = (error) => {
@@ -14,6 +15,8 @@ export const throwSpecifyException = (error) => {
         case 'UserAlreadyExistsException':
             throw new UserAlreadyExistException(error.detail);
 
+        case 'SessionNotFoundException':
+            throw new SessionNotFoundException(error.detail);
 
         default:
             throw new Error('Unknown error');

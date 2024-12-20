@@ -1,23 +1,18 @@
-import React, {useEffect, useState} from "react";
-import {Box, Button, Divider, Modal, TextField, Typography} from "@mui/material";
+import React, {useState} from "react";
+import {Box, Button, Divider, Modal, Typography} from "@mui/material";
 import {useAuth} from "../../context/Auth/AuthContext.jsx";
-import ValidatedAvatarInput from "../InputElements/AvatarInput/ValidatedAvatarInput.jsx";
-import ValidatedTextField from "../InputElements/TextField/ValidatedTextField.jsx";
 import AnimatedElement from "../InputElements/AnimatedElement.jsx";
 import LoadingButton from "@mui/lab/LoadingButton";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import MuiCard from "@mui/material/Card";
-import ValidatedUsernameTextField from "../InputElements/TextField/ValidatedUsernameTextField.jsx";
 import ValidatedPasswordField from "../InputElements/TextField/ValidatedPasswordField.jsx";
 import ValidatedPasswordConfirmField from "../InputElements/TextField/ValidatedPasswordConfirmField.jsx";
-import LoadingPage from "../../pages/Loading/LoadingPage.jsx";
-import {sendLoginForm} from "../../services/SendLoginForm.js";
-import UserNotFoundException from "../../exception/UserNotFoundException.jsx";
 import IncorrectPasswordException from "../../exception/IncorrectPasswordException.jsx";
 import {sendEdit} from "../../services/SendEdit.js";
-import UserAlreadyExistException from "../../exception/UserAlreadyExistException.jsx";
 import InformationBadge from "../InformationBadge/InformationBadge.jsx";
+import {sendDeleteUser} from "../../services/SendDeleteUser.js";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 const Card = styled(MuiCard)(({theme}) => ({
@@ -38,7 +33,22 @@ const Card = styled(MuiCard)(({theme}) => ({
 
 export default function SecurityModal({open, onClose}) {
 
-    const {auth, login} = useAuth();
+    const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false); // Стейт для второго модального окна
+
+    const handleDeleteClick = () => {
+        setDeleteConfirmOpen(true); // Открываем модальное окно подтверждения
+    };
+
+    const handleDeleteCancel = () => {
+        setDeleteConfirmOpen(false); // Закрываем модальное окно подтверждения
+    };
+
+    const handleDeleteConfirm = async () => {
+        setDeleteConfirmOpen(false); // Закрываем модалку
+        await handleDelete(); // Удаляем пользователя
+    };
+
+    const {auth, logout} = useAuth();
 
 
     const [oldPassword, setOldPassword] = React.useState('');
@@ -84,126 +94,186 @@ export default function SecurityModal({open, onClose}) {
         // onClose();
     };
 
+    const navigate = useNavigate();
+    const handleDelete = async () => {
+        try {
+            setLoading(true);
+            await sendDeleteUser();
+            logout();
+            setTimeout(() => navigate("/login", {
+                state: {
+                    message: "Your account has been deleted.",
+                    type: "info"
+                },
+            }), 200)
+
+
+        } catch (error) {
+            alert('Unknown error occurred! ');
+        }
+        setLoading(false);
+    }
+
 
     const [successMessage, setSuccessMessage] = React.useState('');
 
 
     if (auth.isAuthenticated) {
         return (
-            <Modal
-                open={open}
-                onClose={() => {
-                    onClose();
-                    setSuccessMessage('');
-                }}
-                aria-labelledby="profile-modal"
-                aria-describedby="profile-modal-description"
-            >
-
-                <Card variant="outlined"
-                      sx={{
-                          position: "absolute",
-                          top: "70px",
-                          left: "50%",
-                          backgroundColor: "background.paper",
-                          transform: "translate(-50%, 0%)",
-                          width: 400,
-                          boxShadow: 24,
-                          p: 4,
-                          borderRadius: "8px",
-                      }}
+            <>
+                <Modal
+                    open={open}
+                    onClose={() => {
+                        onClose();
+                        setSuccessMessage('');
+                    }}
+                    aria-labelledby="profile-modal"
+                    aria-describedby="profile-modal-description"
                 >
 
-                    <Typography
-                        component="h1"
-                        variant="h4"
-                        sx={{width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)'}}
-                    >
-                        Security Settings
-                    </Typography>
-
-
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            width: '100%',
-                            gap: 2,
-                        }}
+                    <Card variant="outlined"
+                          sx={{
+                              position: "absolute",
+                              top: "70px",
+                              left: "50%",
+                              backgroundColor: "background.paper",
+                              transform: "translate(-50%, 0%)",
+                              width: 400,
+                              boxShadow: 24,
+                              p: 4,
+                              borderRadius: "8px",
+                          }}
                     >
 
-                        <InformationBadge message={successMessage} type="info" />
-
-                        <ValidatedPasswordField
-                            password={oldPassword}
-                            setPassword={setOldPassword}
-
-                            passwordError={oldPasswordError}
-                            setPasswordError={setOldPasswordError}
-
-                            label="Current Password"
-                        />
+                        <Typography
+                            component="h1"
+                            variant="h4"
+                            sx={{width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)'}}
+                        >
+                            Security Settings
+                        </Typography>
 
 
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                width: '100%',
+                                gap: 2,
+                            }}
+                        >
 
-                        <AnimatedElement
-                            condition={!oldPasswordError && oldPassword.length > 0}>
+                            <InformationBadge message={successMessage} type="info"/>
+
                             <ValidatedPasswordField
-                                password={newPassword}
-                                setPassword={setNewPassword}
+                                password={oldPassword}
+                                setPassword={setOldPassword}
 
-                                passwordError={newPasswordError}
-                                setPasswordError={setNewPasswordError}
+                                passwordError={oldPasswordError}
+                                setPasswordError={setOldPasswordError}
 
-                                label="New Password"
+                                label="Current Password"
                             />
-                        </AnimatedElement>
-
-                        <AnimatedElement
-                            condition={!oldPasswordError && oldPassword.length > 0 && !newPasswordError && newPassword.length > 0}>
-                            <ValidatedPasswordConfirmField
-                                confirmPassword={confirmPassword}
-                                setConfirmPassword={setConfirmPassword}
-
-                                confirmPasswordError={confirmPasswordError}
-                                setConfirmPasswordError={setConfirmPasswordError}
-
-                                originalPassword={newPassword}
-
-                                label="Confirm New Password"
-                            />
-                        </AnimatedElement>
 
 
-                        <Box display="flex" justifyContent="flex-end" gap={2}>
-                            <Button variant="outlined" onClick={onClose}>
-                                Cancel
-                            </Button>
+                            <AnimatedElement
+                                condition={!oldPasswordError && oldPassword.length > 0}>
+                                <ValidatedPasswordField
+                                    password={newPassword}
+                                    setPassword={setNewPassword}
+
+                                    passwordError={newPasswordError}
+                                    setPasswordError={setNewPasswordError}
+
+                                    label="New Password"
+                                />
+                            </AnimatedElement>
+
+                            <AnimatedElement
+                                condition={!oldPasswordError && oldPassword.length > 0 && !newPasswordError && newPassword.length > 0}>
+                                <ValidatedPasswordConfirmField
+                                    confirmPassword={confirmPassword}
+                                    setConfirmPassword={setConfirmPassword}
+
+                                    confirmPasswordError={confirmPasswordError}
+                                    setConfirmPasswordError={setConfirmPasswordError}
+
+                                    originalPassword={newPassword}
+
+                                    label="Confirm New Password"
+                                />
+                            </AnimatedElement>
 
 
-                            <LoadingButton
-                                variant="contained"
-                                onClick={handleSave}
-                                loading={loading}
-                                disabled={oldPasswordError || oldPassword.length === 0 || newPasswordError || newPassword.length === 0 || confirmPasswordError || confirmPassword.length === 0}
-                            >
-                                Change Password
+                            <Box display="flex" justifyContent="flex-end" gap={2}>
+                                <Button variant="outlined" onClick={onClose}>
+                                    Cancel
+                                </Button>
+
+
+                                <LoadingButton
+                                    variant="contained"
+                                    onClick={handleSave}
+                                    loading={loading}
+                                    disabled={oldPasswordError || oldPassword.length === 0 || newPasswordError || newPassword.length === 0 || confirmPasswordError || confirmPassword.length === 0}
+                                >
+                                    Change Password
+                                </LoadingButton>
+
+                            </Box>
+
+                            <Divider/>
+
+
+                            <LoadingButton loading={loading} style={{width: "100%"}} variant="text"
+                                           onClick={handleDeleteClick} color="error">
+                                Delete Account <DeleteIcon/>
                             </LoadingButton>
 
+
                         </Box>
+                    </Card>
+                </Modal>
 
-                        <AnimatedElement
-                            condition={!oldPasswordError && oldPassword.length > 0}>
-                            <div>
-                                <Button style={{width: "100%"}} variant="outlined" onClick={onClose} color="error">
-                                    Delete Account
-                                </Button>
-                            </div>
-                        </AnimatedElement>
+                <Modal
+                    open={deleteConfirmOpen}
+                    onClose={handleDeleteCancel}
+                    aria-labelledby="confirm-delete-modal"
+                    aria-describedby="confirm-delete-modal-description"
+                >
+                    <Card variant="outlined"
+                          sx={{
+                              position: "absolute",
+                              top: "50%",
+                              left: "50%",
+                              backgroundColor: "background.paper",
+                              transform: "translate(-50%, -50%)",
+                              width: 300,
+                              boxShadow: 24,
+                              p: 4,
+                              borderRadius: "8px",
+                          }}
+                    >
+                        <Typography
+                            component="h2"
+                            variant="h6"
+                            sx={{ textAlign: "center", mb: 2 }}
+                        >
+                            Are you sure you want to delete your account?
+                        </Typography>
+                        <Box display="flex" justifyContent="space-between" mt={2}>
+                            <Button variant="outlined" onClick={handleDeleteCancel}>
+                                No
+                            </Button>
+                            <Button variant="contained" color="error" onClick={handleDeleteConfirm}>
+                                Yes
+                            </Button>
+                        </Box>
+                    </Card>
+                </Modal>
 
-                    </Box>
-                </Card>
-            </Modal>
+            </>
+
         );
     }
 };
