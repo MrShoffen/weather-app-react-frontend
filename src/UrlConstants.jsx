@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'http://192.168.0.125';
+export const API_BASE_URL = '';
 
 export const API_CONTEXT = '/weather/api';
 
