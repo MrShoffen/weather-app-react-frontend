@@ -58,7 +58,7 @@ export const AuthProvider = ({children}) => {
 
             } catch (error) {
                 logout();
-                navigate("/login", {
+                navigate("/weather-app/login", {
                     state: {
                         message: "Session is expired! Please login again",
                         type: "error"

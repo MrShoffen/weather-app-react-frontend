@@ -42,7 +42,7 @@ export default function AvatarMenu() {
             setLoading(true);
             await sendLogout();
             logout();
-            setTimeout(() => navigate("/login", {
+            setTimeout(() => navigate("/weather-app/login", {
                 state: {
                     message: "You have successfully logged out.",
                     type: "info"
@@ -99,7 +99,7 @@ export default function AvatarMenu() {
         return <>
             <MenuItem key='Profile' style={{display: 'flex', justifyContent: 'space-between'}}
                       onClick={() => {
-                          navigate("/login");
+                          navigate("/weather-app/login");
                           handleCloseUserMenu()
                       }}>
                 <Typography sx={{textAlign: 'center', marginLeft: '5px'}}>Sign in</Typography>
@@ -109,7 +109,7 @@ export default function AvatarMenu() {
 
             <MenuItem key='Logout' style={{display: 'flex', justifyContent: 'space-between'}}
                       onClick={() => {
-                          navigate("/registration");
+                          navigate("/weather-app/registration");
                           handleCloseUserMenu()
                       }}>
 

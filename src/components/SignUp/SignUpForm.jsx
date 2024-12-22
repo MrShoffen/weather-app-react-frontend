@@ -61,7 +61,7 @@ export default function SignUpForm() {
             setLoading(true);
             await sendRegistrationForm(requestData);
 
-            navigate("/login", {
+            navigate("/weather-app/login", {
                 state: {
                     message: "You've successfully signed up. Now you can log in to your account.",
                     type: "info"

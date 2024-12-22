@@ -100,7 +100,7 @@ export default function SecurityModal({open, onClose}) {
             setLoading(true);
             await sendDeleteUser();
             logout();
-            setTimeout(() => navigate("/login", {
+            setTimeout(() => navigate("/weather-app/login", {
                 state: {
                     message: "Your account has been deleted.",
                     type: "info"
