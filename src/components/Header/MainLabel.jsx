@@ -7,7 +7,7 @@ export default function MainLabel() {
                 variant="h5"
                 noWrap
                 component="a"
-                href="/"
+                href="/weather-app/"
                 sx={{
                     mr: 2,
                     display: 'flex',

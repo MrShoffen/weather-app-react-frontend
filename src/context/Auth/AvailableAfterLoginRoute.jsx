@@ -9,7 +9,7 @@ const AvailableAfterLoginRoute = ({children}) => {
 
     return auth.isAuthenticated
         ? children
-        : <Navigate to="/"/>;
+        : <Navigate to="/weather-app/"/>;
 
 };
 

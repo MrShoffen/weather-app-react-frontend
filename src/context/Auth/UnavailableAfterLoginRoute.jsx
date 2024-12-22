@@ -6,7 +6,7 @@ const UnavailableAfterLoginRoute = ({children}) => {
     const {auth} = useAuth();
 
     return auth.isAuthenticated
-        ? <Navigate to="/profile"/>
+        ? <Navigate to="/weather-app/profile/"/>
         : children;
 
 };
