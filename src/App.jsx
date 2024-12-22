@@ -21,7 +21,7 @@ function App() {
 
 
                     <Routes>
-                        <Route path="/" element={<Layout/>}>
+                        <Route path="/weather-app" element={<Layout/>}>
                             <Route index element={<HomePage/>}/>
                             <Route path="*" element={<PageNotFound status={404} description={'Page Not Found!'}/>}/>
                             <Route path="loading" element={<LoadingPage/>}/>
