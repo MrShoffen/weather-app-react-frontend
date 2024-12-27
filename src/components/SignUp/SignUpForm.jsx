@@ -148,7 +148,7 @@ export default function SignUpForm() {
                             // size="small"
                             onClick={handleSubmit}
                             loading={loading}
-                            loadingPosition="end"
+                            loadingPosition="center"
                         >
                             Sign up
                         </LoadingButton>

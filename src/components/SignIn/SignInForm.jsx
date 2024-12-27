@@ -121,13 +121,13 @@ export default function SignInForm() {
                     condition={!passwordError && !usernameError && username.length > 0 && password.length > 0}>
                     <div>
                         <LoadingButton
+                            loadingPosition="end"
                             fullWidth
                             type="submit"
                             variant="contained"
                             // size="small"
                             onClick={handleSubmit}
                             loading={loading}
-                            loadingPosition="end"
                         >
                             Sign in
                         </LoadingButton>

@@ -5,4 +5,19 @@ h1 {
 
 .homeContainer{
     margin-top: 100px;
+    font-weight: 500;
+    margin-bottom: 100px;
+}
+
+a {
+    text-decoration: none;
+    color: rgba(0, 117, 255, 0.61);
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.MuiSvgIcon-root{
+    margin: 10px;
 }

@@ -12,7 +12,15 @@ export default function Header() {
     const {isDarkMode, toggleTheme} = useThemeContext();
 
     return (
-        <AppBar component="nav">
+        <AppBar component="nav"
+                elevation={0} // Убираем тень для "стеклянного" эффекта
+                sx={{
+                        backgroundColor: isDarkMode ? "rgb(18,18,18, 0.5)" : "rgba(0,114,227,0.66)", // Полупрозрачный фон
+                        backdropFilter: "blur(10px)", // Эффект размытия
+                        WebkitBackdropFilter: "blur(10px)", // Поддержка Safari
+                        borderBottom: "1px solid rgba(255, 255, 255, 0.2)", // Лёгкая граница
+                    }}
+        >
             <Container disableGutters>
                 <Toolbar>
                     <MainLabel/>
