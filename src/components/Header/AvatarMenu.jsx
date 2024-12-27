@@ -131,6 +131,7 @@ export default function AvatarMenu() {
     if (loading) {
         return <img src={sunset} alt style={{height: '60px'}}/>
 
+
     }
 
     return (
