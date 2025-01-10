@@ -81,6 +81,7 @@ export default function SignInForm() {
     return (
         <Card variant="outlined">
 
+
             <PrevPageInfoBadge/>
 
             <Typography
@@ -90,61 +91,64 @@ export default function SignInForm() {
             >
                 Sign in
             </Typography>
-
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    width: '100%',
-                    gap: 2,
-                }}
-            >
-
-                <ValidatedUsernameTextField
-                    username={username}
-                    setUsername={setUsername}
-                    usernameError={usernameError}
-                    setUsernameError={setUsernameError}
-                />
-
-                <AnimatedElement
-                    condition={!usernameError && username.length > 0}>
-                    <ValidatedPasswordField
-                        password={password}
-                        setPassword={setPassword}
-                        passwordError={passwordError}
-                        setPasswordError={setPasswordError}
-                    />
-                </AnimatedElement>
-
-                <AnimatedElement
-                    condition={!passwordError && !usernameError && username.length > 0 && password.length > 0}>
-                    <div>
-                        <LoadingButton
-                            loadingPosition="end"
-                            fullWidth
-                            type="submit"
-                            variant="contained"
-                            // size="small"
-                            onClick={handleSubmit}
-                            loading={loading}
-                        >
-                            Sign in
-                        </LoadingButton>
-                    </div>
-                </AnimatedElement>
-
-                <Typography
-                    variant="body2"
-                    component="p"
-                    sx={{textAlign: 'center', marginTop: 2}}
+            <form onSubmit={handleSubmit}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        width: '100%',
+                        gap: 2,
+                    }}
                 >
-                    Don't have an account?{' '}
-                    <Link to="/registration" style={{color: '#1976d2'}}>
-                        Sign up
-                    </Link>
-                </Typography>
-            </Box>
+
+
+                    <ValidatedUsernameTextField
+                        username={username}
+                        setUsername={setUsername}
+                        usernameError={usernameError}
+                        setUsernameError={setUsernameError}
+                    />
+
+                    <AnimatedElement
+                        condition={!usernameError && username.length > 0}>
+                        <ValidatedPasswordField
+                            password={password}
+                            setPassword={setPassword}
+                            passwordError={passwordError}
+                            setPasswordError={setPasswordError}
+                        />
+                    </AnimatedElement>
+
+                    <AnimatedElement
+                        condition={!passwordError && !usernameError && username.length > 0 && password.length > 0}>
+                        <div>
+                            <LoadingButton
+                                loadingPosition="end"
+                                fullWidth
+                                type="submit"
+                                variant="contained"
+                                // size="small"
+                                onClick={handleSubmit}
+                                loading={loading}
+                            >
+                                Sign in
+                            </LoadingButton>
+                        </div>
+                    </AnimatedElement>
+
+                    <Typography
+                        variant="body2"
+                        component="p"
+                        sx={{textAlign: 'center', marginTop: 2}}
+                    >
+                        Don't have an account?{' '}
+                        <Link to="/weather-app/registration" style={{color: '#1976d2'}}>
+                            Sign up
+                        </Link>
+                    </Typography>
+
+                </Box>
+            </form>
         </Card>
     )
 }

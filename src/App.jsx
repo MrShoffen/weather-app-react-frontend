@@ -1,6 +1,6 @@
 import './App.css'
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import ProfilePage from "./pages/Profile/ProfilePage.jsx";
+import LocationPage from "./pages/Locations/LocationPage.jsx";
 import LoginPage from "./pages/Login/LoginPage.jsx";
 import {CustomThemeContext} from "./context/CustomTheme/CustomThemeContext.jsx";
 import PageNotFound from "./pages/Error/ErrorPage.jsx";
@@ -26,12 +26,28 @@ function App() {
                             <Route path="*" element={<PageNotFound status={404} description={'Page Not Found!'}/>}/>
                             <Route path="loading" element={<LoadingPage/>}/>
 
+                            {/*unavailableAfterLoginRoutes*/}
                             <Route path="login"
-                                   element={<UnavailableAfterLoginRoute><LoginPage/></UnavailableAfterLoginRoute>}/>
-                            <Route path="registration" element={
-                                <UnavailableAfterLoginRoute><RegistrationPage/></UnavailableAfterLoginRoute>}/>
-                            <Route path="profile"
-                                   element={<AvailableAfterLoginRoute><ProfilePage/></AvailableAfterLoginRoute>}/>
+                                   element={
+                                       <UnavailableAfterLoginRoute>
+                                           <LoginPage/>
+                                       </UnavailableAfterLoginRoute>
+                                   }/>
+
+                            <Route path="registration"
+                                   element={
+                                       <UnavailableAfterLoginRoute>
+                                           <RegistrationPage/>
+                                       </UnavailableAfterLoginRoute>
+                                   }/>
+
+                            {/*availableAfterLoginRoutes*/}
+                            <Route path="locations"
+                                   element={
+                                       <AvailableAfterLoginRoute>
+                                           <LocationPage/>
+                                       </AvailableAfterLoginRoute>
+                                   }/>
                         </Route>
                     </Routes>
 

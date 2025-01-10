@@ -11,7 +11,7 @@ import {useAuth} from "../../context/Auth/AuthContext.jsx";
 import {sendLogout} from "../../services/SendLogout.js";
 import {useNavigate} from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
-import {Divider} from "@mui/material";
+import {Divider, Drawer, useMediaQuery} from "@mui/material";
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -130,9 +130,10 @@ export default function AvatarMenu() {
 
     if (loading) {
         return <img src={sunset} alt style={{height: '60px'}}/>
-
-
     }
+
+    const isSmallScreen = window.matchMedia('(max-width: 720px)').matches;
+
 
     return (
         <Box sx={{flexGrow: 0}}>
@@ -142,33 +143,48 @@ export default function AvatarMenu() {
                 </IconButton>
             </Tooltip>
 
-            <Menu
-                sx={{
-                    mt: '45px',
-                    "& .MuiPaper-root": {
-                        width: "140px",
+            {isSmallScreen ?
+                <Drawer
+                    anchor='right'
+                    id="menu-appbar"
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                >
+                    {
+                        auth.isAuthenticated
+                            ? getAvatarMenu()
+                            : getAuthMenu()
                     }
-                }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-            >
-                {
-                    auth.isAuthenticated
-                        ? getAvatarMenu()
-                        : getAuthMenu()
-                }
-            </Menu>
+                </Drawer>
+                :
+                <Menu
+                    sx={{
+                        mt: '45px',
+                        "& .MuiPaper-root": {
+                            width: "140px",
+                        }
+                    }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                >
+                    {
+                        auth.isAuthenticated
+                            ? getAvatarMenu()
+                            : getAuthMenu()
+                    }
+                </Menu>
+            }
 
             <ProfileModal open={isProfileModalOpen} onClose={handleCloseProfileModal}/>
             <SecurityModal open={isSecurityModalOpen} onClose={handleCloseSecurityModal}/>

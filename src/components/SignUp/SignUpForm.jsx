@@ -70,7 +70,6 @@ export default function SignUpForm() {
         } catch (error) {
             switch (true) {
                 case error instanceof UserAlreadyExistException:
-                    console.log(error.message);
                     setUsernameError(error.message);
                     break;
 
@@ -92,83 +91,85 @@ export default function SignUpForm() {
             >
                 Sign up
             </Typography>
+            <form onSubmit={handleSubmit}>
 
 
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    width: '100%',
-                    gap: 2,
-                }}
-            >
-                <ValidatedAvatarInput
-                    setAvatarUrl={setAvatarUrl}
-                />
-
-                <ValidatedUsernameTextField
-                    username={username}
-                    setUsername={setUsername}
-
-                    usernameError={usernameError}
-                    setUsernameError={setUsernameError}
-                />
-
-                <AnimatedElement
-                    condition={!usernameError && username.length > 0}>
-                    <ValidatedPasswordField
-                        password={password}
-                        setPassword={setPassword}
-
-                        passwordError={passwordError}
-                        setPasswordError={setPasswordError}
-                    />
-                </AnimatedElement>
-
-                <AnimatedElement
-                    condition={!passwordError && !usernameError && username.length > 0 && password.length > 0}>
-                    <ValidatedPasswordConfirmField
-                        confirmPassword={confirmPassword}
-                        setConfirmPassword={setConfirmPassword}
-
-                        confirmPasswordError={confirmPasswordError}
-                        setConfirmPasswordError={setConfirmPasswordError}
-
-                        originalPassword={password}
-                    />
-                </AnimatedElement>
-
-                <AnimatedElement
-                    condition={!passwordError && !usernameError && !confirmPasswordError && username.length > 0 && password.length > 0 && confirmPassword.length > 0}>
-                    <div>
-                        <LoadingButton
-                            fullWidth
-                            type="submit"
-                            variant="contained"
-                            // size="small"
-                            onClick={handleSubmit}
-                            loading={loading}
-                            loadingPosition="center"
-                        >
-                            Sign up
-                        </LoadingButton>
-                    </div>
-                </AnimatedElement>
-
-
-                <Typography
-                    variant="body2"
-                    component="p"
-                    sx={{textAlign: 'center', marginTop: 2}}
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        width: '100%',
+                        gap: 2,
+                    }}
                 >
-                    Already have an account?{' '}
-                    <Link to="/login" style={{color: '#1976d2'}}>
-                        Sign in
-                    </Link>
-                </Typography>
+                    <ValidatedAvatarInput
+                        setAvatarUrl={setAvatarUrl}
+                    />
+
+                    <ValidatedUsernameTextField
+                        username={username}
+                        setUsername={setUsername}
+
+                        usernameError={usernameError}
+                        setUsernameError={setUsernameError}
+                    />
+
+                    <AnimatedElement
+                        condition={!usernameError && username.length > 0}>
+                        <ValidatedPasswordField
+                            password={password}
+                            setPassword={setPassword}
+
+                            passwordError={passwordError}
+                            setPasswordError={setPasswordError}
+                        />
+                    </AnimatedElement>
+
+                    <AnimatedElement
+                        condition={!passwordError && !usernameError && username.length > 0 && password.length > 0}>
+                        <ValidatedPasswordConfirmField
+                            confirmPassword={confirmPassword}
+                            setConfirmPassword={setConfirmPassword}
+
+                            confirmPasswordError={confirmPasswordError}
+                            setConfirmPasswordError={setConfirmPasswordError}
+
+                            originalPassword={password}
+                        />
+                    </AnimatedElement>
+
+                    <AnimatedElement
+                        condition={!passwordError && !usernameError && !confirmPasswordError && username.length > 0 && password.length > 0 && confirmPassword.length > 0}>
+                        <div>
+                            <LoadingButton
+                                fullWidth
+                                type="submit"
+                                variant="contained"
+                                // size="small"
+                                onClick={handleSubmit}
+                                loading={loading}
+                                loadingPosition="center"
+                            >
+                                Sign up
+                            </LoadingButton>
+                        </div>
+                    </AnimatedElement>
 
 
-            </Box>
+                    <Typography
+                        variant="body2"
+                        component="p"
+                        sx={{textAlign: 'center', marginTop: 2}}
+                    >
+                        Already have an account?{' '}
+                        <Link to="/weather-app/login" style={{color: '#1976d2'}}>
+                            Sign in
+                        </Link>
+                    </Typography>
+
+                </Box>
+            </form>
+
         </Card>
     )
 }

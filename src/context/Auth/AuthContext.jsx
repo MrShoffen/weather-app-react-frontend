@@ -52,10 +52,8 @@ export const AuthProvider = ({children}) => {
             try {
                 const user = await checkSession();
                 if (user !== auth.user) {
-                    console.log('Im heeeere');
                     login(user);
                 }
-
             } catch (error) {
                 logout();
                 navigate("/weather-app/login", {
@@ -65,17 +63,13 @@ export const AuthProvider = ({children}) => {
                     },
                 });
                 window.location.reload();
-
             }
         }
-
     };
 
     useEffect(() => {
         const SESSION_CHECK_INTERVAL = 5 * 60 * 1000; // Каждые 5 минут
         const intervalId = setInterval(validateSession, SESSION_CHECK_INTERVAL);
-
-        // Также сразу проверяем сессию при загрузке приложения
 
         validateSession();
 

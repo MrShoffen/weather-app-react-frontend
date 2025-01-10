@@ -5,11 +5,9 @@ import {Navigate} from "react-router-dom";
 const AvailableAfterLoginRoute = ({children}) => {
     const {auth} = useAuth();
 
-    console.log(auth);
-
     return auth.isAuthenticated
         ? children
-        : <Navigate to="/weather-app/"/>;
+        : <Navigate to="/weather-app/login"/>;
 
 };
 

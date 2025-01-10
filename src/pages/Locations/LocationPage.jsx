@@ -1,7 +1,7 @@
 import React from 'react';
-import './Profile.css'
+import './LocationPage.css'
 
-function ProfilePage() {
+function LocationPage() {
     return (
         <>
             <div className="homeContainer">
@@ -19,4 +19,4 @@ function ProfilePage() {
     );
 }
 
-export default ProfilePage;
+export default LocationPage;
