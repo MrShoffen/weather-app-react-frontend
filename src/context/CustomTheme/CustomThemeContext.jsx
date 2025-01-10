@@ -1,6 +1,9 @@
 import React, {createContext, useContext, useMemo, useState} from 'react';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import {useMediaQuery} from "@mui/material";
+import Box from "@mui/material/Box";
+import {ThemeSwitcher} from "../../components/Header/ThemeSwitcher.jsx";
 
 
 const ThemeContext = createContext();
@@ -12,6 +15,9 @@ export const CustomThemeContext = ({children}) => {
         const savedTheme = localStorage.getItem('isDarkMode');
         return savedTheme ? JSON.parse(savedTheme) : false;
     });
+
+    const isSmallScreen = useMediaQuery("(max-width:650px)");
+
 
     const toggleTheme = () => {
         setIsDarkMode((prevMode) => {
@@ -32,7 +38,7 @@ export const CustomThemeContext = ({children}) => {
     );
 
     return (
-        <ThemeContext.Provider value={{isDarkMode, toggleTheme}}>
+        <ThemeContext.Provider value={{isDarkMode, toggleTheme, isSmallScreen}}>
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
                 {children}

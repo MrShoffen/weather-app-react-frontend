@@ -18,6 +18,8 @@ import IncorrectPasswordException from "../../exception/IncorrectPasswordExcepti
 import {sendEdit} from "../../services/SendEdit.js";
 import UserAlreadyExistException from "../../exception/UserAlreadyExistException.jsx";
 import InformationBadge from "../InformationBadge/InformationBadge.jsx";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 
 const Card = styled(MuiCard)(({theme}) => ({
@@ -116,8 +118,24 @@ export default function ProfileModal({open, onClose}) {
                           borderRadius: "8px",
                       }}
                 >
+                    <IconButton
+                        aria-label="close"
+                        size="small"
+                        onClick={() => {
+                            onClose();
+                            setSuccessMessage("");
+                        }}
 
-
+                        sx={{
+                            position: 'absolute',
+                            top: 5,
+                            right: 5,
+                            width: '25px',
+                            height: '25px',
+                        }}
+                    >
+                        <CloseIcon sx={{fontSize: '25px'}}/>
+                    </IconButton>
 
 
                     <Typography
@@ -128,7 +146,7 @@ export default function ProfileModal({open, onClose}) {
                         Edit Profile
                     </Typography>
 
-                    <InformationBadge message={successMessage} type="info" />
+                    <InformationBadge message={successMessage} type="info"/>
 
 
                     <Box
@@ -160,7 +178,7 @@ export default function ProfileModal({open, onClose}) {
                                 variant="contained"
                                 onClick={handleSave}
                                 loading={loading}
-                                disabled={ (usernameError || username === auth.user.username || username.length === 0) && (avatarUrl === auth.user.avatarUrl) }
+                                disabled={(usernameError || username === auth.user.username || username.length === 0) && (avatarUrl === auth.user.avatarUrl)}
                             >
                                 Save
                             </LoadingButton>

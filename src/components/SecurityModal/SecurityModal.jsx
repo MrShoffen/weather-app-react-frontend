@@ -13,6 +13,8 @@ import {sendEdit} from "../../services/SendEdit.js";
 import InformationBadge from "../InformationBadge/InformationBadge.jsx";
 import {sendDeleteUser} from "../../services/SendDeleteUser.js";
 import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 
 const Card = styled(MuiCard)(({theme}) => ({
@@ -144,6 +146,24 @@ export default function SecurityModal({open, onClose}) {
                               borderRadius: "8px",
                           }}
                     >
+                        <IconButton
+                            aria-label="close"
+                            size="small"
+                            onClick={() => {
+                                onClose();
+                                setSuccessMessage("");
+                            }}
+
+                            sx={{
+                                position: 'absolute',
+                                top: 5,
+                                right: 5,
+                                width: '25px',
+                                height: '25px',
+                            }}
+                        >
+                            <CloseIcon sx={{fontSize: '25px'}}/>
+                        </IconButton>
 
                         <Typography
                             component="h1"
@@ -257,7 +277,7 @@ export default function SecurityModal({open, onClose}) {
                         <Typography
                             component="h2"
                             variant="h6"
-                            sx={{ textAlign: "center", mb: 2 }}
+                            sx={{textAlign: "center", mb: 2}}
                         >
                             Are you sure you want to delete your account?
                         </Typography>

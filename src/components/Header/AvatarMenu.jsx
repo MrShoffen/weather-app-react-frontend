@@ -23,6 +23,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import KeyIcon from '@mui/icons-material/Key';
 import sunset from "../../assets/img/weather-state/sunset.svg"
 import SecurityModal from "../SecurityModal/SecurityModal.jsx";
+import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 
 
 export default function AvatarMenu() {
@@ -37,6 +38,9 @@ export default function AvatarMenu() {
     const navigate = useNavigate();
     const {auth, logout} = useAuth();
     const [loading, setLoading] = useState(false);
+
+    const {isSmallScreen} = useThemeContext();
+
     const handleLogout = async () => {
         try {
             setLoading(true);
@@ -47,7 +51,7 @@ export default function AvatarMenu() {
                     message: "You have successfully logged out.",
                     type: "info"
                 },
-            }), 200)
+            }), 400)
 
             handleCloseUserMenu()
         } catch (error) {
@@ -128,11 +132,11 @@ export default function AvatarMenu() {
     }
 
 
+
     if (loading) {
         return <img src={sunset} alt style={{height: '60px'}}/>
-    }
 
-    const isSmallScreen = window.matchMedia('(max-width: 720px)').matches;
+    }
 
 
     return (
@@ -147,6 +151,7 @@ export default function AvatarMenu() {
                 <Drawer
                     anchor='right'
                     id="menu-appbar"
+
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                 >
