@@ -11,6 +11,7 @@ import AvailableAfterLoginRoute from "./context/Auth/AvailableAfterLoginRoute.js
 import LoadingPage from "./pages/Loading/LoadingPage.jsx";
 import Layout from "./pages/Layout/Layout.jsx";
 import UnavailableAfterLoginRoute from "./context/Auth/UnavailableAfterLoginRoute.jsx";
+import FindLocationPage from "./pages/FindLocationsUnauth/FindLocationPage.jsx";
 
 
 function App() {
@@ -38,6 +39,13 @@ function App() {
                                    element={
                                        <UnavailableAfterLoginRoute>
                                            <RegistrationPage/>
+                                       </UnavailableAfterLoginRoute>
+                                   }/>
+
+                            <Route path="find"
+                                   element={
+                                       <UnavailableAfterLoginRoute>
+                                           <FindLocationPage/>
                                        </UnavailableAfterLoginRoute>
                                    }/>
 

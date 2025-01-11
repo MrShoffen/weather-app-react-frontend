@@ -3,19 +3,17 @@ import Header from "../../components/Header/Header.jsx";
 import './Home.css'
 import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
-import SearchButton from "../../components/Header/SearchButton.jsx";
+import SearchButton from "../../components/SearchButton/SearchButton.jsx";
 import Container from "@mui/material/Container";
-import SearchHeaderBar from "../../components/Header/SearchHeaderBar.jsx";
+import SearchHeaderBar from "../../components/SearchButton/SearchHeaderBar.jsx";
 
 function HomePage() {
     const {isDarkMode, isSmallScreen} = useThemeContext();
     return (
         <>
-            <SearchHeaderBar/>
-            <Container disableGutters className="homeContainer" style={{
+            <Container className="homeContainer" style={{
                 color: isDarkMode ? "#d2d2d2" : "#2c2c2c"
             }}>
-                <SearchButton shouldShow={isSmallScreen}/>
 
                 <h2>About this site</h2>
 
@@ -27,6 +25,37 @@ function HomePage() {
                             Zhukov
                             Java Roadmap</a>
 
+                    </div>
+                </div>
+                <WbSunnyIcon style={{color: "orange"}}/>
+                <WbSunnyIcon style={{color: "orange"}}/>
+                <WbSunnyIcon style={{color: "orange"}}/>
+
+                <div className="row justify-content-md-center mb-6">
+                    <div className="col-lg-8 themed-grid-col text-center">
+                        You can use this app without registration - click Search button in top right corner.
+                    </div>
+                </div>
+                <WbSunnyIcon style={{color: "orange"}}/>
+                <WbSunnyIcon style={{color: "orange"}}/>
+                <WbSunnyIcon style={{color: "orange"}}/>
+
+                <div className="row justify-content-md-center mb-6">
+                    <div className="col-lg-8 themed-grid-col text-center">
+                        Without registration you can only watch weather of different locations, but you can't save
+                        location.
+                    </div>
+                </div>
+                <WbSunnyIcon style={{color: "orange"}}/>
+                <WbSunnyIcon style={{color: "orange"}}/>
+                <WbSunnyIcon style={{color: "orange"}}/>
+
+                <hr style={{marginTop: 20, marginBottom: 20, marginRight: 50, marginLeft: 50}}/>
+
+
+                <div className="row justify-content-md-center mb-6">
+                    <div className="col-lg-8 themed-grid-col text-center">
+                        With registration you can save and delete any locations in your account.
                     </div>
                 </div>
                 <WbSunnyIcon style={{color: "orange"}}/>
@@ -53,11 +82,47 @@ function HomePage() {
                 <WbSunnyIcon style={{color: "orange"}}/>
                 <WbSunnyIcon style={{color: "orange"}}/>
 
+                <div className="row justify-content-md-center mb-3">
+                    <div className="col-lg-8 themed-grid-col text-center">
+                        After signing in you can edit your profile - change name or avatar. Also you can delete your account or change your password in security settings.
+                    </div>
+                </div>
+                <WbSunnyIcon style={{color: "orange"}}/>
+                <WbSunnyIcon style={{color: "orange"}}/>
+                <WbSunnyIcon style={{color: "orange"}}/>
+
+                <hr style={{margin: 15}}/>
+
 
                 <div className="row justify-content-md-center mb-3">
                     <div className="col-lg-9 themed-grid-col text-center">
                         <h3>Technologies and resources used in the project</h3>
-                        <hr/>
+
+                        <h4>Frontend</h4>
+
+                        React <a
+                        href="https://react.dev/learn">Examples</a><br/>
+                        Material UI React <a
+                        href="https://mui.com/material-ui/getting-started/">Library</a><br/>
+                        <hr style={{marginRight: 50, marginLeft: 50}}/>
+
+
+                        <h4>Backend</h4>
+                        Java 21 Core<br/>
+                        Gradle<br/>
+                        Spring Boot (Data JPA, Validation, Web and Test starters)<br/>
+
+
+                    </div>
+                </div>
+                <hr style={{margin: 15}}/>
+
+
+                <div className="row justify-content-md-center mb-3">
+                    <div className="col-lg-9 themed-grid-col text-center">
+                        <h3>Technologies and resources used in the project</h3>
+                        <hr style={{margin: 15}}/>
+
                         <h4>Frontend</h4>
 
                         React <a
@@ -78,7 +143,7 @@ function HomePage() {
                 <div className="row justify-content-md-center mb-3">
                     <div className="col-lg-9 themed-grid-col text-center">
                         <h3>Technologies and resources used in the project</h3>
-                        <hr/>
+                        <hr style={{margin: 15}}/>
                         <h4>Frontend</h4>
 
                         React <a
@@ -99,7 +164,7 @@ function HomePage() {
                 <div className="row justify-content-md-center mb-3">
                     <div className="col-lg-9 themed-grid-col text-center">
                         <h3>Technologies and resources used in the project</h3>
-                        <hr/>
+
                         <h4>Frontend</h4>
 
                         React <a
@@ -120,28 +185,8 @@ function HomePage() {
                 <div className="row justify-content-md-center mb-3">
                     <div className="col-lg-9 themed-grid-col text-center">
                         <h3>Technologies and resources used in the project</h3>
-                        <hr/>
-                        <h4>Frontend</h4>
+                        <hr style={{margin: 15}}/>
 
-                        React <a
-                        href="https://react.dev/learn">Examples</a><br/>
-                        Material UI React <a
-                        href="https://mui.com/material-ui/getting-started/">Library</a><br/>
-
-
-                        <h4>Backend</h4>
-                        Java 21 Core<br/>
-                        Gradle<br/>
-                        Spring Boot (Data JPA, Validation, Web and Test starters)<br/>
-
-
-                    </div>
-                </div>
-
-                <div className="row justify-content-md-center mb-3">
-                    <div className="col-lg-9 themed-grid-col text-center">
-                        <h3>Technologies and resources used in the project</h3>
-                        <hr/>
                         <h4>Frontend</h4>
 
                         React <a

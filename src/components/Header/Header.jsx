@@ -8,11 +8,11 @@ import MainLabel from "./MainLabel.jsx";
 import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 import Box from "@mui/material/Box";
 import HomeButton from "./HomeButton.jsx";
-import SearchButton from "./SearchButton.jsx";
+import SearchButton from "../SearchButton/SearchButton.jsx";
 import SearchIcon from "@mui/icons-material/Search";
 
 export default function Header() {
-    const {isDarkMode, toggleTheme, isSmallScreen} = useThemeContext();
+    const {isDarkMode, toggleTheme} = useThemeContext();
     const [isVisible, setIsVisible] = useState(true); // состояние видимости заголовка
     const [prevScrollY, setPrevScrollY] = useState(0); // предыдущее значение прокрутки
 
@@ -66,6 +66,8 @@ export default function Header() {
 
 
                     <Box
+                        elevation={0}
+
                         sx={{
                             position: "absolute",
                             top: 70,
@@ -75,9 +77,9 @@ export default function Header() {
                             display: "flex", // центровка иконки
                             alignItems: "center",
                             justifyContent: "center",
-                            borderRadius: "50%",
+                            borderRadius: "25%",
                             border: "1px solid",
-                            borderColor: isDarkMode ? "rgb(18,18,18, 0.5)" : "rgba(0,114,227,0.66)",
+                            borderColor: isDarkMode ? "rgb(18,18,18, 0.5)" : "rgba(47,155,255,0.53)",
                             backgroundColor: "rgba(255, 255, 255, 0.3)", // полупрозрачный фон
 
                             // Анимация исчезновения

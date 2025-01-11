@@ -15,3 +15,5 @@ export const API_LOGOUT = API_BASE_URL + API_CONTEXT + '/auth/logout';
 export const API_IMAGES = API_BASE_URL + API_CONTEXT + '/images';
 
 export const API_USER = API_BASE_URL + API_CONTEXT + '/user';
+
+export const API_FIND_LOCATIONS = API_BASE_URL + API_CONTEXT + '/locations';

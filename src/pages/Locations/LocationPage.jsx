@@ -1,12 +1,14 @@
 import React from 'react';
 import './LocationPage.css'
-import SearchButton from "../../components/Header/SearchButton.jsx";
+import SearchButton from "../../components/SearchButton/SearchButton.jsx";
 import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
-import SearchHeaderBar from "../../components/Header/SearchHeaderBar.jsx";
+import SearchHeaderBar from "../../components/SearchButton/SearchHeaderBar.jsx";
 import Container from "@mui/material/Container";
 
 function LocationPage() {
     const {isDarkMode, isSmallScreen} = useThemeContext();
+
+
 
     return (
         <>
