@@ -87,8 +87,8 @@ function FindLocationPage() {
         setErrors('');
     };
 
+
     return (
-        <>
             <Container disableGutters className={"homeContainer"}
                        sx={{
                            position: 'relative', // Устанавливаем родителю относительное позиционирование
@@ -121,6 +121,9 @@ function FindLocationPage() {
                             top: '110px',
                             maxWidth: '150px', // Ограничиваем максимальную ширину Box
                             overflow: 'hidden', // Скрываем содержимое за пределами Box
+                            border: '1px solid',
+                            borderColor: isDarkMode ? "rgba(210,210,210,0.65)" : "rgba(47,155,255,0.53)", // полупрозрачный фон
+
                         }}
                     >
                         <Typography
@@ -136,8 +139,8 @@ function FindLocationPage() {
                         >
                             {locationNameForSearch}
                         </Typography>
-                        <IconButton size="small" onClick={handleReset}>
-                            <CloseIcon fontSize="small" />
+                        <IconButton size="small" onClick={handleReset} sx={{mr: -1.5}}>
+                            <CloseIcon fontSize="small"/>
                         </IconButton>
                     </Box>
                 )}
@@ -189,7 +192,6 @@ function FindLocationPage() {
                     first first first fi rst first fi rst first fir st fir st first first first
                 </div>
             </Container>
-        </>
     );
 }
 
