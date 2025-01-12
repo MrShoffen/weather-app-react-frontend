@@ -2,20 +2,71 @@ import {Button, Card, CardActions, CardContent, CardMedia, Divider, Skeleton} fr
 import Typography from "@mui/material/Typography";
 import {hasFlag} from 'country-flag-icons'
 import React, {useEffect, useState} from "react";
+import WeatherPictureFromCode from "../WeatherPicture/WeatherPictureFromCode.jsx";
+import {sendGetWeather} from "../../services/SendGetWeather.js";
+import Box from "@mui/material/Box";
 
 export default function WeatherCard({location, flipped, handleFlip}) {
     const [weatherData, setWeatherData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
+    const isDay = (weatherData) => {
+
+        return weatherData && weatherData.weather[0].icon.endsWith("d");
+    }
+
+    const isCloudy = (weatherData) => {
+        return weatherData && weatherData.clouds.all > 60
+    }
+
+    const windDirection = (weatherData) => {
+        const wind = weatherData.wind.deg;
+        if (!weatherData.wind.speed) {
+            return '';
+        }
+
+        if (wind > 337 || wind <= 22){
+            return 'N';
+        } else if (wind > 22 && wind <=67){
+            return 'NE';
+        } else if (wind > 67 && wind <=112){
+            return 'E';
+        } else if (wind >112 && wind <=157){
+            return 'SE';
+        } else if (wind >157 && wind <= 202){
+            return 'S';
+        } else if (wind > 202 && wind <=247){
+            return 'SW';
+        } else if (wind > 247 && wind <=292){
+            return 'W';
+        } else if (wind >292 && wind <=337){
+            return 'NW';
+        }
+
+    }
 
     useEffect(() => {
-        if (flipped && !weatherData) {
-            setWeatherData('dfdfd');
-            console.log('start fetchin weather data')
+        const effect = async () => {
+            if (flipped && !weatherData) {
 
-            // setTimeout(() => {setIsLoading(false);}, 1000);
-            setIsLoading(false);
-        }
+                try {
+                    const weatherJson = await sendGetWeather(location.lat, location.lon);
+                    setWeatherData(weatherJson);
+                    console.log(weatherJson);
+                    console.log(isDay(weatherJson));
+                    console.log(isCloudy(weatherJson));
+                    console.log(windDirection(weatherJson));
+                } catch (error) {
+                    console.log(error);
+                }
+
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 500);
+            }
+        };
+
+        effect();
     }, [flipped]);
 
 
@@ -56,17 +107,140 @@ export default function WeatherCard({location, flipped, handleFlip}) {
 
                 {isLoading ? (
                     <>
-                    <Skeleton sx={{height: 60, mb: 1, marginRight: 1, marginLeft: 1}} animation="wave" variant="rectangular"/>
-                    <React.Fragment>
-                        <Skeleton animation="wave" height={10} style={{marginBottom: 6, marginRight: 8, marginLeft: 8}}/>
-                        <Skeleton animation="wave" height={10} width="75%" style={{marginBottom: 6, marginRight: 8, marginLeft: 8}}/>
-                        <Skeleton animation="wave" height={10} width="60%" style={{ marginRight: 6, marginLeft: 8}}/>
-                    </React.Fragment>
+                        <Skeleton sx={{height: 60, mb: 1, marginRight: 1, marginLeft: 1}} animation="wave"
+                                  variant="rectangular"/>
+                        <React.Fragment>
+                            <Skeleton animation="wave" height={10}
+                                      style={{marginBottom: 6, marginRight: 8, marginLeft: 8}}/>
+                            <Skeleton animation="wave" height={10} width="75%"
+                                      style={{marginBottom: 6, marginRight: 8, marginLeft: 8}}/>
+                            <Skeleton animation="wave" height={10} width="60%" style={{marginRight: 6, marginLeft: 8}}/>
+                        </React.Fragment>
                     </>
                 ) : (
-                    <Typography variant="body2">
-                        Display relevant weather data here...
-                    </Typography>
+                    <>
+                        <img src={WeatherPictureFromCode(weatherData.weather[0].id, isDay(weatherData), isCloudy(weatherData))}
+                             alt
+                             style={{
+                                 width: "100px",
+                                 right: 65,
+                                 top: 20,
+                                 mt: 0,
+                                 position: "absolute",
+                                 transform: "translateX(50%)"
+                             }}/>
+
+                        <Typography
+                            variant="body2"
+                            sx={{
+                                fontSize: 16,
+                                color: "text.secondary",
+                                position: "absolute",
+                                right: 65,
+                                top: 105,
+                                transform: "translateX(50%)"
+                            }}
+                        >
+                            <span style={{fontWeight: 500}}>
+
+                            {weatherData.weather[0].description}
+                            </span>
+                        </Typography>
+
+
+                        <Typography
+                            gutterBottom
+                            variant="h4"
+                            component="div"
+                            sx={{
+                                position: "absolute",
+                                top: 60,
+                                right: 102,
+                                fontWeight: 500
+
+                            }}
+                        >
+                            {Math.round(weatherData.main.temp)}°
+                        </Typography>
+                        <Divider sx={{mb: '2px', width: '47%'}}/>
+
+                        <Typography variant="body2" sx={{fontSize: 16}}>
+                            Feels like:{' '}
+                        </Typography>
+
+                        <Typography variant="body2"
+                                    sx={{
+                                        fontSize: 16,
+                                        position: "absolute",
+                                        right: '53%',
+                                        top: '60px'
+                                    }}
+                        >
+                            <span style={{fontWeight: 500}}>
+                                {Math.round(weatherData.main.feels_like)}°
+                            </span>
+                        </Typography>
+                        <Divider sx={{mt: '2px', mb: '2px', width: '47%'}}/>
+
+                        <Typography variant="body2" sx={{fontSize: 16}}>
+                            Wind:
+                        </Typography>
+
+
+
+
+                        <Typography variant="body2"
+                                    sx={{
+                                        fontSize: 16,
+                                        position: "absolute",
+                                        right: '53%',
+                                        top: '88px'
+                                    }}
+                        >
+                            <span style={{fontWeight: 500}}>
+                            {windDirection(weatherData) + '-' +weatherData.wind.speed.toFixed(1)} m/s
+                        </span>
+                        </Typography>
+
+                        <Divider sx={{mt: '2px', mb: '2px', width: '47%'}}/>
+
+
+                        <Typography variant="body2"
+                                    sx={{
+                                        fontSize: 16
+                                    }}
+                        >
+                            Pressure:
+                        </Typography>
+                        <Typography variant="body2"
+                                    sx={{
+                                        fontSize: 16,
+                                        position: "absolute",
+                                        right: '53%',
+                                        top: '115px'
+                                    }}
+                        >
+                            <span style={{fontWeight: 500}}>
+                            {Math.round(weatherData.main.pressure * 0.75)} mm
+                        </span>
+                        </Typography>
+
+                        <Divider sx={{mt: '2px', mb: '2px'}}/>
+
+
+                        <Typography
+                            variant="body2"
+                            sx={{fontSize: 16, color: "text.secondary"}}
+                        >
+                            Humidity: <span
+                            style={{fontWeight: 500}}>{weatherData.main.humidity}%</span>
+                            {'. Cloudiness: '}<span
+                            style={{fontWeight: 500}}>{weatherData.clouds.all}%</span>
+                        </Typography>
+
+
+                    </>
+
                 )
                 }
 
@@ -76,7 +250,8 @@ export default function WeatherCard({location, flipped, handleFlip}) {
 
                 {isLoading ? (
                     <>
-                        <Skeleton variant="rectangular" width={70} height={22} style={{marginBottom: 6, marginRight: 8, marginLeft: 10}}/>
+                        <Skeleton variant="rectangular" width={70} height={22}
+                                  style={{marginBottom: 6, marginRight: 8, marginLeft: 10}}/>
                     </>
                 ) : (
                     <Button size="small" onClick={handleFlip}>

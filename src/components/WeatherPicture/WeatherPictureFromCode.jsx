@@ -29,6 +29,53 @@ import fogDay from '../../assets/img/weather-state/partly-cloudy-day-fog.svg'
 
 import tornado from '../../assets/img/weather-state/tornado.svg'
 import ash from '../../assets/img/weather-state/smoke-particles.svg'
+import squall from '../../assets/img/weather-state/squall.svg'
+
+import lightSnowDay from '../../assets/img/weather-state/partly-cloudy-day-snow.svg'
+import lightSnowNight from '../../assets/img/weather-state/partly-cloudy-night-snow.svg'
+
+import snowCloud from '../../assets/img/weather-state/overcast-snow.svg'
+import snowNight from '../../assets/img/weather-state/overcast-night-snow.svg'
+import snowDay from '../../assets/img/weather-state/overcast-day-snow.svg'
+
+import heavySnow from '../../assets/img/weather-state/heavySnow.svg'
+
+import heavySleet from '../../assets/img/weather-state/overcast-sleet.svg'
+
+import sleetCloud from '../../assets/img/weather-state/sleet.svg'
+import sleetNight from '../../assets/img/weather-state/partly-cloudy-night-sleet.svg'
+import sleetDay from '../../assets/img/weather-state/partly-cloudy-day-sleet.svg'
+
+import showerSnow from '../../assets/img/weather-state/shower-snow.svg'
+import showerSnowHard from '../../assets/img/weather-state/showe-snow-hard.svg'
+
+import showerRainCloud from '../../assets/img/weather-state/extreme-rain.svg'
+import showerRainDay from '../../assets/img/weather-state/extreme-day-rain.svg'
+import showerRainNight from '../../assets/img/weather-state/extreme-night-rain.svg'
+
+import hailCloud from '../../assets/img/weather-state/extreme-hail.svg'
+import hailDay from '../../assets/img/weather-state/extreme-day-hail.svg'
+import hailNight from '../../assets/img/weather-state/extreme-night-hail.svg'
+
+import lightRainCloud from '../../assets/img/weather-state/rain.svg'
+import lightRainDay from '../../assets/img/weather-state/partly-cloudy-day-rain.svg'
+import lightRainNight from '../../assets/img/weather-state/partly-cloudy-night-rain.svg'
+
+import mediumRainCloud from '../../assets/img/weather-state/overcast-rain.svg'
+import mediumRainDay from '../../assets/img/weather-state/overcast-day-rain.svg'
+import mediumRainNight from '../../assets/img/weather-state/overcast-night-rain.svg'
+
+import drizzleCloud from '../../assets/img/weather-state/overcast-drizzle.svg'
+import drizzleDay from '../../assets/img/weather-state/overcast-day-drizzle.svg'
+import drizzleNight from '../../assets/img/weather-state/overcast-night-drizzle.svg'
+
+import thunderCloud from '../../assets/img/weather-state/thunderstorms-extreme-rain.svg'
+import thunderDay from '../../assets/img/weather-state/thunderstorms-day-extreme-rain.svg'
+import thunderNight from '../../assets/img/weather-state/thunderstorms-night-extreme-rain.svg'
+
+import thunder from '../../assets/img/weather-state/thunderstorms.svg'
+
+import notFound from '../../assets/img/weather-state/not-available.svg'
 
 function dayPicture(code) {
 
@@ -59,9 +106,74 @@ function dayPicture(code) {
         case 762:
             return ash;
         case 771:
-            return;
+            return squall;
         case 781:
             return tornado;
+
+        case 600:
+            return lightSnowDay;
+        case 601:
+            return snowDay;
+        case 602:
+            return heavySnow;
+        case 611:
+        case 612:
+        case 615:
+            return sleetDay;
+        case 613:
+        case 616:
+            return heavySleet;
+        case 620:
+        case 621:
+            return showerSnow;
+        case 622:
+            return showerSnowHard;
+
+        case 500:
+        case 501:
+            return lightRainDay;
+        case 502:
+        case 503:
+        case 504:
+            return mediumRainDay;
+        case 511:
+            return hailDay;
+        case 520:
+        case 521:
+        case 522:
+        case 531:
+            return showerRainDay;
+
+
+        case 300:
+        case 301:
+        case 302:
+        case 310:
+        case 311:
+        case 312:
+        case 313:
+        case 314:
+        case 321:
+            return drizzleDay;
+
+
+        case 210:
+        case 211:
+        case 212:
+        case 221:
+            return thunder;
+
+        case 200:
+        case 201:
+        case 202:
+        case 230:
+        case 231:
+        case 232:
+            return thunderDay;
+
+
+        default:
+            return notFound;
 
     }
 
@@ -72,10 +184,10 @@ function nightPicture(code) {
 
     switch (code) {
         case 800:
-            return clearDay;
+            return clearNight;
         case 801:
         case 802:
-            return partlyCloudyDay;
+            return partlyCloudyNight;
         case 803:
             return cloudy;
         case 804:
@@ -97,10 +209,72 @@ function nightPicture(code) {
         case 762:
             return ash;
         case 771:
-            return;
+            return squall;
         case 781:
             return tornado;
 
+        case 600:
+            return lightSnowNight;
+        case 601:
+            return snowNight;
+        case 602:
+            return heavySnow;
+        case 611:
+        case 612:
+        case 615:
+            return sleetNight;
+        case 613:
+        case 616:
+            return heavySleet;
+        case 620:
+        case 621:
+            return showerSnow;
+        case 622:
+            return showerSnowHard;
+
+        case 500:
+        case 501:
+            return lightRainNight;
+        case 502:
+        case 503:
+        case 504:
+            return mediumRainNight;
+        case 511:
+            return hailNight;
+        case 520:
+        case 521:
+        case 522:
+        case 531:
+            return showerRainNight;
+
+        case 300:
+        case 301:
+        case 302:
+        case 310:
+        case 311:
+        case 312:
+        case 313:
+        case 314:
+        case 321:
+            return drizzleNight;
+
+        case 210:
+        case 211:
+        case 212:
+        case 221:
+            return thunder;
+
+        case 200:
+        case 201:
+        case 202:
+        case 230:
+        case 231:
+        case 232:
+            return thunderNight;
+
+
+        default:
+            return notFound;
 
     }
 
@@ -115,7 +289,7 @@ function cloudPicture(code, isDay) {
         case 803:
         case 804:
         case 701:
-            return isDay ? dayPicture(code, isDay) : nightPicture(code, isDay);
+            return isDay ? dayPicture(code) : nightPicture(code);
         case 711:
             return smokeCloud;
         case 721:
@@ -130,21 +304,86 @@ function cloudPicture(code, isDay) {
         case 762:
             return ash;
         case 771:
-            return;
+            return squall;
         case 781:
             return tornado;
 
+        case 600:
+            return snowCloud;
+        case 601:
+            return snowCloud;
+        case 602:
+            return heavySnow;
+        case 611:
+        case 612:
+        case 615:
+            return sleetCloud;
+        case 613:
+        case 616:
+            return heavySleet;
+        case 620:
+        case 621:
+            return showerSnow;
+        case 622:
+            return showerSnowHard;
 
+        case 500:
+        case 501:
+            return lightRainCloud;
+        case 502:
+        case 503:
+        case 504:
+            return mediumRainCloud;
+        case 511:
+            return hailCloud;
+        case 520:
+        case 521:
+        case 522:
+        case 531:
+            return showerRainCloud;
+
+        case 300:
+        case 301:
+        case 302:
+        case 310:
+        case 311:
+        case 312:
+        case 313:
+        case 314:
+        case 321:
+            return drizzleCloud;
+
+        case 210:
+        case 211:
+        case 212:
+        case 221:
+            return thunder;
+
+        case 200:
+        case 201:
+        case 202:
+        case 230:
+        case 231:
+        case 232:
+            return thunderCloud;
+
+
+        default:
+            return notFound;
 
     }
 }
 
 export default function WeatherPictureFromCode(code, isDay, isCloudy) {
-    if (isCloudy) {
+    if (isCloudy === true) {
         return cloudPicture(code, isDay);
-    } else if (isDay) {
-        return dayPicture(code);
-    } else {
-        return nightPicture(code);
     }
+    if (isDay === true) {
+        console.log('day')
+        return dayPicture(code);
+    }
+
+    console.log('heeres')
+    return nightPicture(code);
+
 }

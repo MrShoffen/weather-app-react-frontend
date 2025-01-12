@@ -13,7 +13,7 @@ const ErrorPage = ({status, description}) => {
                 <div className={"errorContainer"}>
                     <h1 style={{width: "100%", marginBottom: 0}}>{status}</h1>
                     <h2 style={{width: "100%", marginBottom: 0}}>{description}</h2>
-                    <img src={WeatherPictureFromCode(762,true, false)} alt style={{width: "100%", mt: 0}}/>
+                    <img src={WeatherPictureFromCode(212,false, true)} alt style={{width: "100%", mt: 0}}/>
                 </div>
             </Container>
 

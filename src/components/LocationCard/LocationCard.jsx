@@ -20,7 +20,7 @@ export default function LocationCard({location}) {
         >
             <div
                 style={{
-                    minWidth: "300px",
+                    minWidth: "328px",
                     minHeight: 230,
                     maxHeight: 230,
                     position: "relative",

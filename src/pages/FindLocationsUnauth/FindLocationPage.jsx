@@ -103,7 +103,7 @@ function FindLocationPage() {
                     pr: 2,
                     width: '100%',
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(min(300px, 100%), 1fr))',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(min(328px, 100%), 1fr))',
                     gap: 2,
                 }}
             >
@@ -147,7 +147,7 @@ function FindLocationPage() {
                 color: "rgba(0,0,0,0)",
             }}> first first first first first first first first first first first first first first first first
                 first
-                first first first fi rst first fi rst first fir st fir st first first first
+                first first first fi rst fir ааfi fi fi fi а rst first fir st fir st first first first
             </div>
         </Container>
     );

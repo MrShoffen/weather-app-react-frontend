@@ -17,3 +17,5 @@ export const API_IMAGES = API_BASE_URL + API_CONTEXT + '/images';
 export const API_USER = API_BASE_URL + API_CONTEXT + '/user';
 
 export const API_FIND_LOCATIONS = API_BASE_URL + API_CONTEXT + '/locations';
+
+export const API_GET_WEATHER_INFO = API_BASE_URL + API_CONTEXT + '/weather';
