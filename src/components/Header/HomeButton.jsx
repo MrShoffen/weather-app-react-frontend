@@ -26,21 +26,31 @@ export default function HomeButton() {
                 borderRadius: "25%", // круглая форма
                 border: "1px solid",
                 color: "white",
+                '&:hover': {
+                    transform: 'scale(1.1)',
+                },
             }}
         >
             {auth.isAuthenticated ?
-                <Link to="/weather-app/locations" style={{textDecoration: 'none', color: 'inherit'}}>
+                <Link to="/weather-app/locations" style={{
+                    textDecoration: 'none',
+                    color: 'inherit',
+                }}>
                     <HomeIcon sx={{
                         marginTop: 2,
-                        fontSize: '28px'
+                        fontSize: '28px',
+
                     }}/>
                 </Link>
                 :
-                <Link to="/weather-app/find" style={{textDecoration: 'none', color: 'inherit'}}>
+                <Link to="/weather-app/find" style={{
+                    textDecoration: 'none',
+                    color: 'inherit',
+
+                }}>
                     <SearchIcon sx={{
                         marginTop: 2,
-
-                        fontSize: '28px'
+                        fontSize: '28px',
                     }}/>
                 </Link>
             }

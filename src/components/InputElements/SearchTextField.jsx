@@ -52,6 +52,11 @@ export default function SearchTextField({locationName,onChange, handleSubmit, er
                     width: "85%",
                     top: 0,
                     left: 0,
+                    '& input:-webkit-autofill': {
+                        WebkitBoxShadow: 'none', // Заменяем фон
+                        WebkitTextFillColor:  isDarkMode ?  'white': 'black', // Цвет текста
+                        transition: 'background-color 5000s ease-in-out 0s', // Убираем голубой переход
+                    },
                     '& .MuiOutlinedInput-root': {
                         '& fieldset': {
                             border: 'none', // Убираем границы
@@ -74,6 +79,19 @@ export default function SearchTextField({locationName,onChange, handleSubmit, er
                     position: "absolute",
                     top: 0,
                     right: 0,
+                    outline: 'none',
+                    '&:hover': {
+                        backgroundColor: 'transparent', // Отключаем фон при наведении
+                        transform: 'scale(1.1)',
+                    },
+                    '&:active': {
+                        backgroundColor: 'transparent', // Убираем нажимание
+                    },
+                    '&:focus': {
+                        outline: 'none', // Убираем фокус
+
+                    },
+
                 }}
                 aria-label="search"
                 onClick={handleSubmit}

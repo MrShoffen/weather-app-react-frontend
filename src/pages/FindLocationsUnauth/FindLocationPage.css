@@ -3,8 +3,9 @@ h1 {
     line-height: 1.1;
 }
 
-.homeContainer{
-    margin-top: 72px;
+.locationUnauthPage{
+    margin-top: 75px;
     font-weight: 500;
     margin-bottom: 50px;
+    position: relative;
 }

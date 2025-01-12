@@ -38,11 +38,15 @@ export default function SearchButton({shouldShow}) {
                     color: "white",
                     borderColor: isDarkMode ? "rgb(18,18,18, 0.2)" : "rgba(0,114,227,0.4)",
                     visibility: shouldShow ? "visible" : "hidden",
+                    '&:hover': {
+                        transform: 'scale(1.1)',
+                    },
                 }}
             >
                 <SearchIcon
                     sx={{
                         fontSize: isSmallScreen ? "45px" : "30px",
+
                     }}
                 />
             </Box>

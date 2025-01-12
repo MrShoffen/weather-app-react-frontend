@@ -6,16 +6,18 @@ import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import SearchButton from "../../components/SearchButton/SearchButton.jsx";
 import Container from "@mui/material/Container";
 import SearchHeaderBar from "../../components/SearchButton/SearchHeaderBar.jsx";
+import Typography from "@mui/material/Typography";
 
 function HomePage() {
     const {isDarkMode, isSmallScreen} = useThemeContext();
     return (
-        <>
-            <Container className="homeContainer" style={{
+
+            <Container disableGutters className="cont" style={{
                 color: isDarkMode ? "#d2d2d2" : "#2c2c2c"
             }}>
 
-                <h2>About this site</h2>
+                <Typography sx={{fontSize: 28, fontWeight: 500, mb: 2}}>About This Site</Typography>
+
 
                 <div className="row justify-content-md-center mb-3 ">
                     <div className="col-lg-9 themed-grid-col text-center">A simple project for tracking current weather.
@@ -115,97 +117,9 @@ function HomePage() {
 
                     </div>
                 </div>
-                <hr style={{margin: 15}}/>
-
-
-                <div className="row justify-content-md-center mb-3">
-                    <div className="col-lg-9 themed-grid-col text-center">
-                        <h3>Technologies and resources used in the project</h3>
-                        <hr style={{margin: 15}}/>
-
-                        <h4>Frontend</h4>
-
-                        React <a
-                        href="https://react.dev/learn">Examples</a><br/>
-                        Material UI React <a
-                        href="https://mui.com/material-ui/getting-started/">Library</a><br/>
-
-
-                        <h4>Backend</h4>
-                        Java 21 Core<br/>
-                        Gradle<br/>
-                        Spring Boot (Data JPA, Validation, Web and Test starters)<br/>
-
-
-                    </div>
-                </div>
-
-                <div className="row justify-content-md-center mb-3">
-                    <div className="col-lg-9 themed-grid-col text-center">
-                        <h3>Technologies and resources used in the project</h3>
-                        <hr style={{margin: 15}}/>
-                        <h4>Frontend</h4>
-
-                        React <a
-                        href="https://react.dev/learn">Examples</a><br/>
-                        Material UI React <a
-                        href="https://mui.com/material-ui/getting-started/">Library</a><br/>
-
-
-                        <h4>Backend</h4>
-                        Java 21 Core<br/>
-                        Gradle<br/>
-                        Spring Boot (Data JPA, Validation, Web and Test starters)<br/>
-
-
-                    </div>
-                </div>
-
-                <div className="row justify-content-md-center mb-3">
-                    <div className="col-lg-9 themed-grid-col text-center">
-                        <h3>Technologies and resources used in the project</h3>
-
-                        <h4>Frontend</h4>
-
-                        React <a
-                        href="https://react.dev/learn">Examples</a><br/>
-                        Material UI React <a
-                        href="https://mui.com/material-ui/getting-started/">Library</a><br/>
-
-
-                        <h4>Backend</h4>
-                        Java 21 Core<br/>
-                        Gradle<br/>
-                        Spring Boot (Data JPA, Validation, Web and Test starters)<br/>
-
-
-                    </div>
-                </div>
-
-                <div className="row justify-content-md-center mb-3">
-                    <div className="col-lg-9 themed-grid-col text-center">
-                        <h3>Technologies and resources used in the project</h3>
-                        <hr style={{margin: 15}}/>
-
-                        <h4>Frontend</h4>
-
-                        React <a
-                        href="https://react.dev/learn">Examples</a><br/>
-                        Material UI React <a
-                        href="https://mui.com/material-ui/getting-started/">Library</a><br/>
-
-
-                        <h4>Backend</h4>
-                        Java 21 Core<br/>
-                        Gradle<br/>
-                        Spring Boot (Data JPA, Validation, Web and Test starters)<br/>
-
-
-                    </div>
-                </div>
 
             </Container>
-        </>
+
 
     );
 }
