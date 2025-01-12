@@ -4,6 +4,7 @@ import thunderstorm from "../../assets/img/weather-state/thunderstorms.svg";
 import Container from "@mui/material/Container";
 
 import './Error.css'
+import WeatherPictureFromCode from "../../components/WeatherPicture/WeatherPictureFromCode.jsx";
 
 const ErrorPage = ({status, description}) => {
     return (
@@ -12,7 +13,7 @@ const ErrorPage = ({status, description}) => {
                 <div className={"errorContainer"}>
                     <h1 style={{width: "100%", marginBottom: 0}}>{status}</h1>
                     <h2 style={{width: "100%", marginBottom: 0}}>{description}</h2>
-                    <img src={thunderstorm} alt style={{width: "100%", mt: 0}}/>
+                    <img src={WeatherPictureFromCode(762,true, false)} alt style={{width: "100%", mt: 0}}/>
                 </div>
             </Container>
 

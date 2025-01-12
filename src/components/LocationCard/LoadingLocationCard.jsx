@@ -30,7 +30,7 @@ export default function LoadingLocationCard() {
                 }
             />
 
-                <Skeleton sx={{height: 95, marginRight: 2, marginLeft: 2}} animation="wave" variant="rectangular"/>
+            <Skeleton sx={{height: 95, marginRight: 2, marginLeft: 2}} animation="wave" variant="rectangular"/>
 
             <CardContent>
 

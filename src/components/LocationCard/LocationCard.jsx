@@ -29,7 +29,7 @@ export default function LocationCard({location}) {
                     transform: isFlipped ? "rotateY(180deg)" : "rotateY(0)",
                 }}
             >
-                {/* Лицевая сторона карточки */}
+
                 <Card
                     elevation={3}
                     style={{

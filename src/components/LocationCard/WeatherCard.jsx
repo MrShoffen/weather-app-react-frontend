@@ -1,18 +1,20 @@
-import {Button, Card, CardActions, CardContent, CardMedia, Divider} from "@mui/material";
+import {Button, Card, CardActions, CardContent, CardMedia, Divider, Skeleton} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {hasFlag} from 'country-flag-icons'
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 
 export default function WeatherCard({location, flipped, handleFlip}) {
     const [weatherData, setWeatherData] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
 
     useEffect(() => {
         if (flipped && !weatherData) {
-            setIsLoading(true); // Установить индикатор загрузки
             setWeatherData('dfdfd');
-           console.log('start fetchin weather data')
+            console.log('start fetchin weather data')
+
+            // setTimeout(() => {setIsLoading(false);}, 1000);
+            setIsLoading(false);
         }
     }, [flipped]);
 
@@ -29,7 +31,7 @@ export default function WeatherCard({location, flipped, handleFlip}) {
                 textAlign: "center",
             }}
         >
-            <CardContent>
+            <CardContent sx={{textAlign: "left", fontSize: 16}}>
                 <Typography
                     gutterBottom
                     variant="h5"
@@ -52,15 +54,37 @@ export default function WeatherCard({location, flipped, handleFlip}) {
                     />
                 </Typography>
 
-                <Typography variant="body2">
-                    Display relevant weather data here...
-                </Typography>
+                {isLoading ? (
+                    <>
+                    <Skeleton sx={{height: 60, mb: 1, marginRight: 1, marginLeft: 1}} animation="wave" variant="rectangular"/>
+                    <React.Fragment>
+                        <Skeleton animation="wave" height={10} style={{marginBottom: 6, marginRight: 8, marginLeft: 8}}/>
+                        <Skeleton animation="wave" height={10} width="75%" style={{marginBottom: 6, marginRight: 8, marginLeft: 8}}/>
+                        <Skeleton animation="wave" height={10} width="60%" style={{ marginRight: 6, marginLeft: 8}}/>
+                    </React.Fragment>
+                    </>
+                ) : (
+                    <Typography variant="body2">
+                        Display relevant weather data here...
+                    </Typography>
+                )
+                }
+
 
             </CardContent>
             <CardActions>
-                <Button size="small" onClick={handleFlip}>
-                    Back
-                </Button>
+
+                {isLoading ? (
+                    <>
+                        <Skeleton variant="rectangular" width={70} height={22} style={{marginBottom: 6, marginRight: 8, marginLeft: 10}}/>
+                    </>
+                ) : (
+                    <Button size="small" onClick={handleFlip}>
+                        Back
+                    </Button>
+                )
+                }
+
             </CardActions>
         </Card>
     );
