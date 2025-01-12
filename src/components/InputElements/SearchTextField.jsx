@@ -9,7 +9,7 @@ import React from "react";
 import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 
 
-export default function SearchTextField({locationName,onChange, handleSubmit, errors}){
+export default function SearchTextField({locationName, onChange, handleSubmit, errors, loading}) {
 
     const {isDarkMode} = useThemeContext();
 
@@ -36,8 +36,12 @@ export default function SearchTextField({locationName,onChange, handleSubmit, er
                 value={locationName}
                 onChange={onChange}
                 onKeyDown={(event) => {
+                    if(loading) {
+                        event.preventDefault();
+                        return;
+                    }
                     if (event.key === 'Enter') {
-                        event.preventDefault(); // предотвращение стандартного поведения Enter (если нужно)
+                        event.preventDefault();
                         handleSubmit();
                     }
                 }} // Обработка Enter
@@ -54,7 +58,7 @@ export default function SearchTextField({locationName,onChange, handleSubmit, er
                     left: 0,
                     '& input:-webkit-autofill': {
                         WebkitBoxShadow: 'none', // Заменяем фон
-                        WebkitTextFillColor:  isDarkMode ?  'white': 'black', // Цвет текста
+                        WebkitTextFillColor: isDarkMode ? 'white' : 'black', // Цвет текста
                         transition: 'background-color 5000s ease-in-out 0s', // Убираем голубой переход
                     },
                     '& .MuiOutlinedInput-root': {
@@ -93,6 +97,7 @@ export default function SearchTextField({locationName,onChange, handleSubmit, er
                     },
 
                 }}
+                disabled={loading}
                 aria-label="search"
                 onClick={handleSubmit}
             >

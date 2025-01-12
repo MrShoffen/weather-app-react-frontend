@@ -7,7 +7,8 @@ export default function LoadingLocationCard() {
     return (
         <Card sx={{
             minWidth: 300,
-            minHeight: 200,
+            minHeight: 230,
+            maxHeight: 230,
 
         }}
               elevation={3}
@@ -25,11 +26,11 @@ export default function LoadingLocationCard() {
                     />
                 }
                 subheader={
-                    <Skeleton animation="wave" height={10} width="40%"/>
+                    <Skeleton animation="wave" height={9} width="40%"/>
                 }
             />
 
-                <Skeleton sx={{height: 120, marginRight: 2, marginLeft: 2}} animation="wave" variant="rectangular"/>
+                <Skeleton sx={{height: 95, marginRight: 2, marginLeft: 2}} animation="wave" variant="rectangular"/>
 
             <CardContent>
 

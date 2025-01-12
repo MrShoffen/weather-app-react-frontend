@@ -12,10 +12,10 @@ import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import WeatherApiException from "../../exception/WeatherApiException.jsx";
 import thunderstorm from "../../assets/img/weather-state/thunderstorms.svg";
+import ClearLocationBadge from "../../components/InputElements/ClearLocationBadge/ClearLocationBadge.jsx";
 
 
 function FindLocationPage() {
-    const {isDarkMode, isSmallScreen} = useThemeContext();
 
     const [currentLocationName, setCurrentLocationName] = useState('');
     const [locationNameForSearch, setLocationNameForSearch] = useState('');
@@ -31,6 +31,11 @@ function FindLocationPage() {
             setErrors("Field can't be empty");
             return;
         }
+
+        if (currentLocationName && currentLocationName.length > 20) {
+            setErrors('Length is above 20 characters.')
+            return;
+        }
         setLoading(true);
         console.log(foundLocations);
 
@@ -42,6 +47,7 @@ function FindLocationPage() {
         } catch (error) {
             switch (true) {
                 case error instanceof WeatherApiException:
+                    handleReset();
                     setErrors(error.message);
                     break;
                 default:
@@ -72,68 +78,21 @@ function FindLocationPage() {
     return (
         <Container disableGutters className={"locationUnauthPage"}>
 
-                <Typography sx={{fontSize: 28, fontWeight: 500, mb: 2}}>Locations</Typography>
+            <Typography sx={{fontSize: 28, fontWeight: 500, mb: 2}}>Locations</Typography>
 
 
             <SearchTextField
                 locationName={currentLocationName}
                 handleSubmit={handleSubmit}
                 onChange={handleInputChange}
-                errors={errors}/>
+                errors={errors}
+                loading={loading}/>
 
             {locationNameForSearch && (
-                <Box className={"locationDeleteBadge"}
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        width: '150px',
-                        height: '40px',
-                        justifyContent: 'space-between',
-                        mt: 2,
-                        p: 1,
-                        backgroundColor: isDarkMode ? '#424242' : '#f5f5f5',
-                        borderRadius: 1,
-                        position: 'absolute', // Абсолютное позиционирование
-                        right: '16px', // Отступ от правого края Container
-                        top: '110px',
-                        maxWidth: '150px', // Ограничиваем максимальную ширину Box
-                        overflow: 'hidden', // Скрываем содержимое за пределами Box
-                        border: '1px solid',
-                        borderColor: isDarkMode ? "rgba(210,210,210,0.65)" : "rgba(47,155,255,0.53)", // полупрозрачный фон
-
-                    }}
-                >
-                    <Typography
-                        sx={{
-                            fontSize: 16,
-                            fontWeight: 500,
-                            mr: 1,
-                            whiteSpace: 'nowrap',       // Запрещаем тексту переноситься на следующую строку
-                            overflow: 'hidden',        // Скрываем текст, выходящий за пределы контейнера
-                            textOverflow: 'ellipsis',  // Добавляем многоточие для длинного текста
-                            maxWidth: '100%',          // Ограничиваем ширину текста до размеров родителя (Box)
-                        }}
-                    >
-                        {locationNameForSearch}
-                    </Typography>
-                    <IconButton size="small" onClick={handleReset}
-                                sx={{
-                                    mr: -1.5,
-                                    '&:hover': {
-                                        backgroundColor: 'transparent', // Отключаем фон при наведении
-                                        transform: 'scale(1.1)',
-                                    },
-                                    '&:active': {
-                                        backgroundColor: 'transparent', // Убираем нажимание
-                                    },
-                                    '&:focus': {
-                                        outline: 'none', // Убираем фокус
-
-                                    },
-                    }}>
-                        <CloseIcon fontSize="small"/>
-                    </IconButton>
-                </Box>
+                <ClearLocationBadge
+                    handleReset={handleReset}
+                    locationNameForSearch={locationNameForSearch}
+                />
             )}
 
 
