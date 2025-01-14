@@ -13,6 +13,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import WeatherApiException from "../../exception/WeatherApiException.jsx";
 import thunderstorm from "../../assets/img/weather-state/thunderstorms.svg";
 import ClearLocationBadge from "../../components/InputElements/ClearLocationBadge/ClearLocationBadge.jsx";
+import {getAutofilledCities} from "../../services/SendNameForAutofill.js";
 
 
 function FindLocationPage() {
@@ -26,7 +27,6 @@ function FindLocationPage() {
     const [foundLocations, setFoundLocations] = useState([]);
 
     const handleSubmit = async () => {
-
         if (!currentLocationName) {
             setErrors("Field can't be empty");
             return;
@@ -65,6 +65,7 @@ function FindLocationPage() {
     const handleInputChange = event => {
         setErrors('');
         setCurrentLocationName(event.target.value);
+
     }
 
     const handleReset = () => {
@@ -83,6 +84,7 @@ function FindLocationPage() {
 
             <SearchTextField
                 locationName={currentLocationName}
+                setLocationName={setCurrentLocationName}
                 handleSubmit={handleSubmit}
                 onChange={handleInputChange}
                 errors={errors}

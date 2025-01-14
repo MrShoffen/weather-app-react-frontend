@@ -85,7 +85,7 @@ export default function LocationCard({location}) {
                             Longitude: <span style={{fontWeight: 500}}>{location.lon}</span>
                         </Typography>
                     </CardContent>
-                    <CardActions>
+                    <CardActions style={{position: 'absolute', bottom: 3}}>
                         <Button size="small" onClick={handleFlip}>
                             show weather
                         </Button>

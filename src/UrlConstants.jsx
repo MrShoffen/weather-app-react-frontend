@@ -19,3 +19,6 @@ export const API_USER = API_BASE_URL + API_CONTEXT + '/user';
 export const API_FIND_LOCATIONS = API_BASE_URL + API_CONTEXT + '/locations';
 
 export const API_GET_WEATHER_INFO = API_BASE_URL + API_CONTEXT + '/weather';
+
+//autofill cities api
+export const AUTOFILL_CITY_API = isProduction ? "/cities-autofill-api" : "http://192.168.0.190:8081/cities-autofill-api";

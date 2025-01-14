@@ -136,7 +136,7 @@ export default function WeatherCard({location, flipped, handleFlip}) {
                                 fontSize: 16,
                                 color: "text.secondary",
                                 position: "absolute",
-                                right: 65,
+                                right: 82,
                                 top: 105,
                                 transform: "translateX(50%)"
                             }}
@@ -246,15 +246,21 @@ export default function WeatherCard({location, flipped, handleFlip}) {
 
 
             </CardContent>
-            <CardActions>
+            <CardActions style={{position: 'absolute', bottom: 3}} >
 
                 {isLoading ? (
                     <>
                         <Skeleton variant="rectangular" width={70} height={22}
-                                  style={{marginBottom: 6, marginRight: 8, marginLeft: 10}}/>
+                                  style={{
+
+                                      marginBottom: 6,
+                                      marginRight: 8,
+                                      marginLeft: 10
+                        }}/>
                     </>
                 ) : (
-                    <Button size="small" onClick={handleFlip}>
+                    <Button size="small" onClick={handleFlip}
+                    >
                         Back
                     </Button>
                 )
