@@ -1,15 +1,18 @@
 import {Button, Card, CardActions, CardContent, CardMedia, Divider} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {hasFlag} from 'country-flag-icons'
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import WeatherCard from "./WeatherCard.jsx";
 
-export default function LocationCard({location}) {
+export default function LocationCard({location, scale}) {
     const [isFlipped, setIsFlipped] = useState(false);
+
 
     const handleFlip = () => {
         setIsFlipped(!isFlipped);
     };
+
+
 
     return (
         <div
@@ -20,7 +23,7 @@ export default function LocationCard({location}) {
         >
             <div
                 style={{
-                    minWidth: "328px",
+                    minWidth: "290px",
                     minHeight: 230,
                     maxHeight: 230,
                     position: "relative",

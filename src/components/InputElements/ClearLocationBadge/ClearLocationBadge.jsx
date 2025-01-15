@@ -20,8 +20,9 @@ export default function ClearLocationBadge({locationNameForSearch, handleReset})
                  justifyContent: 'space-between',
                  mt: 2,
                  p: 1,
+                 opacity: 0.8,
                  backgroundColor: isDarkMode ? '#424242' : '#f5f5f5',
-                 borderRadius: 1,
+                 borderRadius: '8px',
                  position: 'absolute', // Абсолютное позиционирование
                  right: '16px', // Отступ от правого края Container
                  top: '110px',

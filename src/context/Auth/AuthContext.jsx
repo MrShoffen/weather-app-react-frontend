@@ -53,22 +53,25 @@ export const AuthProvider = ({children}) => {
                 const user = await checkSession();
                 if (user !== auth.user) {
                     login(user);
+                    console.log(user);
                 }
             } catch (error) {
-                logout();
-                navigate("/weather-app/login", {
-                    state: {
-                        message: "Session is expired! Please login again",
-                        type: "error"
-                    },
-                });
-                window.location.reload();
+                if (auth.isAuthenticated) {
+                    logout();
+                    navigate("/weather-app/login", {
+                        state: {
+                            message: "Session is expired! Please login again",
+                            type: "error"
+                        },
+                    });
+                    window.location.reload();
+                }
             }
         }
     };
 
     useEffect(() => {
-        const SESSION_CHECK_INTERVAL = 5 * 60 * 1000; // Каждые 5 минут
+        const SESSION_CHECK_INTERVAL = 1000 * 60; // Каждые 5 минут
         const intervalId = setInterval(validateSession, SESSION_CHECK_INTERVAL);
 
         validateSession();
@@ -85,6 +88,7 @@ export const AuthProvider = ({children}) => {
                     login(user);
                 }
             } catch (error) {
+                logout();
 
             }
         }

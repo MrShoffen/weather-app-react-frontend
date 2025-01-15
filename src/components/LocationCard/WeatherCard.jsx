@@ -1,10 +1,13 @@
 import {Button, Card, CardActions, CardContent, CardMedia, Divider, Skeleton} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {hasFlag} from 'country-flag-icons'
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import WeatherPictureFromCode from "../WeatherPicture/WeatherPictureFromCode.jsx";
 import {sendGetWeather} from "../../services/SendGetWeather.js";
 import Box from "@mui/material/Box";
+import windSock from "../../assets/img/weather-state/windsock.svg"
+import barometer from "../../assets/img/weather-state/barometer.svg"
+import temper from "../../assets/img/weather-state/thermometer-celsius.svg"
 
 export default function WeatherCard({location, flipped, handleFlip}) {
     const [weatherData, setWeatherData] = useState(null);
@@ -25,21 +28,21 @@ export default function WeatherCard({location, flipped, handleFlip}) {
             return '';
         }
 
-        if (wind > 337 || wind <= 22){
+        if (wind > 337 || wind <= 22) {
             return 'N';
-        } else if (wind > 22 && wind <=67){
+        } else if (wind > 22 && wind <= 67) {
             return 'NE';
-        } else if (wind > 67 && wind <=112){
+        } else if (wind > 67 && wind <= 112) {
             return 'E';
-        } else if (wind >112 && wind <=157){
+        } else if (wind > 112 && wind <= 157) {
             return 'SE';
-        } else if (wind >157 && wind <= 202){
+        } else if (wind > 157 && wind <= 202) {
             return 'S';
-        } else if (wind > 202 && wind <=247){
+        } else if (wind > 202 && wind <= 247) {
             return 'SW';
-        } else if (wind > 247 && wind <=292){
+        } else if (wind > 247 && wind <= 292) {
             return 'W';
-        } else if (wind >292 && wind <=337){
+        } else if (wind > 292 && wind <= 337) {
             return 'NW';
         }
 
@@ -65,8 +68,34 @@ export default function WeatherCard({location, flipped, handleFlip}) {
     }, [flipped]);
 
 
+    const [parentWidth, setParentWidth] = useState(0); // Хранение ширины родителя
+    const parentRef = useRef(null); // Реф для контейнера
+
+    useEffect(() => {
+        const updateParentWidth = () => {
+            if (parentRef.current) {
+                console.log(parentRef.current.clientWidth);
+                setParentWidth(parentRef.current.offsetWidth);
+            }
+        };
+        updateParentWidth();
+
+        // Опционально обработка изменения размеров окна
+        window.addEventListener("resize", updateParentWidth);
+        return () => {
+            window.removeEventListener("resize", updateParentWidth);
+        };
+    }, []);
+
+    const isCompressed = () => {
+        return parentWidth < 320;
+    }
+
+
     return (
         <Card
+            ref={parentRef}
+
             elevation={3}
             style={{
                 position: "absolute",
@@ -114,16 +143,17 @@ export default function WeatherCard({location, flipped, handleFlip}) {
                     </>
                 ) : (
                     <>
-                        <img src={WeatherPictureFromCode(weatherData.weather[0].id, isDay(weatherData), isCloudy(weatherData))}
-                             alt
-                             style={{
-                                 width: "100px",
-                                 right: 65,
-                                 top: 20,
-                                 mt: 0,
-                                 position: "absolute",
-                                 transform: "translateX(50%)"
-                             }}/>
+                        <img
+                            src={WeatherPictureFromCode(weatherData.weather[0].id, isDay(weatherData), isCloudy(weatherData))}
+                            alt
+                            style={{
+                                width: "100px",
+                                right: 65,
+                                top: 20,
+                                mt: 0,
+                                position: "absolute",
+                                transform: "translateX(50%)"
+                            }}/>
 
                         <Typography
                             variant="body2"
@@ -132,7 +162,7 @@ export default function WeatherCard({location, flipped, handleFlip}) {
                                 color: "text.secondary",
                                 position: "absolute",
                                 right: 82,
-                                top: 105,
+                                top: 112,
                                 transform: "translateX(50%)"
                             }}
                         >
@@ -157,17 +187,30 @@ export default function WeatherCard({location, flipped, handleFlip}) {
                         >
                             {Math.round(weatherData.main.temp)}°
                         </Typography>
-                        <Divider sx={{mb: '2px', width: '47%'}}/>
+                        <Divider sx={{mb: '2px', width: isCompressed() ? '38%' : '47%'}}/>
 
-                        <Typography variant="body2" sx={{fontSize: 16}}>
-                            Feels like:{' '}
+                        <Typography  variant="body2" sx={{fontSize: 16, height: '23px'}}>
+                            {isCompressed() ?
+                                <img
+                                    src={temper}
+                                    alt={'Feels like'}
+                                    title="Feels like"
+                                    style={{
+                                        width: "35px",
+                                        position: "absolute",
+                                        left: 12,
+                                        top: 54
+                                    }}/>
+                                : 'Feels like:'
+
+                            }
                         </Typography>
 
                         <Typography variant="body2"
                                     sx={{
                                         fontSize: 16,
                                         position: "absolute",
-                                        right: '53%',
+                                        right:  isCompressed() ? '62%' : '53%',
                                         top: '60px'
                                     }}
                         >
@@ -175,12 +218,25 @@ export default function WeatherCard({location, flipped, handleFlip}) {
                                 {Math.round(weatherData.main.feels_like)}°
                             </span>
                         </Typography>
-                        <Divider sx={{mt: '2px', mb: '2px', width: '47%'}}/>
+                        <Divider sx={{mt: '2px', mb: '2px', width: isCompressed() ? '38%' : '47%'}}/>
 
-                        <Typography variant="body2" sx={{fontSize: 16}}>
-                            Wind:
-                        </Typography>
 
+
+                                <Typography variant="body2" sx={{fontSize: 16, height: '23px'}}>
+                                    {isCompressed() ?
+                                    <img
+                                        src={windSock}
+                                        alt
+                                        style={{
+                                            width: "35px",
+                                            position: "absolute",
+                                            left: 12,
+                                            top: 82
+                                        }}/>
+                                        : 'Wind:'
+
+                                    }
+                                </Typography>
 
 
 
@@ -188,30 +244,39 @@ export default function WeatherCard({location, flipped, handleFlip}) {
                                     sx={{
                                         fontSize: 16,
                                         position: "absolute",
-                                        right: '53%',
+                                        right: isCompressed() ? '62%' : '53%',
                                         top: '88px'
                                     }}
                         >
                             <span style={{fontWeight: 500}}>
-                            {windDirection(weatherData) + '-' +weatherData.wind.speed.toFixed(1)} m/s
+                            {weatherData.wind.speed.toFixed(1)} m/s
                         </span>
                         </Typography>
 
-                        <Divider sx={{mt: '2px', mb: '2px', width: '47%'}}/>
+                        <Divider sx={{mt: '2px', mb: '2px',width: isCompressed() ? '38%' : '47%'}}/>
 
 
-                        <Typography variant="body2"
-                                    sx={{
-                                        fontSize: 16
-                                    }}
-                        >
-                            Pressure:
+                        <Typography variant="body2" sx={{fontSize: 16, height: '23px'}}>
+                            {isCompressed() ?
+                                <img
+                                    src={barometer}
+                                    alt
+                                    style={{
+                                        width: "35px",
+                                        position: "absolute",
+                                        left: 12,
+                                        top: 110,
+                                    }}/>
+                                : 'Pressure:'
+
+                            }
                         </Typography>
+
                         <Typography variant="body2"
                                     sx={{
                                         fontSize: 16,
                                         position: "absolute",
-                                        right: '53%',
+                                        right:  isCompressed() ? '62%' : '53%',
                                         top: '115px'
                                     }}
                         >
@@ -234,6 +299,15 @@ export default function WeatherCard({location, flipped, handleFlip}) {
                         </Typography>
 
 
+                        <Typography
+                            variant="body2"
+                            sx={{fontSize: 16, color: "text.secondary"}}
+                        >
+                            Wind direction: <span
+                            style={{fontWeight: 500}}>{windDirection(weatherData)}</span>
+                        </Typography>
+
+
                     </>
 
                 )
@@ -241,7 +315,7 @@ export default function WeatherCard({location, flipped, handleFlip}) {
 
 
             </CardContent>
-            <CardActions style={{position: 'absolute', bottom: 3}} >
+            <CardActions style={{position: 'absolute', bottom: 3}}>
 
                 {isLoading ? (
                     <>
@@ -251,7 +325,7 @@ export default function WeatherCard({location, flipped, handleFlip}) {
                                       marginBottom: 6,
                                       marginRight: 8,
                                       marginLeft: 10
-                        }}/>
+                                  }}/>
                     </>
                 ) : (
                     <Button size="small" onClick={handleFlip}

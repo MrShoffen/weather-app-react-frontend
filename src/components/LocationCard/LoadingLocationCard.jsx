@@ -10,6 +10,7 @@ export default function LoadingLocationCard() {
             minHeight: 230,
             maxHeight: 230,
 
+
         }}
               elevation={3}
         >

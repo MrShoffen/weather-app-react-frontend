@@ -16,13 +16,13 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import ProfileModal from '../ProfileModal/ProfileModal.jsx'
+import ProfileModal from '../../modal/ProfileModal/ProfileModal.jsx'
 import {API_BASE_URL} from "../../UrlConstants.jsx";
 import LoadingPage from "../../pages/Loading/LoadingPage.jsx";
 import LoadingButton from "@mui/lab/LoadingButton";
 import KeyIcon from '@mui/icons-material/Key';
 import sunset from "../../assets/img/weather-state/sunset.svg"
-import SecurityModal from "../SecurityModal/SecurityModal.jsx";
+import SecurityModal from "../../modal/SecurityModal/SecurityModal.jsx";
 import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 
 
@@ -125,7 +125,9 @@ export default function AvatarMenu() {
 
     function getIcon() {
         return auth.isAuthenticated
-            ? <Avatar alt={auth.user.username} src={API_BASE_URL + auth.user.avatarUrl}>
+            ? <Avatar alt={auth.user.username}
+                      style={{width: 42, height: 42}}
+                      src={API_BASE_URL + auth.user.avatarUrl}>
                 {auth.user.username.slice(0, 2)}
             </Avatar>
             : <MenuIcon/>

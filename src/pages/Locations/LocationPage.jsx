@@ -4,9 +4,10 @@ import SearchButton from "../../components/SearchButton/SearchButton.jsx";
 import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 import SearchHeaderBar from "../../components/SearchButton/SearchHeaderBar.jsx";
 import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
 
 function LocationPage() {
-    const {isDarkMode, isSmallScreen} = useThemeContext();
+    const {isSmallScreen} = useThemeContext();
 
 
 
@@ -20,7 +21,8 @@ function LocationPage() {
 
 
                 <div className="homeContainer">
-                    <h2>Профиль</h2>
+                    <Typography sx={{fontSize: 28, fontWeight: 500, mb: 2}}>Saved Locations</Typography>
+
                     {/* Здесь можно разместить содержимое для домашней страницы */}
                 </div>
                 <div> first</div>

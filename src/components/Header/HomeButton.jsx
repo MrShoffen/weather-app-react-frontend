@@ -17,13 +17,13 @@ export default function HomeButton() {
         <Box
             sx={{
                 display: "flex", // центровка иконки
-                width: 45,
-                height: 45,
+                width: 42,
+                height: 42,
                 marginRight: '8px',
                 alignItems: "center",
                 justifyContent: "center",
                 backgroundColor: isDarkMode ? "rgba(0,0,0,0.32)" : "rgba(47,155,255,0.53)", // полупрозрачный фон
-                borderRadius: "25%", // круглая форма
+                borderRadius: "8px", // круглая форма
                 border: "1px solid",
                 color: "white",
                 '&:hover': {

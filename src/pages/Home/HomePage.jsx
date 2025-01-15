@@ -13,7 +13,7 @@ function HomePage() {
     return (
 
             <Container disableGutters className="cont" style={{
-                color: isDarkMode ? "#d2d2d2" : "#2c2c2c"
+
             }}>
 
                 <Typography sx={{fontSize: 28, fontWeight: 500, mb: 2}}>About This Site</Typography>

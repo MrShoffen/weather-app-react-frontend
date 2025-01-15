@@ -1,13 +1,18 @@
 import Typography from "@mui/material/Typography";
 import CloudIcon from '@mui/icons-material/Cloud';
+import {useNavigate} from "react-router-dom";
 
 export default function MainLabel() {
+    const navigate = useNavigate();
+
     return (
             <Typography
                 variant="h6"
                 noWrap
                 component="a"
-                href="/weather-app/"
+                onClick={() => {
+                    navigate("/weather-app/");
+                }}
                 sx={{
                     mr: 2,
                     marginTop: 1,
@@ -19,6 +24,7 @@ export default function MainLabel() {
                     '&:hover': {
                         color: 'inherit',
                         textDecoration: 'none',
+                        cursor: 'pointer',
                     },
                 }}
             >

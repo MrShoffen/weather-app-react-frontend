@@ -10,6 +10,7 @@ export const ThemeSwitcher = styled(Switch)(({theme}) => ({
     height: 27,
     padding: 7,
     opacity: 0.9,
+    borderRadius: '8px',
     paddingLeft: 11,
     '& .MuiSwitch-switchBase': {
         margin: 1,

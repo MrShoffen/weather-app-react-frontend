@@ -36,7 +36,7 @@ export default function SearchTextField({locationName, setLocationName, onChange
                 height: '60px',
                 display: 'flex',
                 alignItems: 'center',
-                borderRadius: 3,
+                borderRadius: '8px',
                 border: "1px solid",
                 borderColor: isDarkMode ? "rgba(210,210,210,0.65)" : "rgba(47,155,255,0.53)", // полупрозрачный фон
             }}
@@ -113,48 +113,6 @@ export default function SearchTextField({locationName, setLocationName, onChange
                 )}
             />
 
-            {/*<TextField*/}
-            {/*    variant='outlined'*/}
-            {/*    placeholder="Search Locations"*/}
-            {/*    value={locationName}*/}
-            {/*    onChange={event => {*/}
-            {/*        onChange(event);*/}
-
-            {/*    }*/}
-            {/*    }*/}
-            {/*    onKeyDown={(event) => {*/}
-            {/*        if (loading) {*/}
-            {/*            event.preventDefault();*/}
-            {/*            return;*/}
-            {/*        }*/}
-            {/*        if (event.key === 'Enter') {*/}
-            {/*            event.preventDefault();*/}
-            {/*            handleSubmit();*/}
-            {/*        }*/}
-            {/*    }} // Обработка Enter*/}
-
-            {/*    error={errors}*/}
-            {/*    helperText={errors}*/}
-
-            {/*    sx={{*/}
-            {/*        ml: 1,*/}
-            {/*        flex: 1,*/}
-            {/*        position: "absolute",*/}
-            {/*        width: "85%",*/}
-            {/*        top: 0,*/}
-            {/*        left: 0,*/}
-            {/*        '& input:-webkit-autofill': {*/}
-            {/*            WebkitBoxShadow: 'none', // Заменяем фон*/}
-            {/*            WebkitTextFillColor: isDarkMode ? 'white' : 'black', // Цвет текста*/}
-            {/*            transition: 'background-color 5000s ease-in-out 0s', // Убираем голубой переход*/}
-            {/*        },*/}
-            {/*        '& .MuiOutlinedInput-root': {*/}
-            {/*            '& fieldset': {*/}
-            {/*                border: 'none', // Убираем границы*/}
-            {/*            },*/}
-            {/*        },*/}
-            {/*    }}*/}
-            {/*/>*/}
             <Divider sx={{
                 height: 40,
                 m: 0.5,
