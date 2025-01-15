@@ -3,7 +3,7 @@
 const isProduction = import.meta.env.MODE === "production"; // Определяем режим окружения
 
 
-export const API_BASE_URL =  "http://192.168.0.190:8080";
+export const API_BASE_URL = isProduction ? "" : "http://192.168.0.190:8080";
 
 export const API_CONTEXT = '/weather/api';
 
