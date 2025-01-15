@@ -78,9 +78,14 @@ export const AuthProvider = ({children}) => {
 
     const validateCookieIsAlive = async () => {
         if (!auth.isAuthenticated) {
-            const user = await checkSession();
-            if (user) {
-                login(user);
+            try {
+                console.log('in validate cookie func')
+                const user = await checkSession();
+                if (user) {
+                    login(user);
+                }
+            } catch (error) {
+
             }
         }
     };

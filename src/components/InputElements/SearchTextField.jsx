@@ -6,15 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import React from "react";
 import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 import {getAutofilledCities} from "../../services/SendNameForAutofill.js";
-import {Autocomplete} from "@mui/lab";
-
-function sleep(duration) {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve();
-        }, duration);
-    });
-}
+import {Autocomplete} from "@mui/material";
 
 export default function SearchTextField({locationName, setLocationName, onChange, handleSubmit, errors, loading}) {
     const {isDarkMode} = useThemeContext();

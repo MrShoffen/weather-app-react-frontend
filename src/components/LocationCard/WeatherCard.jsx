@@ -52,12 +52,7 @@ export default function WeatherCard({location, flipped, handleFlip}) {
                 try {
                     const weatherJson = await sendGetWeather(location.lat, location.lon);
                     setWeatherData(weatherJson);
-                    console.log(weatherJson);
-                    console.log(isDay(weatherJson));
-                    console.log(isCloudy(weatherJson));
-                    console.log(windDirection(weatherJson));
                 } catch (error) {
-                    console.log(error);
                 }
 
                 setTimeout(() => {
