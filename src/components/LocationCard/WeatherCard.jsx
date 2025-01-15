@@ -74,7 +74,6 @@ export default function WeatherCard({location, flipped, handleFlip}) {
     useEffect(() => {
         const updateParentWidth = () => {
             if (parentRef.current) {
-                console.log(parentRef.current.clientWidth);
                 setParentWidth(parentRef.current.offsetWidth);
             }
         };

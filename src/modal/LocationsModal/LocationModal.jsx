@@ -40,32 +40,24 @@ const Card = styled(MuiCard)(({theme}) => ({
     maxHeight: '80%',
     position: "absolute",
     top: "70px",
-    paddingBottom: theme.spacing(2),
     left: "50%",
     backgroundColor: "background.paper",
     transform: "translate(-50%, 0%)",
     boxShadow: 24,
     borderRadius: "8px",
     [theme.breakpoints.up('sm')]: {
-        width: '600px',
-        maxWidth: '600px',
+        width: '550px',
+        maxWidth: '550px',
     },
     [theme.breakpoints.up('md')]: {
-        width: '700px',
-        maxWidth: '700px',
+        width: '800px',
+        maxWidth: '800px',
     },
     [theme.breakpoints.up('lg')]: {
-        width: '900px',
-        maxWidth: '900px',
+        width: '1150px',
+        maxWidth: '1150px',
     },
-    [theme.breakpoints.up('xl')]: {
-        width: '1100px',
-        maxWidth: '1100px',
-    },
-    [theme.breakpoints.up('xxl')]: {
-        width: '1200px',
-        maxWidth: '1200px',
-    },
+
 }));
 
 

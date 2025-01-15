@@ -3,6 +3,8 @@ import Typography from "@mui/material/Typography";
 import {hasFlag} from 'country-flag-icons'
 import {useEffect, useRef, useState} from "react";
 import WeatherCard from "./WeatherCard.jsx";
+import countries from "i18n-iso-countries";
+import enLocale from "i18n-iso-countries/langs/en.json";
 
 export default function LocationCard({location, scale}) {
     const [isFlipped, setIsFlipped] = useState(false);
@@ -12,6 +14,7 @@ export default function LocationCard({location, scale}) {
         setIsFlipped(!isFlipped);
     };
 
+    countries.registerLocale(enLocale);
 
 
     return (
@@ -66,7 +69,7 @@ export default function LocationCard({location, scale}) {
                         </Typography>
 
                         <Typography variant="body2" sx={{fontSize: 16}}>
-                            Country: <span style={{fontWeight: 500}}>{location.country}</span>
+                            Country: <span style={{fontWeight: 500}}>{countries.getName(location.country,"en")}</span>
                         </Typography>
 
                         <Typography variant="body2" sx={{fontSize: 16}}>
