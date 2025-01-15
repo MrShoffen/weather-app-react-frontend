@@ -8,16 +8,16 @@ import {Image, Visibility, VisibilityOff} from "@mui/icons-material";
 
 
 export default function ValidatedTextField({
-                                                     id,
-                                                     label,
-                                                     value,
-                                                     onChange,
-                                                     error,
-                                                     helperText,
-                                                     placeholder,
-                                                     autoComplete
+                                               id,
+                                               label,
+                                               value,
+                                               onChange,
+                                               error,
+                                               helperText,
+                                               placeholder,
+                                               autoComplete
 
-                                                 }) {
+                                           }) {
     const [showPassword, setShowPassword] = React.useState(false);
     const handlePasswordVisibility = () => {
         setShowPassword((prev) => !prev);
@@ -41,7 +41,7 @@ export default function ValidatedTextField({
                 name={id}
                 value={value}
                 onChange={onChange}
-                error={error}
+                error={error.length !== 0}
                 helperText={helperText}
                 placeholder={placeholder}
                 autoComplete={autoComplete}

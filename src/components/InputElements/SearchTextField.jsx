@@ -54,6 +54,7 @@ export default function SearchTextField({locationName, setLocationName, onChange
                 freeSolo
                 id="free-solo-2-demo"
                 disableClearable
+                filterOptions={(x) => x}
                 onChange={(event, newValue) => {
                     // Обработка выбора значения
                     setLocationName(newValue || ""); // Если пусто, то передаётся пустая строка
