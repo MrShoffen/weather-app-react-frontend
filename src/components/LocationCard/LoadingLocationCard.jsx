@@ -6,7 +6,7 @@ import React from "react";
 export default function LoadingLocationCard() {
     return (
         <Card sx={{
-            minWidth: 300,
+            minWidth: "290px",
             minHeight: 230,
             maxHeight: 230,
 

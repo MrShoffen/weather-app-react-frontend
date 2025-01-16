@@ -1,77 +1,84 @@
-import {Button} from "@mui/material";
-import {Link} from "react-router-dom";
-import HomeIcon from "@mui/icons-material/Home";
 import * as React from "react";
-import {useAuth} from "../../context/Auth/AuthContext.jsx";
+import {useEffect, useState} from "react";
 import SearchIcon from '@mui/icons-material/Search';
-import Box from "@mui/material/Box";
 import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
-import {useState} from "react";
 import LocationModal from "../../modal/LocationsModal/LocationModal.jsx";
 import AddIcon from '@mui/icons-material/Add';
-
-export default function SearchButton({shouldShow}) {
-    const {auth} = useAuth();
-    const {isDarkMode, isSmallScreen} = useThemeContext();
+import {styled} from "@mui/material/styles";
+import MuiCard from "@mui/material/Card";
 
 
-    const [isLocationModalOpen, setLocationModalOpen] = useState(false);
-    const handleCloseLocationModal = () => {
-        setLocationModalOpen(false);
-        console.log(isLocationModalOpen);
-    };
+const Card = styled(MuiCard)(({theme, isVisible}) => ({
+    position: "fixed",
+    top: 70,
+    bottom: 'auto',
+    display: "flex", // центровка иконки
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(47,155,255,0.8)", // полупрозрачный фон
+    borderRadius: "50%", // круглая форма
+    border: "1px solid",
+    color: "white",
+    marginLeft: 20,
+    transform: isVisible ? "translateY(0)" : "translateY(-100%)",
+    transition: "transform 0.3s ease-in-out",
+    '&:hover': {
+        transform: 'scale(1.1)',
+        cursor: 'pointer',
 
-    const handleLocation = async () => {
-        setLocationModalOpen(true);
-    }
+    },
+    zIndex: 3,
+
+    [theme.breakpoints.down('md')]: {
+        top: 'auto',
+        bottom: 65,
+        right: 15,
+        transform: isVisible ? "translateY(0)" : "translateY(80%)",
+    },
+
+
+}));
+
+export default function SearchButton({onClick}) {
+    const {isDarkMode} = useThemeContext();
+
+    const [isVisible, setIsVisible] = useState(true); // состояние видимости заголовка
+    const [prevScrollY, setPrevScrollY] = useState(0); // предыдущее значение прокрутки
+
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            if (currentScrollY < prevScrollY) {
+                setIsVisible(true);
+            } else if (Math.abs(currentScrollY - prevScrollY) > 3 && prevScrollY) {
+                setIsVisible(false);
+            }
+
+            setPrevScrollY(currentScrollY);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [prevScrollY]); // Обновляем при изменении prevScrollY
 
     return (
 
-        <Box
+        <Card
+            isVisible={isVisible}
             sx={{
-                position: isSmallScreen ? "fixed" : "absolute",
-                top: isSmallScreen ? 'auto' : 70,
-                bottom: isSmallScreen ? 65 : 'auto',
-                left: isSmallScreen ? 'auto' : '7%',
-                right: isSmallScreen ? 15 : 'auto',
-                width: isSmallScreen ? "70px" : "52px", // фиксированная ширина кнопки
-                height: isSmallScreen ? "70px" : "52px", // фиксированная ширина кнопки
-                display: "flex", // центровка иконки
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "rgba(47,155,255,0.8)", // полупрозрачный фон
-                borderRadius: "50%", // круглая форма
-                border: "1px solid",
-                color: "white",
                 borderColor: isDarkMode ? "rgb(18,18,18, 0.2)" : "rgba(0,114,227,0.4)",
-                visibility: shouldShow ? "visible" : "hidden",
-                '&:hover': {
-                    transform: 'scale(1.1)',
-                    cursor: 'pointer',
-
-                },
-
             }}
-            onClick={!isLocationModalOpen && handleLocation}
-
-
+            onClick={onClick}
         >
-            <SearchIcon
-                sx={{
-                    fontSize: isSmallScreen ? "45px" : "30px",
-
-
-                }}
-
-            />
+            <SearchIcon sx={{fontSize:  "45px",}}/>
             <AddIcon sx={{
                 position: "absolute",
                 left: "35%",
                 top: "-10%",
             }}/>
-            <LocationModal onClose={handleCloseLocationModal}
-                           open={isLocationModalOpen}
-            />
-        </Box>
+        </Card>
     );
 }

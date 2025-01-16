@@ -3,6 +3,7 @@ import IncorrectPasswordException from "./IncorrectPasswordException.jsx";
 import UserAlreadyExistException from "./UserAlreadyExistException.jsx";
 import SessionNotFoundException from "./SessionNotFoundException.jsx";
 import WeatherApiException from "./WeatherApiException.jsx";
+import LocationAlreadySavedException from "./LocationAlreadySavedException.jsx";
 
 
 export const throwSpecifyException = (error) => {
@@ -22,6 +23,9 @@ export const throwSpecifyException = (error) => {
         case 'MissingServletRequestParameterException':
         case 'OpenWeatherApiException':
             throw new WeatherApiException(error.detail);
+
+        case 'LocationAlreadySavedException':
+            throw new LocationAlreadySavedException(error.detail);
 
 
         default:

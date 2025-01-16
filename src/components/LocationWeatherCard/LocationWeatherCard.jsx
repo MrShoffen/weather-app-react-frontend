@@ -1,32 +1,69 @@
-import {Button, Card, CardActions, CardContent, CardMedia, Divider, Skeleton} from "@mui/material";
+import {Button, Card, CardContent, Divider} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import {hasFlag} from 'country-flag-icons'
 import React, {useEffect, useRef, useState} from "react";
+import countries from "i18n-iso-countries";
+import enLocale from "i18n-iso-countries/langs/en.json";
+import {useAuth} from "../../context/Auth/AuthContext.jsx";
 import WeatherPictureFromCode from "../WeatherPicture/WeatherPictureFromCode.jsx";
-import {sendGetWeather} from "../../services/SendGetWeather.js";
+import temper from "../../assets/img/weather-state/thermometer-celsius.svg";
+import windSock from "../../assets/img/weather-state/windsock.svg";
+import barometer from "../../assets/img/weather-state/barometer.svg";
 import Box from "@mui/material/Box";
-import windSock from "../../assets/img/weather-state/windsock.svg"
-import barometer from "../../assets/img/weather-state/barometer.svg"
-import temper from "../../assets/img/weather-state/thermometer-celsius.svg"
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ToFavoriteButton from "./ToFavoriteButton.jsx";
 
-export default function WeatherCard({location, flipped, handleFlip, auth, favoriteButton}) {
-    const [weatherData, setWeatherData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
 
-    const isDay = (weatherData) => {
+export default function LocationWeatherCard({locationAndWeather}) {
+    const location = locationAndWeather.location;
+    const weather = locationAndWeather.weather;
 
-        return weatherData && weatherData.weather[0].icon.endsWith("d");
+    const [isFlipped, setIsFlipped] = useState(false);
+    const {auth} = useAuth();
+
+
+    const handleFlip = () => {
+        setIsFlipped(!isFlipped);
+    };
+
+    countries.registerLocale(enLocale);
+
+    const [isSaved, setIsSaved] = useState(false);
+    const [isAlreadySaved, setIsAlreadySaved] = useState(false);
+
+    const [parentWidth, setParentWidth] = useState(0); // Хранение ширины родителя
+    const parentRef = useRef(null); // Реф для контейнера
+
+
+    useEffect(() => {
+        const updateParentWidth = () => {
+            if (parentRef.current) {
+                setParentWidth(parentRef.current.offsetWidth);
+            }
+        };
+        updateParentWidth();
+
+        // Опционально обработка изменения размеров окна
+        window.addEventListener("resize", updateParentWidth);
+        return () => {
+            window.removeEventListener("resize", updateParentWidth);
+        };
+    }, []);
+
+    const isCompressed = () => {
+        return parentWidth < 320;
     }
 
-    const isCloudy = (weatherData) => {
-        return weatherData && weatherData.clouds.all > 60
+
+    const isDay = (weather) => {
+
+        return weather && weather.weather[0].icon.endsWith("d");
     }
 
-    const windDirection = (weatherData) => {
-        const wind = weatherData.wind.deg;
-        if (!weatherData.wind.speed) {
+    const isCloudy = (weather) => {
+        return weather && weather.clouds.all > 60
+    }
+
+    const windDirection = (weather) => {
+        const wind = weather.wind.deg;
+        if (!weather.wind.speed) {
             return '';
         }
 
@@ -50,107 +87,85 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
 
     }
 
-    useEffect(() => {
-        const effect = async () => {
-            if (flipped && !weatherData) {
-
-                try {
-                    const weatherJson = await sendGetWeather(location.lat, location.lon);
-                    setWeatherData(weatherJson);
-                } catch (error) {
-                }
-
-                setTimeout(() => {
-                    setIsLoading(false);
-                }, 500);
-            }
-        };
-
-        effect();
-    }, [flipped]);
-
-
-    const [parentWidth, setParentWidth] = useState(0); // Хранение ширины родителя
-    const parentRef = useRef(null); // Реф для контейнера
-
-    useEffect(() => {
-        const updateParentWidth = () => {
-            if (parentRef.current) {
-                setParentWidth(parentRef.current.offsetWidth);
-            }
-        };
-        updateParentWidth();
-
-        // Опционально обработка изменения размеров окна
-        window.addEventListener("resize", updateParentWidth);
-        return () => {
-            window.removeEventListener("resize", updateParentWidth);
-        };
-    }, []);
-
-    const isCompressed = () => {
-        return parentWidth < 320;
-    }
-
-
     return (
-        <Card
-            ref={parentRef}
 
-            elevation={3}
+        <div
             style={{
-                position: "absolute",
-                width: "100%",
-                height: "100%",
-                backfaceVisibility: "hidden",
-                transform: "rotateY(180deg)", // Повернуть обратную сторону
-                textAlign: "center",
+                minWidth: "290px",
+                minHeight: 310,
+                maxHeight: 400,
+                position: "relative",
+                transformStyle: "preserve-3d",
+                transition: "transform 0.4s ease-in-out",
+                transform: isFlipped ? "rotateY(180deg)" : "rotateY(0)",
             }}
         >
-            <CardContent sx={{textAlign: "left", fontSize: 16}}>
-                <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="div"
-                    sx={{
-                        display: "flex",
-                        alignItems: "center",
-                    }}
-                >
-                    {location.name}
-                    <img
-                        alt={location.country}
-                        src={
-                            "http://purecatamphetamine.github.io/country-flag-icons/3x2/" +
-                            location.country +
-                            ".svg"
-                        }
-                        width="30"
-                        style={{marginLeft: "8px"}}
-                    />
-                </Typography>
 
-                {isLoading ? (
-                    <>
-                        <Skeleton sx={{height: 60, mb: 1, marginRight: 1, marginLeft: 1}} animation="wave"
-                                  variant="rectangular"/>
-                        <React.Fragment>
-                            <Skeleton animation="wave" height={10}
-                                      style={{marginBottom: 6, marginRight: 8, marginLeft: 8}}/>
-                            <Skeleton animation="wave" height={10} width="75%"
-                                      style={{marginBottom: 6, marginRight: 8, marginLeft: 8}}/>
-                            <Skeleton animation="wave" height={10} width="60%" style={{marginRight: 6, marginLeft: 8}}/>
-                        </React.Fragment>
-                    </>
-                ) : (
-                    <>
+            <Card
+                ref={parentRef}
+                elevation={3}
+                style={{
+                    position: "absolute",
+                    width: "100%",
+                    height: "100%",
+                    backfaceVisibility: "hidden", // Скрыть обратную сторону при фронтальной видимости
+                }}
+            >
+                <CardContent sx={{textAlign: "left", fontSize: 16}}>
+                    <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+                    >
+                        {location.name}
                         <img
-                            src={WeatherPictureFromCode(weatherData.weather[0].id, isDay(weatherData), isCloudy(weatherData))}
+                            alt={location.country}
+                            src={
+                                "http://purecatamphetamine.github.io/country-flag-icons/3x2/" +
+                                location.country +
+                                ".svg"
+                            }
+                            width="30"
+                            style={{marginLeft: "8px"}}
+                        />
+                    </Typography>
+
+
+                    <Typography variant="body2" sx={{fontSize: 16}}>
+                        Country: <span style={{fontWeight: 500}}>{countries.getName(location.country, "en")}</span>
+                    </Typography>
+
+                    <Typography variant="body2" sx={{fontSize: 16}}>
+                        State: <span style={{fontWeight: 500}}>{location.state}</span>
+                    </Typography>
+
+                    <Divider sx={{mt: 1, mb: 1}}/>
+
+                    <Typography
+                        variant="body2"
+                        sx={{fontSize: 16, color: "text.secondary"}}
+                    >
+                        Latitude: <span style={{fontWeight: 500}}>{location.lat}</span>
+                    </Typography>
+                    <Typography
+                        variant="body2"
+                        sx={{fontSize: 16, color: "text.secondary"}}
+                    >
+                        Longitude: <span style={{fontWeight: 500}}>{location.lon}</span>
+                    </Typography>
+
+                    <Box>
+                        <img
+                            src={WeatherPictureFromCode(weather.weather[0].id, isDay(weather), isCloudy(weather))}
                             alt
                             style={{
                                 width: "100px",
                                 right: 65,
-                                top: 20,
+                                top: 108,
                                 mt: 0,
                                 position: "absolute",
                                 transform: "translateX(50%)"
@@ -163,13 +178,13 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
                                 color: "text.secondary",
                                 position: "absolute",
                                 right: 82,
-                                top: 112,
+                                top: 200,
                                 transform: "translateX(50%)"
                             }}
                         >
                             <span style={{fontWeight: 500}}>
 
-                            {weatherData.weather[0].description}
+                            {weather.weather[0].description}
                             </span>
                         </Typography>
 
@@ -180,13 +195,13 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
                             component="div"
                             sx={{
                                 position: "absolute",
-                                top: 60,
+                                top: 148,
                                 right: 102,
                                 fontWeight: 500
 
                             }}
                         >
-                            {Math.round(weatherData.main.temp)}°
+                            {Math.round(weather.main.temp)}°
                         </Typography>
                         <Divider sx={{mb: '2px', width: isCompressed() ? '38%' : '47%'}}/>
 
@@ -200,7 +215,7 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
                                         width: "35px",
                                         position: "absolute",
                                         left: 12,
-                                        top: 54
+                                        top: 162
                                     }}/>
                                 : 'Feels like:'
 
@@ -212,11 +227,11 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
                                         fontSize: 16,
                                         position: "absolute",
                                         right: isCompressed() ? '62%' : '53%',
-                                        top: '60px'
+                                        top: 169
                                     }}
                         >
                             <span style={{fontWeight: 500}}>
-                                {Math.round(weatherData.main.feels_like)}°
+                                {Math.round(weather.main.feels_like)}°
                             </span>
                         </Typography>
                         <Divider sx={{mt: '2px', mb: '2px', width: isCompressed() ? '38%' : '47%'}}/>
@@ -231,7 +246,7 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
                                         width: "35px",
                                         position: "absolute",
                                         left: 12,
-                                        top: 82
+                                        top: 190
                                     }}/>
                                 : 'Wind:'
 
@@ -244,11 +259,11 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
                                         fontSize: 16,
                                         position: "absolute",
                                         right: isCompressed() ? '62%' : '53%',
-                                        top: '88px'
+                                        top: 197
                                     }}
                         >
                             <span style={{fontWeight: 500}}>
-                            {weatherData.wind.speed.toFixed(1)} m/s
+                            {weather.wind.speed.toFixed(1)} m/s
                         </span>
                         </Typography>
 
@@ -264,7 +279,7 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
                                         width: "35px",
                                         position: "absolute",
                                         left: 12,
-                                        top: 110,
+                                        top: 218,
                                     }}/>
                                 : 'Pressure:'
 
@@ -276,11 +291,11 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
                                         fontSize: 16,
                                         position: "absolute",
                                         right: isCompressed() ? '62%' : '53%',
-                                        top: '115px'
+                                        top: 226
                                     }}
                         >
                             <span style={{fontWeight: 500}}>
-                            {Math.round(weatherData.main.pressure * 0.75)} mm
+                            {Math.round(weather.main.pressure * 0.75)} mm
                         </span>
                         </Typography>
 
@@ -292,9 +307,9 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
                             sx={{fontSize: 16, color: "text.secondary"}}
                         >
                             Humidity: <span
-                            style={{fontWeight: 500}}>{weatherData.main.humidity}%</span>
+                            style={{fontWeight: 500}}>{weather.main.humidity}%</span>
                             {'. Cloudiness: '}<span
-                            style={{fontWeight: 500}}>{weatherData.clouds.all}%</span>
+                            style={{fontWeight: 500}}>{weather.clouds.all}%</span>
                         </Typography>
 
 
@@ -303,47 +318,18 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
                             sx={{fontSize: 16, color: "text.secondary"}}
                         >
                             Wind direction: <span
-                            style={{fontWeight: 500}}>{windDirection(weatherData)}</span>
+                            style={{fontWeight: 500}}>{windDirection(weather)}</span>
                         </Typography>
 
+                    </Box>
 
-                    </>
-
-                )
-                }
+                </CardContent>
 
 
-            </CardContent>
-
-            {isLoading ? (
-                <>
-                    <Skeleton variant="rectangular" width={70} height={22}
-                              style={{
-
-                                  marginBottom: 6,
-                                  marginRight: 8,
-                                  marginLeft: 10
-                              }}/>
-                </>
-            ) : (
-                <>
-                    <Button size="small" onClick={handleFlip}
-                            style={{
-                                position: 'absolute',
-                                bottom: 11,
-                                left: 8.1,
-                            }}>
-                        back
-                    </Button>
-
-                    {auth.isAuthenticated && favoriteButton}
-
-                </>
-            )
-            }
+            </Card>
 
 
-        </Card>
-    )
-        ;
+        </div>
+
+    );
 }

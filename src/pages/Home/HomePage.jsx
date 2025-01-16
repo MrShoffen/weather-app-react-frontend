@@ -1,11 +1,8 @@
 import React from 'react';
-import Header from "../../components/Header/Header.jsx";
 import './Home.css'
 import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
-import SearchButton from "../../components/SearchButton/SearchButton.jsx";
 import Container from "@mui/material/Container";
-import SearchHeaderBar from "../../components/SearchButton/SearchHeaderBar.jsx";
 import Typography from "@mui/material/Typography";
 
 function HomePage() {

@@ -16,7 +16,6 @@ export const CustomThemeContext = ({children}) => {
         return savedTheme ? JSON.parse(savedTheme) : false;
     });
 
-    const isSmallScreen = useMediaQuery("(max-width:650px)");
 
 
     const toggleTheme = () => {
@@ -38,7 +37,7 @@ export const CustomThemeContext = ({children}) => {
     );
 
     return (
-        <ThemeContext.Provider value={{isDarkMode, toggleTheme, isSmallScreen}}>
+        <ThemeContext.Provider value={{isDarkMode, toggleTheme}}>
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
                 {children}

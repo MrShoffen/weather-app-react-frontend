@@ -5,9 +5,15 @@ import {useEffect, useRef, useState} from "react";
 import WeatherCard from "./WeatherCard.jsx";
 import countries from "i18n-iso-countries";
 import enLocale from "i18n-iso-countries/langs/en.json";
+import {useAuth} from "../../context/Auth/AuthContext.jsx";
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ToFavoriteButton from "./ToFavoriteButton.jsx";
 
-export default function LocationCard({location, scale}) {
+
+
+export default function LocationCard({location, alreadySavedLocations, setAlreadySavedLocations}) {
     const [isFlipped, setIsFlipped] = useState(false);
+    const {auth} = useAuth();
 
 
     const handleFlip = () => {
@@ -16,6 +22,14 @@ export default function LocationCard({location, scale}) {
 
     countries.registerLocale(enLocale);
 
+    const [isSaved, setIsSaved] = useState(false);
+
+    const favoriteButton = <ToFavoriteButton location={location}
+                                             isSaved={isSaved}
+                                             setIsSaved={setIsSaved}
+                                             alreadySavedLocations={alreadySavedLocations}
+                                             setAlreadySavedLocations={setAlreadySavedLocations}
+    />
 
     return (
         <div
@@ -31,7 +45,7 @@ export default function LocationCard({location, scale}) {
                     maxHeight: 230,
                     position: "relative",
                     transformStyle: "preserve-3d",
-                    transition: "transform 0.6s",
+                    transition: "transform 0.4s ease-in-out",
                     transform: isFlipped ? "rotateY(180deg)" : "rotateY(0)",
                 }}
             >
@@ -69,7 +83,7 @@ export default function LocationCard({location, scale}) {
                         </Typography>
 
                         <Typography variant="body2" sx={{fontSize: 16}}>
-                            Country: <span style={{fontWeight: 500}}>{countries.getName(location.country,"en")}</span>
+                            Country: <span style={{fontWeight: 500}}>{countries.getName(location.country, "en")}</span>
                         </Typography>
 
                         <Typography variant="body2" sx={{fontSize: 16}}>
@@ -91,15 +105,28 @@ export default function LocationCard({location, scale}) {
                             Longitude: <span style={{fontWeight: 500}}>{location.lon}</span>
                         </Typography>
                     </CardContent>
-                    <CardActions style={{position: 'absolute', bottom: 3}}>
-                        <Button size="small" onClick={handleFlip}>
-                            show weather
-                        </Button>
-                    </CardActions>
+
+                    <Button size="small" onClick={handleFlip}
+                            style={{
+                                position: 'absolute',
+                                bottom: 11,
+                                left: 8.1,
+                            }}>
+                        show weather
+                    </Button>
+
+                    {auth.isAuthenticated && favoriteButton}
+
                 </Card>
 
                 {/* Обратная сторона карточки */}
-                <WeatherCard location={location} handleFlip={handleFlip} flipped={isFlipped}/>
+                <WeatherCard
+                    location={location}
+                    handleFlip={handleFlip}
+                    flipped={isFlipped}
+                    auth={auth}
+                    favoriteButton={favoriteButton}
+                />
             </div>
         </div>
     );

@@ -37,12 +37,13 @@ function FindLocationPage() {
             return;
         }
         setLoading(true);
-        console.log(foundLocations);
+
+        setFoundLocations([]);
+
 
 
         try {
             const promise = await sendFindLocations(currentLocationName);
-            console.log(promise);
             setFoundLocations(promise);
         } catch (error) {
             switch (true) {
@@ -59,7 +60,6 @@ function FindLocationPage() {
         setLocationNameForSearch(currentLocationName);
 
         setTimeout(() => setLoading(false), 500)
-        console.log('-----------------------');
     };
 
     const handleInputChange = event => {

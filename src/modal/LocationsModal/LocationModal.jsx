@@ -56,12 +56,14 @@ const Card = styled(MuiCard)(({theme}) => ({
     [theme.breakpoints.up('lg')]: {
         width: '1150px',
         maxWidth: '1150px',
+        minHeight: '700px',
+
     },
 
 }));
 
 
-export default function LocationModal({open, onClose}) {
+export default function LocationModal({open, onClose, alreadySavedLocations, setAlreadySavedLocations}) {
 
     const {auth} = useAuth();
 
@@ -80,17 +82,22 @@ export default function LocationModal({open, onClose}) {
         }
 
         if (currentLocationName && currentLocationName.length > 20) {
-            setErrors('Length is above 20 characters.')
+            setErrors('Length is above 20 characters.');
             return;
         }
-        setLoading(true);
-        console.log(foundLocations);
 
+        setLoading(true);
+        setFoundLocations([]);
 
         try {
             const promise = await sendFindLocations(currentLocationName);
-            console.log(promise);
             setFoundLocations(promise);
+
+            // Прокрутите к началу
+            const scrollableBox = document.getElementById('scrollable-box');
+            if (scrollableBox) {
+                scrollableBox.scrollTop = 0; // Прокручиваем вверх
+            }
         } catch (error) {
             switch (true) {
                 case error instanceof WeatherApiException:
@@ -105,8 +112,7 @@ export default function LocationModal({open, onClose}) {
 
         setLocationNameForSearch(currentLocationName);
 
-        setTimeout(() => setLoading(false), 500)
-        console.log('-----------------------');
+        setTimeout(() => setLoading(false), 500);
     };
 
     const handleInputChange = event => {
@@ -195,11 +201,11 @@ export default function LocationModal({open, onClose}) {
 
                         {locationNameForSearch && (
                             <Box position="absolute" top={-59} right={2}>
-                            <ClearLocationBadge
-                                handleReset={handleReset}
-                                locationNameForSearch={locationNameForSearch}
-                            />
-                                </Box>
+                                <ClearLocationBadge
+                                    handleReset={handleReset}
+                                    locationNameForSearch={locationNameForSearch}
+                                />
+                            </Box>
                         )}
 
 
@@ -208,6 +214,7 @@ export default function LocationModal({open, onClose}) {
 
                     {/* Прокручиваемая часть */}
                     <Box
+                        id="scrollable-box" // Добавьте идентификатор
                         sx={{
                             display: 'flex',
                             flexDirection: 'column',
@@ -227,38 +234,43 @@ export default function LocationModal({open, onClose}) {
                                 paddingTop: 2,
                             }}
                         >
-                            {loading ? (
-                                <>
-                                    <LoadingLocationCard/>
-                                    <LoadingLocationCard/>
-                                    <LoadingLocationCard/>
-                                    <LoadingLocationCard/>
-                                </>
-                            ) : (
-                                foundLocations.length > 0 ? (
-                                    foundLocations.map(
-                                        location =>
-                                            <LocationCard location={location} key={location.id}/>
-                                    )
+                            {
+                                loading ? (
+                                    <>
+                                        <LoadingLocationCard/>
+                                        <LoadingLocationCard/>
+                                        <LoadingLocationCard/>
+                                        <LoadingLocationCard/>
+                                    </>
                                 ) : (
-                                    locationNameForSearch ?
-                                        <Box
-                                            sx={{
-                                                position: 'absolute',
-                                                left: '50%',
-                                                transform: "translateX(-50%)"
-                                            }}>
-                                            <Typography sx={{
-                                                fontSize: 28,
-                                                fontWeight: 500,
+                                    foundLocations.length > 0 ? (
+                                        foundLocations.map(location =>
+                                            <LocationCard
+                                                location={location}
+                                                alreadySavedLocations={alreadySavedLocations}
+                                                setAlreadySavedLocations={setAlreadySavedLocations}
+                                            />
+                                        )
+                                    ) : (
+                                        locationNameForSearch ?
+                                            <Box
+                                                sx={{
+                                                    position: 'absolute',
+                                                    left: '50%',
+                                                    transform: "translateX(-50%)"
+                                                }}>
+                                                <Typography sx={{
+                                                    fontSize: 28,
+                                                    fontWeight: 500,
 
-                                            }}>Location Not Found</Typography>
-                                            <img src={thunderstorm} alt style={{width: "80%", mt: 5}}/>
-                                        </Box>
-                                        :
-                                        null
+                                                }}>Location Not Found</Typography>
+                                                <img src={thunderstorm} alt style={{width: "80%", mt: 5}}/>
+                                            </Box>
+                                            :
+                                            null
+                                    )
                                 )
-                            )}
+                            }
                         </Box>
                     </Box>
                 </Card>

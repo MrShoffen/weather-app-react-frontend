@@ -41,37 +41,36 @@ export default function Footer() {
     }, [prevScrollY]); // Обновляем при изменении prevScrollY
 
     return (
-        <>
-
-            <footer className="footer mt-auto py-3"
-                    style={{
-                        color: isDarkMode ? "#d2d2d2" : "#2c2c2c",
-                        backgroundColor: isDarkMode ? "rgb(18,18,18, 0.5)" : "rgba(255, 255, 255, 0.5)",
-                        transform: isVisible ? "translateY(0)" : "translateY(100%)",
-                        transition: "transform 0.3s ease-in-out",
-                    }}
-            >
-
-                <span className="text-muted">2024 Roadmap:</span>
-                <a className="contact_link" href="/currency-exchange"
-                   style={{position: "absolute", left: "132px"}}><CurrencyExchangeIcon/></a>
-
-                <a className="contact_link" href="/tennis-scoreboard"
-                   style={{position: "absolute", left: "165px"}}><SportsTennisIcon/></a>
-
-                <ul className="footer_links">
-                    <a href="https://t.me/MrShoffen" className="contact_link">
-                        <TelegramIcon/>
-                    </a>
-
-                    <a href="https://github.com/MrShoffen" className="contact_link">
-                        <GitHubIcon/>
-                    </a>
-
-                </ul>
 
 
-            </footer>
-        </>
+        <footer className="footer mt-auto py-3"
+                style={{
+                    color: isDarkMode ? "#d2d2d2" : "#2c2c2c",
+                    backgroundColor: isDarkMode ? "rgb(18,18,18, 0.5)" : "rgba(255, 255, 255, 0.5)",
+                    transform: isVisible ? "translateY(0)" : "translateY(100%)",
+                    transition: "transform 0.3s ease-in-out",
+                }}
+        >
+
+            <span className="text-muted">2024 Roadmap:</span>
+            <a className="contact_link" href="/currency-exchange"
+               style={{position: "absolute", left: "132px"}}><CurrencyExchangeIcon/></a>
+
+            <a className="contact_link" href="/tennis-scoreboard"
+               style={{position: "absolute", left: "165px"}}><SportsTennisIcon/></a>
+
+            <ul className="footer_links">
+                <a href="https://t.me/MrShoffen" className="contact_link">
+                    <TelegramIcon/>
+                </a>
+
+                <a href="https://github.com/MrShoffen" className="contact_link">
+                    <GitHubIcon/>
+                </a>
+
+            </ul>
+
+
+        </footer>
     )
 }
