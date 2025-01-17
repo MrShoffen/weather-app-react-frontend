@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {createContext, useContext, useEffect, useState} from 'react';
 import './LocationPage.css'
 import SearchButton from "../../components/SearchButton/SearchButton.jsx";
-import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import {sendGetLocationsAndWeather} from "../../services/SengGetLocationsAndWeather.js";
+import {sendGetLocationsAndWeather} from "../../services/fetch/SendGetLocationsAndWeather.js";
 import WeatherApiException from "../../exception/WeatherApiException.jsx";
 import LocationWeatherCard from "../../components/LocationWeatherCard/LocationWeatherCard.jsx";
 import LocationModal from "../../modal/LocationsModal/LocationModal.jsx";
 
-function LocationPage() {
-    const {isSmallScreen} = useThemeContext();
+const LocationsContext = createContext();
 
-    const [loading, setLoading] = useState(false);
+export const useLocations = () => useContext(LocationsContext);
+
+function LocationPage() {
 
     const [foundLocations, setFoundLocations] = useState([]);
 
@@ -23,14 +23,13 @@ function LocationPage() {
 
         try {
             const promise = await sendGetLocationsAndWeather();
-            console.log(promise);
             setFoundLocations(promise);
         } catch (error) {
             switch (true) {
                 case error instanceof WeatherApiException:
                     break;
                 default:
-                    alert('Unknown error occurred! ');
+                    console.log('Unknown error occurred! ');
 
             }
         }
@@ -47,23 +46,22 @@ function LocationPage() {
         setLocationModalOpen(false);
     };
 
-    const handleLocation = async () => {
+    const handleOpenLocationModal = async () => {
         setLocationModalOpen(true);
     }
 
     return (
-        <>
+        <LocationsContext.Provider value={{foundLocations, setFoundLocations}}>
             <Container disableGutters>
 
                 <SearchButton
-                    onClick={!isLocationModalOpen && handleLocation}
+                    onClick={!isLocationModalOpen && handleOpenLocationModal}
                 />
 
 
                 <div className="homeContainer">
                     <Typography sx={{fontSize: 28, fontWeight: 500, mt: '75px', mb: '30px'}}>Saved
                         Locations</Typography>
-                    {/* Здесь можно разместить содержимое для домашней страницы */}
                 </div>
 
                 <Box
@@ -99,7 +97,7 @@ function LocationPage() {
                            alreadySavedLocations={foundLocations}
                            setAlreadySavedLocations={setFoundLocations}
             />
-        </>
+        </LocationsContext.Provider>
     );
 }
 
