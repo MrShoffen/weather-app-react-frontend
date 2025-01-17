@@ -20,10 +20,10 @@ const Card = styled(MuiCard)(({theme, isVisible}) => ({
     border: "1px solid",
     color: "white",
     marginLeft: 20,
-    transform: isVisible ? "translateY(0)" : "translateY(-100%)",
+    transform: isVisible ? "scale(1.0) translateY(0)" : " scale(1.0) translateY(-90%)",
     transition: "transform 0.3s ease-in-out",
     '&:hover': {
-        transform: 'scale(1.1)',
+        transform: isVisible ? "scale(1.1) translateY(0)" : " scale(1.1) translateY(-90%)",
         cursor: 'pointer',
 
     },
@@ -33,7 +33,12 @@ const Card = styled(MuiCard)(({theme, isVisible}) => ({
         top: 'auto',
         bottom: 65,
         right: 15,
-        transform: isVisible ? "translateY(0)" : "translateY(80%)",
+        transform: isVisible ? "scale(1.0) translateY(0)" : " scale(1.0) translateY(80%)",
+        '&:hover': {
+            transform: isVisible ? "scale(1.1) translateY(0)" : " scale(1.1) translateY(80%)",
+            cursor: 'pointer',
+
+        },
     },
 
 
