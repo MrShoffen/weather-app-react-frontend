@@ -8,7 +8,6 @@ import RegistrationPage from "./pages/Registration/RegistrationPage.jsx";
 import {AuthProvider} from "./context/Auth/AuthContext.jsx";
 import HomePage from "./pages/Home/HomePage.jsx";
 import AvailableAfterLoginRoute from "./context/Auth/AvailableAfterLoginRoute.jsx";
-import LoadingPage from "./pages/Loading/LoadingPage.jsx";
 import Layout from "./pages/Layout/Layout.jsx";
 import UnavailableAfterLoginRoute from "./context/Auth/UnavailableAfterLoginRoute.jsx";
 import FindLocationPage from "./pages/FindLocationsUnauth/FindLocationPage.jsx";
