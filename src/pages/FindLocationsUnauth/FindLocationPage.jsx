@@ -5,7 +5,7 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import LocationCard from "../../components/LocationCard/LocationCard.jsx";
-import {sendFindLocations} from "../../services/SendFindLocations.js";
+import {sendFindLocations} from "../../services/fetch/SendFindLocations.js";
 import LoadingLocationCard from "../../components/LocationCard/LoadingLocationCard.jsx";
 import SearchTextField from "../../components/InputElements/SearchTextField.jsx";
 import Typography from "@mui/material/Typography";
@@ -13,7 +13,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import WeatherApiException from "../../exception/WeatherApiException.jsx";
 import thunderstorm from "../../assets/img/weather-state/thunderstorms.svg";
 import ClearLocationBadge from "../../components/InputElements/ClearLocationBadge/ClearLocationBadge.jsx";
-import {getAutofilledCities} from "../../services/SendNameForAutofill.js";
+import {getAutofilledCities} from "../../services/fetch/SendNameForAutofill.js";
 
 
 function FindLocationPage() {

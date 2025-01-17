@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import {hasFlag} from 'country-flag-icons'
 import React, {useEffect, useRef, useState} from "react";
 import WeatherPictureFromCode from "../WeatherPicture/WeatherPictureFromCode.jsx";
-import {sendGetWeather} from "../../services/SendGetWeather.js";
+import {sendGetWeather} from "../../services/fetch/SendGetWeather.js";
 import Box from "@mui/material/Box";
 import windSock from "../../assets/img/weather-state/windsock.svg"
 import barometer from "../../assets/img/weather-state/barometer.svg"

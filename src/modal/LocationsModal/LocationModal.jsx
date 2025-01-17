@@ -1,27 +1,13 @@
-import React, {useEffect, useState} from "react";
-import {Box, Button, Divider, Modal, TextField, Typography} from "@mui/material";
+import React, {useState} from "react";
+import {Box, Modal, Typography} from "@mui/material";
 import {useAuth} from "../../context/Auth/AuthContext.jsx";
-import ValidatedAvatarInput from "../../components/InputElements/AvatarInput/ValidatedAvatarInput.jsx";
-import ValidatedTextField from "../../components/InputElements/TextField/ValidatedTextField.jsx";
-import AnimatedElement from "../../components/InputElements/AnimatedElement.jsx";
-import LoadingButton from "@mui/lab/LoadingButton";
-import {Link} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import MuiCard from "@mui/material/Card";
-import ValidatedUsernameTextField from "../../components/InputElements/TextField/ValidatedUsernameTextField.jsx";
-import ValidatedPasswordField from "../../components/InputElements/TextField/ValidatedPasswordField.jsx";
-import ValidatedPasswordConfirmField from "../../components/InputElements/TextField/ValidatedPasswordConfirmField.jsx";
-import LoadingPage from "../../pages/Loading/LoadingPage.jsx";
-import {sendLoginForm} from "../../services/SendLoginForm.js";
-import UserNotFoundException from "../../exception/UserNotFoundException.jsx";
-import IncorrectPasswordException from "../../exception/IncorrectPasswordException.jsx";
-import {sendEdit} from "../../services/SendEdit.js";
-import UserAlreadyExistException from "../../exception/UserAlreadyExistException.jsx";
 import InformationBadge from "../../components/InformationBadge/InformationBadge.jsx";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchTextField from "../../components/InputElements/SearchTextField.jsx";
-import {sendFindLocations} from "../../services/SendFindLocations.js";
+import {sendFindLocations} from "../../services/fetch/SendFindLocations.js";
 import WeatherApiException from "../../exception/WeatherApiException.jsx";
 import ClearLocationBadge from "../../components/InputElements/ClearLocationBadge/ClearLocationBadge.jsx";
 import LoadingLocationCard from "../../components/LocationCard/LoadingLocationCard.jsx";
@@ -63,7 +49,7 @@ const Card = styled(MuiCard)(({theme}) => ({
 }));
 
 
-export default function LocationModal({open, onClose, alreadySavedLocations, setAlreadySavedLocations}) {
+export default function LocationModal({open, onClose}) {
 
     const {auth} = useAuth();
 
@@ -245,11 +231,7 @@ export default function LocationModal({open, onClose, alreadySavedLocations, set
                                 ) : (
                                     foundLocations.length > 0 ? (
                                         foundLocations.map(location =>
-                                            <LocationCard
-                                                location={location}
-                                                alreadySavedLocations={alreadySavedLocations}
-                                                setAlreadySavedLocations={setAlreadySavedLocations}
-                                            />
+                                            <LocationCard location={location}/>
                                         )
                                     ) : (
                                         locationNameForSearch ?

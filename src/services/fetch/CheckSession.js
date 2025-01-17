@@ -1,6 +1,6 @@
-import {API_LOGIN, API_USER} from "../UrlConstants.jsx";
-import {throwSpecifyException} from "../exception/ThrowSpecifyException.jsx";
-import UserUnauthorizedException from "../exception/UserUnauthorizedException.jsx";
+import {API_LOGIN, API_USER} from "../../UrlConstants.jsx";
+import {throwSpecifyException} from "../../exception/ThrowSpecifyException.jsx";
+import UserUnauthorizedException from "../../exception/UserUnauthorizedException.jsx";
 
 
 export const checkSession = async () => {

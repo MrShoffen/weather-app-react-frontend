@@ -1,17 +1,14 @@
-import {Button, Card, CardActions, CardContent, CardMedia, Divider} from "@mui/material";
+import {Button, Card, CardContent, Divider} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import {hasFlag} from 'country-flag-icons'
-import {useEffect, useRef, useState} from "react";
+import {useState} from "react";
 import WeatherCard from "./WeatherCard.jsx";
 import countries from "i18n-iso-countries";
 import enLocale from "i18n-iso-countries/langs/en.json";
 import {useAuth} from "../../context/Auth/AuthContext.jsx";
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import ToFavoriteButton from "./ToFavoriteButton.jsx";
 
 
-
-export default function LocationCard({location, alreadySavedLocations, setAlreadySavedLocations}) {
+export default function LocationCard({location}) {
     const [isFlipped, setIsFlipped] = useState(false);
     const {auth} = useAuth();
 
@@ -27,8 +24,6 @@ export default function LocationCard({location, alreadySavedLocations, setAlread
     const favoriteButton = <ToFavoriteButton location={location}
                                              isSaved={isSaved}
                                              setIsSaved={setIsSaved}
-                                             alreadySavedLocations={alreadySavedLocations}
-                                             setAlreadySavedLocations={setAlreadySavedLocations}
     />
 
     return (

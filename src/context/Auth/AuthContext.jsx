@@ -1,5 +1,5 @@
 import React, {createContext, useContext, useState, useEffect} from "react";
-import {checkSession} from "../../services/CheckSession.js";
+import {checkSession} from "../../services/fetch/CheckSession.js";
 import {useNavigate} from "react-router-dom";
 
 const AuthContext = createContext();

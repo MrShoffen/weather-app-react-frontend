@@ -8,7 +8,7 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import {useAuth} from "../../context/Auth/AuthContext.jsx";
-import {sendLogout} from "../../services/SendLogout.js";
+import {sendLogout} from "../../services/fetch/SendLogout.js";
 import {useNavigate} from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
 import {Divider, Drawer, useMediaQuery} from "@mui/material";

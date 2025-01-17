@@ -12,10 +12,10 @@ import ValidatedUsernameTextField from "../../components/InputElements/TextField
 import ValidatedPasswordField from "../../components/InputElements/TextField/ValidatedPasswordField.jsx";
 import ValidatedPasswordConfirmField from "../../components/InputElements/TextField/ValidatedPasswordConfirmField.jsx";
 import LoadingPage from "../../pages/Loading/LoadingPage.jsx";
-import {sendLoginForm} from "../../services/SendLoginForm.js";
+import {sendLoginForm} from "../../services/fetch/SendLoginForm.js";
 import UserNotFoundException from "../../exception/UserNotFoundException.jsx";
 import IncorrectPasswordException from "../../exception/IncorrectPasswordException.jsx";
-import {sendEdit} from "../../services/SendEdit.js";
+import {sendEdit} from "../../services/fetch/SendEdit.js";
 import UserAlreadyExistException from "../../exception/UserAlreadyExistException.jsx";
 import InformationBadge from "../../components/InformationBadge/InformationBadge.jsx";
 import IconButton from "@mui/material/IconButton";

@@ -6,7 +6,7 @@ import MuiCard from '@mui/material/Card';
 import {styled} from '@mui/material/styles';
 import '../InputElements/FadeAnimation.css'
 import {Link} from 'react-router-dom';
-import {sendLoginForm} from "../../services/SendLoginForm.js"
+import {sendLoginForm} from "../../services/fetch/SendLoginForm.js"
 import AnimatedElement from '../InputElements/AnimatedElement.jsx'
 import {useAuth} from "../../context/Auth/AuthContext.jsx";
 import UserNotFoundException from "../../exception/UserNotFoundException.jsx";

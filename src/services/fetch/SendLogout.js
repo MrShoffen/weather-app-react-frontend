@@ -1,5 +1,5 @@
-import {API_LOGOUT} from "../UrlConstants.jsx";
-import {throwSpecifyException} from "../exception/ThrowSpecifyException.jsx";
+import {API_LOGOUT} from "../../UrlConstants.jsx";
+import {throwSpecifyException} from "../../exception/ThrowSpecifyException.jsx";
 
 
 export const sendLogout = async () => {

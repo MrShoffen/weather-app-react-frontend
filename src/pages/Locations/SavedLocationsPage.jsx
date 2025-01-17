@@ -13,7 +13,7 @@ const LocationsContext = createContext();
 
 export const useLocations = () => useContext(LocationsContext);
 
-function LocationPage() {
+function SavedLocationsPage() {
 
     const [foundLocations, setFoundLocations] = useState([]);
 
@@ -101,4 +101,4 @@ function LocationPage() {
     );
 }
 
-export default LocationPage;
+export default SavedLocationsPage;

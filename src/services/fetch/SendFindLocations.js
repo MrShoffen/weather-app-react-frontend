@@ -1,5 +1,5 @@
-import {API_FIND_LOCATIONS, API_IMAGES, API_LOGIN} from "../UrlConstants.jsx";
-import {throwSpecifyException} from "../exception/ThrowSpecifyException.jsx";
+import {API_FIND_LOCATIONS, API_IMAGES, API_LOGIN} from "../../UrlConstants.jsx";
+import {throwSpecifyException} from "../../exception/ThrowSpecifyException.jsx";
 
 
 export const sendFindLocations = async (locationName) => {

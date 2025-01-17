@@ -1,15 +1,11 @@
-import {Button} from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import {sendFindLocations} from "../../services/SendFindLocations.js";
-import WeatherApiException from "../../exception/WeatherApiException.jsx";
-import {sendSaveLocation} from "../../services/SendSaveLocation.js";
+import {sendSaveLocation} from "../../services/fetch/SendSaveLocation.js";
 import LocationAlreadySavedException from "../../exception/LocationAlreadySavedException.jsx";
 import {useState} from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
-import {IsoSharp} from "@mui/icons-material";
 import CheckIcon from '@mui/icons-material/Check';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import {sendGetWeather} from "../../services/SendGetWeather.js";
+import {sendGetWeather} from "../../services/fetch/SendGetWeather.js";
+import {useLocations} from "../../pages/Locations/SavedLocationsPage.jsx";
 
 function locationAlreadySaved(location, alreadySaved) {
     return alreadySaved.some(item => {
@@ -18,20 +14,15 @@ function locationAlreadySaved(location, alreadySaved) {
     return false;
 }
 
-async function updateSavedLocations(location, setAlreadySaved) {
-
-}
-
 export default function ToFavoriteButton({
                                              location,
                                              isSaved,
                                              setIsSaved,
-                                             alreadySavedLocations,
-                                             setAlreadySavedLocations
                                          }) {
-    const [isLoading, setIsLoading] = useState(false);
+    const {foundLocations, setFoundLocations} = useLocations();
+    const isAlreadySaved = locationAlreadySaved(location, foundLocations);
 
-    const alreadySaved = locationAlreadySaved(location, alreadySavedLocations);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async () => {
 
@@ -43,7 +34,7 @@ export default function ToFavoriteButton({
             const weatherForSaved = await sendGetWeather(savedLocation.lat, savedLocation.lon);
 
 
-            setAlreadySavedLocations([...alreadySavedLocations, {location: savedLocation, weather: weatherForSaved}]);
+            setFoundLocations([...foundLocations, {location: savedLocation, weather: weatherForSaved}]);
 
         } catch (error) {
             switch (true) {
@@ -75,8 +66,8 @@ export default function ToFavoriteButton({
                            paddingRight: 35,
                        }}
                        sx={{
-                           backgroundColor: isSaved || alreadySaved ? 'success.main' : 'primary.dark',
-                           ...((isSaved || alreadySaved) && {
+                           backgroundColor: isSaved || isAlreadySaved ? 'success.main' : 'primary.dark',
+                           ...((isSaved || isAlreadySaved) && {
                                pointerEvents: 'none', // Дополнительно игнорируем клики
 
                            })
@@ -84,7 +75,7 @@ export default function ToFavoriteButton({
 
         >
 
-            {isSaved || alreadySaved ?
+            {isSaved || isAlreadySaved ?
                 (
                     <>saved
                         <CheckIcon style={{fontSize: 16, position: 'absolute', right: 0, top: -3}}/>
