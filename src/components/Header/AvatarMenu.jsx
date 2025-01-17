@@ -11,15 +11,13 @@ import {useAuth} from "../../context/Auth/AuthContext.jsx";
 import {sendLogout} from "../../services/fetch/auth/SendLogout.js";
 import {useNavigate} from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
-import {Divider, Drawer, useMediaQuery} from "@mui/material";
+import {Divider, Drawer} from "@mui/material";
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ProfileModal from '../../modal/ProfileModal/ProfileModal.jsx'
 import {API_BASE_URL} from "../../UrlConstants.jsx";
-import LoadingPage from "../../pages/Loading/LoadingPage.jsx";
-import LoadingButton from "@mui/lab/LoadingButton";
 import KeyIcon from '@mui/icons-material/Key';
 import sunset from "../../assets/img/weather-state/sunset.svg"
 import SecurityModal from "../../modal/SecurityModal/SecurityModal.jsx";
