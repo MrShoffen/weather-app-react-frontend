@@ -1,29 +1,84 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './LocationPage.css'
 import SearchButton from "../../components/SearchButton/SearchButton.jsx";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import {sendGetLocationsAndWeather} from "../../services/fetch/SendGetLocationsAndWeather.js";
+import {sendGetLocationsAndWeather} from "../../services/fetch/auth/SendGetLocationsAndWeather.js";
 import WeatherApiException from "../../exception/WeatherApiException.jsx";
 import LocationWeatherCard from "../../components/LocationWeatherCard/LocationWeatherCard.jsx";
 import LocationModal from "../../modal/LocationsModal/LocationModal.jsx";
-
-const LocationsContext = createContext();
-
-export const useLocations = () => useContext(LocationsContext);
+import {useAuth} from "../../context/Auth/AuthContext.jsx";
+import {sendGetSavedLocations} from "../../services/fetch/auth/SendGetSavedLocations.js";
+import {locationListUpdated} from "../../services/util/LocationsUtil.jsx";
+import LoadingButton from "@mui/lab/LoadingButton";
+import LoadingLocationCard from "../../components/FindLocationCard/LoadingLocationCard.jsx";
+import {CSSTransition, TransitionGroup} from "react-transition-group";
+import {findDOMNode} from 'react-dom';
+import {sendDeleteSavedLocations} from "../../services/fetch/auth/SendDeleteSavedLocations.js";
 
 function SavedLocationsPage() {
+    const [loading, setLoading] = useState(false);
 
-    const [foundLocations, setFoundLocations] = useState([]);
+    const {savedLocations, setSavedLocations} = useAuth();
 
-    const getWeather = async () => {
+    const getSavedLocations = async () => {
+        try {
+            // setSavedLocations(promise);
+            const locationsFromServer = await sendGetSavedLocations();
 
-        setFoundLocations([]);
+            if (locationListUpdated(savedLocations, locationsFromServer)) {
+                setLoading(true);
+                const locationsAndWeather = await sendGetLocationsAndWeather();
+                console.log(locationsAndWeather);
+                setSavedLocations(locationsAndWeather);
+            }
+
+
+        } catch (error) {
+            switch (true) {
+                case error instanceof WeatherApiException:
+                    break;
+                default:
+                    console.log('Unknown error occurred! ');
+
+            }
+        }
+        setLoading(false);
+
+    };
+
+    useEffect(() => {
+        getSavedLocations();
+    }, [])
+
+
+    const [isLocationModalOpen, setLocationModalOpen] = useState(false);
+    const handleCloseLocationModal = () => {
+        setLocationModalOpen(false);
+    };
+
+    const handleOpenLocationModal = async () => {
+        const locationsFromServer = await sendGetSavedLocations();
+
+        if (locationListUpdated(savedLocations, locationsFromServer)) {
+            const locationsAndWeather = await sendGetLocationsAndWeather();
+            setSavedLocations(locationsAndWeather);
+        }
+        setLocationModalOpen(true);
+    }
+
+
+    const [deletingLocations, setDeletingLocations] = useState([]); // Хранение удаляемых локаций
+
+    const handleDelete = (locationId) => {
+        setDeletingLocations((prev) => [...prev, locationId]);
+        console.log(locationId);
 
         try {
-            const promise = await sendGetLocationsAndWeather();
-            setFoundLocations(promise);
+            sendDeleteSavedLocations(locationId);
+
+
         } catch (error) {
             switch (true) {
                 case error instanceof WeatherApiException:
@@ -34,24 +89,21 @@ function SavedLocationsPage() {
             }
         }
 
+        // Удалить карту с задержкой после анимации
+        setTimeout(() => {
+
+            const updatedLocations = savedLocations.filter((item) => item.location.id !== locationId);
+            console.log(updatedLocations);
+            setSavedLocations(updatedLocations);
+
+            setDeletingLocations((prev) =>
+                prev.filter((id) => id !== locationId)
+            );
+        }, 500); // Время соответствует длительности анимации
     };
-
-    useEffect(() => {
-        getWeather();
-    }, [])
-
-
-    const [isLocationModalOpen, setLocationModalOpen] = useState(false);
-    const handleCloseLocationModal = () => {
-        setLocationModalOpen(false);
-    };
-
-    const handleOpenLocationModal = async () => {
-        setLocationModalOpen(true);
-    }
 
     return (
-        <LocationsContext.Provider value={{foundLocations, setFoundLocations}}>
+        <>
             <Container disableGutters>
 
                 <SearchButton
@@ -76,10 +128,30 @@ function SavedLocationsPage() {
                     }}
                 >
 
-                    {
-                        foundLocations.length > 0 ? (
-                            foundLocations.map(locAndWeath => <LocationWeatherCard locationAndWeather={locAndWeath}/>)
-                        ) : null
+                    {loading ? (
+                            <>
+                                <LoadingLocationCard/>
+                                <LoadingLocationCard/>
+                                <LoadingLocationCard/>
+                                <LoadingLocationCard/>
+                            </>
+                        )
+                        :
+                        (
+                            savedLocations.length > 0
+                            &&
+
+                            savedLocations.map((locAndWeath) => (
+
+                                <LocationWeatherCard
+                                    locationAndWeather={locAndWeath}
+                                    onDelete={handleDelete}
+                                    isDeleting={deletingLocations.includes(locAndWeath.location.id)}
+                                />
+                            ))
+
+
+                        )
                     }
 
 
@@ -94,11 +166,12 @@ function SavedLocationsPage() {
             </Container>
             <LocationModal onClose={handleCloseLocationModal}
                            open={isLocationModalOpen}
-                           alreadySavedLocations={foundLocations}
-                           setAlreadySavedLocations={setFoundLocations}
+                           alreadySavedLocations={savedLocations}
+                           setAlreadySavedLocations={setSavedLocations}
             />
-        </LocationsContext.Provider>
-    );
+        </>
+    )
+        ;
 }
 
 export default SavedLocationsPage;

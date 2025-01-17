@@ -6,7 +6,7 @@ import MuiCard from '@mui/material/Card';
 import {styled} from '@mui/material/styles';
 import '../InputElements/FadeAnimation.css'
 import LoadingButton from '@mui/lab/LoadingButton';
-import {sendRegistrationForm} from "../../services/fetch/SendRegistrationForm.js"
+import {sendRegistrationForm} from "../../services/fetch/unauth/SendRegistrationForm.js"
 
 import AnimatedElement from '../InputElements/AnimatedElement.jsx'
 import {Link, useNavigate} from 'react-router-dom';

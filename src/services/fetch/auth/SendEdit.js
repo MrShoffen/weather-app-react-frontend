@@ -1,9 +1,9 @@
-import {API_LOGIN, API_REGISTRATION, API_USER} from "../../UrlConstants.jsx";
-import {throwSpecifyException} from "../../exception/ThrowSpecifyException.jsx";
+import {API_LOGIN, API_REGISTRATION, API_USER_INFO} from "../../../UrlConstants.jsx";
+import {throwSpecifyException} from "../../../exception/ThrowSpecifyException.jsx";
 
 
 export const sendEdit = async (editData, type) =>{
-    const response = await fetch(API_USER + type, {
+    const response = await fetch(API_USER_INFO + type, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',

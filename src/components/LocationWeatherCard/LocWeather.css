@@ -1,0 +1,25 @@
+h1 {
+    font-size: 3.2em;
+    line-height: 1.1;
+}
+
+.fade-shrink-enter {
+    opacity: 0;
+    transform: scale(0.9); /* Элемент чуть меньше изначально */
+}
+.fade-shrink-enter-active {
+    opacity: 1;
+    transform: scale(1); /* Полный размер и прозрачность */
+    transition: opacity 500ms, transform 500ms;
+}
+
+/* Стили для удаления элемента */
+.fade-shrink-exit {
+    opacity: 1;
+    transform: scale(1); /* Полная видимость перед исчезновением */
+}
+.fade-shrink-exit-active {
+    opacity: 0; /* Исчезновение к прозрачности */
+    transform: scale(0.4); /* Элемент уменьшается до половины размера */
+    transition: opacity 500ms, transform 500ms; /* Плавный переход */
+}

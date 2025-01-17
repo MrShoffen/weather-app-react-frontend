@@ -1,32 +1,25 @@
-import {Button, Card, CardContent, Divider} from "@mui/material";
+import {Card, CardContent, Divider} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import React, {useEffect, useRef, useState} from "react";
 import countries from "i18n-iso-countries";
 import enLocale from "i18n-iso-countries/langs/en.json";
-import {useAuth} from "../../context/Auth/AuthContext.jsx";
-import WeatherPictureFromCode from "../WeatherPicture/WeatherPictureFromCode.jsx";
+import weatherStatePictureFromCode from "../../services/util/WeatherStatePictureFromCode.jsx";
 import temper from "../../assets/img/weather-state/thermometer-celsius.svg";
 import windSock from "../../assets/img/weather-state/windsock.svg";
 import barometer from "../../assets/img/weather-state/barometer.svg";
 import Box from "@mui/material/Box";
+import LoadingButton from "@mui/lab/LoadingButton";
+import DeleteIcon from '@mui/icons-material/Delete';
+import {CSSTransition} from "react-transition-group";
+import './LocWeather.css';
 
-
-export default function LocationWeatherCard({locationAndWeather}) {
+export default function LocationWeatherCard({locationAndWeather, onDelete, isDeleting}) {
     const location = locationAndWeather.location;
     const weather = locationAndWeather.weather;
 
-    const [isFlipped, setIsFlipped] = useState(false);
-    const {auth} = useAuth();
-
-
-    const handleFlip = () => {
-        setIsFlipped(!isFlipped);
-    };
-
+    //todo move to util
     countries.registerLocale(enLocale);
 
-    const [isSaved, setIsSaved] = useState(false);
-    const [isAlreadySaved, setIsAlreadySaved] = useState(false);
 
     const [parentWidth, setParentWidth] = useState(0); // Хранение ширины родителя
     const parentRef = useRef(null); // Реф для контейнера
@@ -87,249 +80,283 @@ export default function LocationWeatherCard({locationAndWeather}) {
 
     }
 
-    return (
+    const nodeRef = React.useRef(null)
 
-        <div
-            style={{
-                minWidth: "290px",
-                minHeight: 310,
-                maxHeight: 400,
-                position: "relative",
-                transformStyle: "preserve-3d",
-                transition: "transform 0.4s ease-in-out",
-                transform: isFlipped ? "rotateY(180deg)" : "rotateY(0)",
-            }}
+    // const [isDeleting, setIsDeleting] = useState(true)
+
+    return (
+        <CSSTransition
+            in={!isDeleting}
+            timeout={500}
+            classNames="fade-shrink"
+            nodeRef={nodeRef}
+            key={locationAndWeather.location.id}
         >
 
-            <Card
-                ref={parentRef}
-                elevation={3}
+            <div
+                ref={nodeRef}
+
                 style={{
-                    position: "absolute",
-                    width: "100%",
-                    height: "100%",
-                    backfaceVisibility: "hidden", // Скрыть обратную сторону при фронтальной видимости
+                    minWidth: "290px",
+                    minHeight: 320,
+                    maxHeight: 400,
+                    position: "relative",
+
                 }}
             >
-                <CardContent sx={{textAlign: "left", fontSize: 16}}>
-                    <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="div"
-                        sx={{
-                            display: "flex",
-                            alignItems: "center",
-                        }}
-                    >
-                        {location.name}
-                        <img
-                            alt={location.country}
-                            src={
-                                "http://purecatamphetamine.github.io/country-flag-icons/3x2/" +
-                                location.country +
-                                ".svg"
-                            }
-                            width="30"
-                            style={{marginLeft: "8px"}}
-                        />
-                    </Typography>
+
+                <Card
+                    ref={parentRef}
+                    elevation={3}
+                    style={{
+                        position: "absolute",
+                        width: "100%",
+                        height: "100%",
+                        backfaceVisibility: "hidden", // Скрыть обратную сторону при фронтальной видимости
+                    }}
+                >
+                    <CardContent sx={{textAlign: "left", fontSize: 16}}>
+                        <Typography
+                            gutterBottom
+                            variant="h5"
+                            component="div"
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                            }}
+                        >
+                            {location.name}
+                            <img
+                                alt={location.country}
+                                src={
+                                    "http://purecatamphetamine.github.io/country-flag-icons/3x2/" +
+                                    location.country +
+                                    ".svg"
+                                }
+                                width="30"
+                                style={{marginLeft: "8px"}}
+                            />
+                        </Typography>
 
 
-                    <Typography variant="body2" sx={{fontSize: 16}}>
-                        Country: <span style={{fontWeight: 500}}>{countries.getName(location.country, "en")}</span>
-                    </Typography>
+                        <Typography variant="body2" sx={{fontSize: 16}}>
+                            Country: <span style={{fontWeight: 500}}>{countries.getName(location.country, "en")}</span>
+                        </Typography>
 
-                    <Typography variant="body2" sx={{fontSize: 16}}>
-                        State: <span style={{fontWeight: 500}}>{location.state}</span>
-                    </Typography>
+                        <Typography variant="body2" sx={{fontSize: 16}}>
+                            State: <span style={{fontWeight: 500}}>{location.state}</span>
+                        </Typography>
 
-                    <Divider sx={{mt: 1, mb: 1}}/>
-
-                    <Typography
-                        variant="body2"
-                        sx={{fontSize: 16, color: "text.secondary"}}
-                    >
-                        Latitude: <span style={{fontWeight: 500}}>{location.lat}</span>
-                    </Typography>
-                    <Typography
-                        variant="body2"
-                        sx={{fontSize: 16, color: "text.secondary"}}
-                    >
-                        Longitude: <span style={{fontWeight: 500}}>{location.lon}</span>
-                    </Typography>
-
-                    <Box>
-                        <img
-                            src={WeatherPictureFromCode(weather.weather[0].id, isDay(weather), isCloudy(weather))}
-                            alt
-                            style={{
-                                width: "100px",
-                                right: 65,
-                                top: 108,
-                                mt: 0,
-                                position: "absolute",
-                                transform: "translateX(50%)"
-                            }}/>
+                        <Divider sx={{mt: 1, mb: 1}}/>
 
                         <Typography
                             variant="body2"
-                            sx={{
-                                fontSize: 16,
-                                color: "text.secondary",
-                                position: "absolute",
-                                right: 82,
-                                top: 200,
-                                transform: "translateX(50%)"
-                            }}
+                            sx={{fontSize: 16, color: "text.secondary"}}
                         >
+                            Latitude: <span style={{fontWeight: 500}}>{location.lat}</span>
+                        </Typography>
+                        <Typography
+                            variant="body2"
+                            sx={{fontSize: 16, color: "text.secondary"}}
+                        >
+                            Longitude: <span style={{fontWeight: 500}}>{location.lon}</span>
+                        </Typography>
+
+                        <Box>
+                            <img
+                                src={weatherStatePictureFromCode(weather.weather[0].id, isDay(weather), isCloudy(weather))}
+                                alt
+                                style={{
+                                    width: "100px",
+                                    right: 65,
+                                    top: 108,
+                                    mt: 0,
+                                    position: "absolute",
+                                    transform: "translateX(50%)"
+                                }}/>
+
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    fontSize: 16,
+                                    color: "text.secondary",
+                                    position: "absolute",
+                                    right: 82,
+                                    top: 200,
+                                    transform: "translateX(50%)"
+                                }}
+                            >
                             <span style={{fontWeight: 500}}>
 
                             {weather.weather[0].description}
                             </span>
-                        </Typography>
+                            </Typography>
 
 
-                        <Typography
-                            gutterBottom
-                            variant="h4"
-                            component="div"
-                            sx={{
-                                position: "absolute",
-                                top: 148,
-                                right: 102,
-                                fontWeight: 500
+                            <Typography
+                                gutterBottom
+                                variant="h4"
+                                component="div"
+                                sx={{
+                                    position: "absolute",
+                                    top: 148,
+                                    right: 102,
+                                    fontWeight: 500
 
-                            }}
-                        >
-                            {Math.round(weather.main.temp)}°
-                        </Typography>
-                        <Divider sx={{mb: '2px', width: isCompressed() ? '38%' : '47%'}}/>
+                                }}
+                            >
+                                {Math.round(weather.main.temp)}°
+                            </Typography>
+                            <Divider sx={{mb: '2px', width: isCompressed() ? '38%' : '47%'}}/>
 
-                        <Typography variant="body2" sx={{fontSize: 16, height: '23px'}}>
-                            {isCompressed() ?
-                                <img
-                                    src={temper}
-                                    alt={'Feels like'}
-                                    title="Feels like"
-                                    style={{
-                                        width: "35px",
-                                        position: "absolute",
-                                        left: 12,
-                                        top: 162
-                                    }}/>
-                                : 'Feels like:'
+                            <Typography variant="body2" sx={{fontSize: 16, height: '23px'}}>
+                                {isCompressed() ?
+                                    <img
+                                        src={temper}
+                                        alt={'Feels like'}
+                                        title="Feels like"
+                                        style={{
+                                            width: "35px",
+                                            position: "absolute",
+                                            left: 12,
+                                            top: 162
+                                        }}/>
+                                    : 'Feels like:'
 
-                            }
-                        </Typography>
+                                }
+                            </Typography>
 
-                        <Typography variant="body2"
-                                    sx={{
-                                        fontSize: 16,
-                                        position: "absolute",
-                                        right: isCompressed() ? '62%' : '53%',
-                                        top: 169
-                                    }}
-                        >
+                            <Typography variant="body2"
+                                        sx={{
+                                            fontSize: 16,
+                                            position: "absolute",
+                                            right: isCompressed() ? '62%' : '53%',
+                                            top: 169
+                                        }}
+                            >
                             <span style={{fontWeight: 500}}>
                                 {Math.round(weather.main.feels_like)}°
                             </span>
-                        </Typography>
-                        <Divider sx={{mt: '2px', mb: '2px', width: isCompressed() ? '38%' : '47%'}}/>
+                            </Typography>
+                            <Divider sx={{mt: '2px', mb: '2px', width: isCompressed() ? '38%' : '47%'}}/>
 
 
-                        <Typography variant="body2" sx={{fontSize: 16, height: '23px'}}>
-                            {isCompressed() ?
-                                <img
-                                    src={windSock}
-                                    alt
-                                    style={{
-                                        width: "35px",
-                                        position: "absolute",
-                                        left: 12,
-                                        top: 190
-                                    }}/>
-                                : 'Wind:'
+                            <Typography variant="body2" sx={{fontSize: 16, height: '23px'}}>
+                                {isCompressed() ?
+                                    <img
+                                        src={windSock}
+                                        alt
+                                        style={{
+                                            width: "35px",
+                                            position: "absolute",
+                                            left: 12,
+                                            top: 190
+                                        }}/>
+                                    : 'Wind:'
 
-                            }
-                        </Typography>
+                                }
+                            </Typography>
 
 
-                        <Typography variant="body2"
-                                    sx={{
-                                        fontSize: 16,
-                                        position: "absolute",
-                                        right: isCompressed() ? '62%' : '53%',
-                                        top: 197
-                                    }}
-                        >
+                            <Typography variant="body2"
+                                        sx={{
+                                            fontSize: 16,
+                                            position: "absolute",
+                                            right: isCompressed() ? '62%' : '53%',
+                                            top: 197
+                                        }}
+                            >
                             <span style={{fontWeight: 500}}>
                             {weather.wind.speed.toFixed(1)} m/s
                         </span>
-                        </Typography>
+                            </Typography>
 
-                        <Divider sx={{mt: '2px', mb: '2px', width: isCompressed() ? '38%' : '47%'}}/>
+                            <Divider sx={{mt: '2px', mb: '2px', width: isCompressed() ? '38%' : '47%'}}/>
 
 
-                        <Typography variant="body2" sx={{fontSize: 16, height: '23px'}}>
-                            {isCompressed() ?
-                                <img
-                                    src={barometer}
-                                    alt
-                                    style={{
-                                        width: "35px",
-                                        position: "absolute",
-                                        left: 12,
-                                        top: 218,
-                                    }}/>
-                                : 'Pressure:'
+                            <Typography variant="body2" sx={{fontSize: 16, height: '23px'}}>
+                                {isCompressed() ?
+                                    <img
+                                        src={barometer}
+                                        alt
+                                        style={{
+                                            width: "35px",
+                                            position: "absolute",
+                                            left: 12,
+                                            top: 218,
+                                        }}/>
+                                    : 'Pressure:'
 
-                            }
-                        </Typography>
+                                }
+                            </Typography>
 
-                        <Typography variant="body2"
-                                    sx={{
-                                        fontSize: 16,
-                                        position: "absolute",
-                                        right: isCompressed() ? '62%' : '53%',
-                                        top: 226
-                                    }}
-                        >
+                            <Typography variant="body2"
+                                        sx={{
+                                            fontSize: 16,
+                                            position: "absolute",
+                                            right: isCompressed() ? '62%' : '53%',
+                                            top: 226
+                                        }}
+                            >
                             <span style={{fontWeight: 500}}>
                             {Math.round(weather.main.pressure * 0.75)} mm
                         </span>
-                        </Typography>
+                            </Typography>
 
-                        <Divider sx={{mt: '2px', mb: '2px'}}/>
-
-
-                        <Typography
-                            variant="body2"
-                            sx={{fontSize: 16, color: "text.secondary"}}
-                        >
-                            Humidity: <span
-                            style={{fontWeight: 500}}>{weather.main.humidity}%</span>
-                            {'. Cloudiness: '}<span
-                            style={{fontWeight: 500}}>{weather.clouds.all}%</span>
-                        </Typography>
+                            <Divider sx={{mt: '2px', mb: '2px'}}/>
 
 
-                        <Typography
-                            variant="body2"
-                            sx={{fontSize: 16, color: "text.secondary"}}
-                        >
-                            Wind direction: <span
-                            style={{fontWeight: 500}}>{windDirection(weather)}</span>
-                        </Typography>
-
-                    </Box>
-
-                </CardContent>
+                            <Typography
+                                variant="body2"
+                                sx={{fontSize: 16, color: "text.secondary"}}
+                            >
+                                Humidity: <span
+                                style={{fontWeight: 500}}>{weather.main.humidity}%</span>
+                                {'. Cloudiness: '}<span
+                                style={{fontWeight: 500}}>{weather.clouds.all}%</span>
+                            </Typography>
 
 
-            </Card>
+                            <Typography
+                                variant="body2"
+                                sx={{fontSize: 16, color: "text.secondary"}}
+                            >
+                                Wind direction: <span
+                                style={{fontWeight: 500}}>{windDirection(weather)}</span>
+                            </Typography>
+
+                        </Box>
+
+                    </CardContent>
+
+                    <LoadingButton size="small"
+                                   variant="contained"
+                                   style={{
+                                       position: 'absolute',
+                                       bottom: 11,
+                                       right: 8.5,
+                                       paddingRight: 35,
+                                   }}
+                                   sx={{
+                                       backgroundColor: 'error.main',
+                                   }}
+                                   onClick={() => {
+                                       onDelete(locationAndWeather.location.id);
+                                   }}
+
+                    >
+
+                        delete
+                        <DeleteIcon style={{fontSize: 16, position: 'absolute', right: 0, top: -3}}/>
 
 
-        </div>
+                    </LoadingButton>
+
+                </Card>
+
+
+            </div>
+        </CSSTransition>
 
     );
 }

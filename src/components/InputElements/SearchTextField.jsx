@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import React from "react";
 import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
-import {getAutofilledCities} from "../../services/fetch/SendNameForAutofill.js";
+import {getAutofilledCities} from "../../services/fetch/unauth/SendNameForAutofill.js";
 import {Autocomplete} from "@mui/material";
 
 export default function SearchTextField({locationName, setLocationName, onChange, handleSubmit, errors, loading}) {

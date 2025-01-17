@@ -1,12 +1,12 @@
-import {API_FIND_LOCATIONS, API_IMAGES, API_LOGIN} from "../../UrlConstants.jsx";
-import {throwSpecifyException} from "../../exception/ThrowSpecifyException.jsx";
+import {API_FIND_LOCATIONS_UNAUTH, API_IMAGES_UNAUTH, API_LOGIN} from "../../../UrlConstants.jsx";
+import {throwSpecifyException} from "../../../exception/ThrowSpecifyException.jsx";
 
 
 export const sendFindLocations = async (locationName) => {
 
     const params = new URLSearchParams({name: locationName});
 
-    const url = `${API_FIND_LOCATIONS}?${params.toString()}`;
+    const url = `${API_FIND_LOCATIONS_UNAUTH}?${params.toString()}`;
 
     const response = await fetch(url, {
         method: 'GET',

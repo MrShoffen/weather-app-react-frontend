@@ -1,5 +1,5 @@
 import React, {createContext, useContext, useState, useEffect} from "react";
-import {checkSession} from "../../services/fetch/CheckSession.js";
+import {checkSession} from "../../services/fetch/auth/CheckSession.js";
 import {useNavigate} from "react-router-dom";
 
 const AuthContext = createContext();
@@ -8,6 +8,7 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({children}) => {
     const [auth, setAuth] = useState(extractAuthUser);
+    const [savedLocations, setSavedLocations] = useState([]);
 
     function extractAuthUser() {
         const isAuth = localStorage.getItem("isAuthenticated");
@@ -99,8 +100,10 @@ export const AuthProvider = ({children}) => {
     }, []);
 
 
+
+
     return (
-        <AuthContext.Provider value={{auth, login, logout, validateSession}}>
+        <AuthContext.Provider value={{auth, login, logout, validateSession, savedLocations, setSavedLocations}}>
             {children}
         </AuthContext.Provider>
     );

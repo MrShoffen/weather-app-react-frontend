@@ -1,10 +1,9 @@
-import {API_LOGIN} from "../../UrlConstants.jsx";
-import {throwSpecifyException} from "../../exception/ThrowSpecifyException.jsx";
+import {API_LOGIN, API_REGISTRATION} from "../../../UrlConstants.jsx";
+import {throwSpecifyException} from "../../../exception/ThrowSpecifyException.jsx";
 
 
-export const sendLoginForm = async (registrationData) => {
-
-    const response = await fetch(API_LOGIN, {
+export const sendRegistrationForm = async (registrationData) =>{
+    const response = await fetch(API_REGISTRATION, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

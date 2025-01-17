@@ -1,26 +1,22 @@
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import {sendSaveLocation} from "../../services/fetch/SendSaveLocation.js";
+import {sendSaveLocation} from "../../services/fetch/auth/SendSaveLocation.js";
 import LocationAlreadySavedException from "../../exception/LocationAlreadySavedException.jsx";
 import {useState} from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CheckIcon from '@mui/icons-material/Check';
-import {sendGetWeather} from "../../services/fetch/SendGetWeather.js";
-import {useLocations} from "../../pages/Locations/SavedLocationsPage.jsx";
+import {sendGetWeather} from "../../services/fetch/unauth/SendGetWeather.js";
+import {useAuth} from "../../context/Auth/AuthContext.jsx";
+import {locationAlreadySaved} from "../../services/util/LocationsUtil.jsx";
 
-function locationAlreadySaved(location, alreadySaved) {
-    return alreadySaved.some(item => {
-        return item.location.lat === location.lat && item.location.lon === location.lon;
-    })
-    return false;
-}
 
 export default function ToFavoriteButton({
                                              location,
                                              isSaved,
                                              setIsSaved,
                                          }) {
-    const {foundLocations, setFoundLocations} = useLocations();
-    const isAlreadySaved = locationAlreadySaved(location, foundLocations);
+    const {savedLocations, setSavedLocations} = useAuth();
+
+    const isAlreadySaved = locationAlreadySaved(location, savedLocations);
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -34,14 +30,14 @@ export default function ToFavoriteButton({
             const weatherForSaved = await sendGetWeather(savedLocation.lat, savedLocation.lon);
 
 
-            setFoundLocations([...foundLocations, {location: savedLocation, weather: weatherForSaved}]);
+            setSavedLocations([...savedLocations, {location: savedLocation, weather: weatherForSaved}]);
 
         } catch (error) {
             switch (true) {
                 case error instanceof LocationAlreadySavedException:
                     break;
                 default:
-                    alert('Unknown error occurred! ');
+                    console.log('Unknown error occurred! ');
                     window.location.reload();
             }
         }
@@ -50,7 +46,6 @@ export default function ToFavoriteButton({
             setIsLoading(false);
             setIsSaved(true);
         }, 500);
-        console.log("saved location", alreadySavedLocations);
     };
 
 

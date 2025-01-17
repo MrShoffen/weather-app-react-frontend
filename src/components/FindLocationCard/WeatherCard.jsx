@@ -2,8 +2,8 @@ import {Button, Card, CardActions, CardContent, CardMedia, Divider, Skeleton} fr
 import Typography from "@mui/material/Typography";
 import {hasFlag} from 'country-flag-icons'
 import React, {useEffect, useRef, useState} from "react";
-import WeatherPictureFromCode from "../WeatherPicture/WeatherPictureFromCode.jsx";
-import {sendGetWeather} from "../../services/fetch/SendGetWeather.js";
+import weatherStatePictureFromCode from "../../services/util/WeatherStatePictureFromCode.jsx";
+import {sendGetWeather} from "../../services/fetch/unauth/SendGetWeather.js";
 import Box from "@mui/material/Box";
 import windSock from "../../assets/img/weather-state/windsock.svg"
 import barometer from "../../assets/img/weather-state/barometer.svg"
@@ -145,7 +145,7 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
                 ) : (
                     <>
                         <img
-                            src={WeatherPictureFromCode(weatherData.weather[0].id, isDay(weatherData), isCloudy(weatherData))}
+                            src={weatherStatePictureFromCode(weatherData.weather[0].id, isDay(weatherData), isCloudy(weatherData))}
                             alt
                             style={{
                                 width: "100px",

@@ -7,11 +7,11 @@ import InformationBadge from "../../components/InformationBadge/InformationBadge
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchTextField from "../../components/InputElements/SearchTextField.jsx";
-import {sendFindLocations} from "../../services/fetch/SendFindLocations.js";
+import {sendFindLocations} from "../../services/fetch/unauth/SendFindLocations.js";
 import WeatherApiException from "../../exception/WeatherApiException.jsx";
 import ClearLocationBadge from "../../components/InputElements/ClearLocationBadge/ClearLocationBadge.jsx";
-import LoadingLocationCard from "../../components/LocationCard/LoadingLocationCard.jsx";
-import LocationCard from "../../components/LocationCard/LocationCard.jsx";
+import LoadingLocationCard from "../../components/FindLocationCard/LoadingLocationCard.jsx";
+import LocationCard from "../../components/FindLocationCard/LocationCard.jsx";
 import thunderstorm from "../../assets/img/weather-state/thunderstorms.svg";
 
 

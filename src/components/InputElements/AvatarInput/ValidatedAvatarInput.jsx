@@ -8,7 +8,7 @@ import {useState} from "react";
 import {styled} from "@mui/material/styles";
 import FormLabel from "@mui/material/FormLabel";
 import {FormHelperText, useTheme} from "@mui/material";
-import {uploadAvatar} from "../../../services/fetch/UploadAvatar.js";
+import {uploadAvatar} from "../../../services/fetch/unauth/UploadAvatar.js";
 import {API_BASE_URL} from "../../../UrlConstants.jsx";
 import {useAuth} from "../../../context/Auth/AuthContext.jsx";
 

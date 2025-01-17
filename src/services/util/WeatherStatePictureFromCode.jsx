@@ -1,4 +1,3 @@
-import sunset from '../../assets/img/weather-state/sunset.svg'
 import clearDay from '../../assets/img/weather-state/clear-day.svg'
 import clearNight from '../../assets/img/weather-state/clear-night.svg'
 
@@ -77,7 +76,19 @@ import thunder from '../../assets/img/weather-state/thunderstorms.svg'
 
 import notFound from '../../assets/img/weather-state/not-available.svg'
 
+export default function weatherStatePictureFromCode(code, isDay, isCloudy) {
+    if (isCloudy === true) {
+        return cloudPicture(code, isDay);
+    }
+    if (isDay === true) {
+        return dayPicture(code);
+    }
+
+    return nightPicture(code);
+}
+
 function dayPicture(code) {
+
 
     switch (code) {
         case 800:
@@ -177,10 +188,10 @@ function dayPicture(code) {
 
     }
 
-
 }
 
 function nightPicture(code) {
+
 
     switch (code) {
         case 800:
@@ -278,9 +289,7 @@ function nightPicture(code) {
 
     }
 
-
 }
-
 function cloudPicture(code, isDay) {
     switch (code) {
         case 800:
@@ -372,18 +381,5 @@ function cloudPicture(code, isDay) {
             return notFound;
 
     }
-}
-
-export default function WeatherPictureFromCode(code, isDay, isCloudy) {
-    if (isCloudy === true) {
-        return cloudPicture(code, isDay);
-    }
-    if (isDay === true) {
-        console.log('day')
-        return dayPicture(code);
-    }
-
-    console.log('heeres')
-    return nightPicture(code);
 
 }
