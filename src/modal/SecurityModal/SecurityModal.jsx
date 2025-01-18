@@ -76,7 +76,7 @@ export default function SecurityModal({open, onClose}) {
                 newPassword: newPassword,
             }
 
-            const newData = await sendEdit(editInformation, "/password");
+            await sendEdit(editInformation, "/password");
             setSuccessMessage("Password updated!.");
 
         } catch (error) {

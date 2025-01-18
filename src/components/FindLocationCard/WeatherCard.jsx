@@ -1,16 +1,13 @@
 import {Button, Card, CardContent, Divider, Skeleton} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import {hasFlag} from 'country-flag-icons'
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import weatherStatePictureFromCode from "../../services/util/WeatherStatePictureFromCode.jsx";
 import {sendGetWeather} from "../../services/fetch/unauth/SendGetWeather.js";
-import Box from "@mui/material/Box";
 import windSock from "../../assets/img/weather-state/windsock.svg"
 import barometer from "../../assets/img/weather-state/barometer.svg"
 import temper from "../../assets/img/weather-state/thermometer-celsius.svg"
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ToFavoriteButton from "./ToFavoriteButton.jsx";
 import {isCloudy, isDay, windDirection} from "../../services/util/WeatherStateUtil.jsx";
+import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 
 export default function WeatherCard({location, flipped, handleFlip, auth, favoriteButton}) {
     const [weatherData, setWeatherData] = useState(null);
@@ -36,32 +33,18 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
     }, [flipped]);
 
 
-    const [parentWidth, setParentWidth] = useState(0); // Хранение ширины родителя
-    const parentRef = useRef(null); // Реф для контейнера
 
-    useEffect(() => {
-        const updateParentWidth = () => {
-            if (parentRef.current) {
-                setParentWidth(parentRef.current.offsetWidth);
-            }
-        };
-        updateParentWidth();
+    const {windowWidth} = useThemeContext();
 
-        // Опционально обработка изменения размеров окна
-        window.addEventListener("resize", updateParentWidth);
-        return () => {
-            window.removeEventListener("resize", updateParentWidth);
-        };
-    }, []);
 
     const isCompressed = () => {
-        return parentWidth < 320;
+        return windowWidth < 360 && !auth.isAuthenticated || auth.isAuthenticated && windowWidth < 390;
     }
 
 
     return (
         <Card
-            ref={parentRef}
+            // ref={parentRef}
 
             elevation={3}
             style={{

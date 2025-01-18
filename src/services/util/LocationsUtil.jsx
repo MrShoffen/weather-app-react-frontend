@@ -5,7 +5,6 @@ export function locationAlreadySaved(locationForSave, savedLocations) {
     return savedLocations.some(item => {
         return item.location.lat === locationForSave.lat && item.location.lon === locationForSave.lon;
     })
-    return false;
 }
 
 export function locationListUpdated(savedLocations, fetchedLocationsFromServer) {

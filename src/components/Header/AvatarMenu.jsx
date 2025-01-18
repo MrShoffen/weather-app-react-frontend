@@ -17,7 +17,6 @@ import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ProfileModal from '../../modal/ProfileModal/ProfileModal.jsx'
-import {API_BASE_URL} from "../../UrlConstants.jsx";
 import KeyIcon from '@mui/icons-material/Key';
 import sunset from "../../assets/img/weather-state/sunset.svg"
 import SecurityModal from "../../modal/SecurityModal/SecurityModal.jsx";

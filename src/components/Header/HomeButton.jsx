@@ -1,4 +1,3 @@
-import {Button} from "@mui/material";
 import {Link} from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import * as React from "react";
@@ -10,7 +9,7 @@ import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx"
 
 export default function HomeButton() {
     const {auth} = useAuth();
-    const {isDarkMode, toggleTheme} = useThemeContext();
+    const {isDarkMode} = useThemeContext();
 
 
     return (

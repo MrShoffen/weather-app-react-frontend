@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
@@ -8,38 +8,9 @@ import MainLabel from "./MainLabel.jsx";
 import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 import Box from "@mui/material/Box";
 import HomeButton from "./HomeButton.jsx";
-import SearchButton from "../SearchButton/SearchButton.jsx";
-import SearchIcon from "@mui/icons-material/Search";
 
 export default function Header() {
-    const {isDarkMode, toggleTheme} = useThemeContext();
-    const [isVisible, setIsVisible] = useState(true); // состояние видимости заголовка
-    const [prevScrollY, setPrevScrollY] = useState(0); // предыдущее значение прокрутки
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const currentScrollY = window.scrollY;
-
-            if (currentScrollY < prevScrollY) {
-                // Если любое движение вверх - показываем хедер
-                setIsVisible(true);
-            } else if (Math.abs(currentScrollY - prevScrollY) > 3 && prevScrollY) {
-                // Если скроллим вниз на >50px - прячем хедер
-                setIsVisible(false);
-            }
-
-            // Обновляем значение предыдущего скролла
-            setPrevScrollY(currentScrollY);
-        };
-
-        // Подписываемся на событие скролла
-        window.addEventListener("scroll", handleScroll);
-
-        // Отписываемся от события при размонтировании компонента
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, [prevScrollY]); // Обновляем при изменении prevScrollY
+    const {isDarkMode, toggleTheme, isVisible} = useThemeContext();
 
     return (
         <AppBar

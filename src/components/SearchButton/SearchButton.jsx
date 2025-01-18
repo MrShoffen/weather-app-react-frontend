@@ -1,8 +1,6 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
 import SearchIcon from '@mui/icons-material/Search';
 import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
-import LocationModal from "../../modal/LocationsModal/LocationModal.jsx";
 import AddIcon from '@mui/icons-material/Add';
 import {styled} from "@mui/material/styles";
 import MuiCard from "@mui/material/Card";
@@ -45,29 +43,8 @@ const Card = styled(MuiCard)(({theme, isVisible}) => ({
 }));
 
 export default function SearchButton({onClick}) {
-    const {isDarkMode} = useThemeContext();
+    const {isDarkMode, isVisible} = useThemeContext();
 
-    const [isVisible, setIsVisible] = useState(true); // состояние видимости заголовка
-    const [prevScrollY, setPrevScrollY] = useState(0); // предыдущее значение прокрутки
-
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const currentScrollY = window.scrollY;
-            if (currentScrollY < prevScrollY) {
-                setIsVisible(true);
-            } else if (Math.abs(currentScrollY - prevScrollY) > 3 && prevScrollY) {
-                setIsVisible(false);
-            }
-
-            setPrevScrollY(currentScrollY);
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, [prevScrollY]); // Обновляем при изменении prevScrollY
 
     return (
 

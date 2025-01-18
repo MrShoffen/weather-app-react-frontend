@@ -1,12 +1,10 @@
 import React from 'react';
 import './Home.css'
-import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
 function HomePage() {
-    const {isDarkMode, isSmallScreen} = useThemeContext();
     return (
 
             <Container disableGutters className="cont" style={{

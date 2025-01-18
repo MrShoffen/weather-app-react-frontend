@@ -1,6 +1,6 @@
 import {Card, CardContent, Divider} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import React, {useEffect, useRef, useState} from "react";
+import React from "react";
 import weatherStatePictureFromCode from "../../services/util/WeatherStatePictureFromCode.jsx";
 import temper from "../../assets/img/weather-state/thermometer-celsius.svg";
 import windSock from "../../assets/img/weather-state/windsock.svg";
@@ -12,39 +12,18 @@ import {CSSTransition} from "react-transition-group";
 import './LocWeather.css';
 import {getFullCountryNameFromCode} from "../../services/util/LocationsUtil.jsx";
 import {isCloudy, isDay, windDirection} from "../../services/util/WeatherStateUtil.jsx";
+import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 
 export default function LocationWeatherCard({locationAndWeather, onDelete, isDeleting}) {
     const location = locationAndWeather.location;
     const weather = locationAndWeather.weather;
 
-
-    const [parentWidth, setParentWidth] = useState(0); // Хранение ширины родителя
-    const parentRef = useRef(null); // Реф для контейнера
-
-
-    useEffect(() => {
-        const updateParentWidth = () => {
-            if (parentRef.current) {
-                setParentWidth(parentRef.current.offsetWidth);
-            }
-        };
-        updateParentWidth();
-
-        // Опционально обработка изменения размеров окна
-        window.addEventListener("resize", updateParentWidth);
-        return () => {
-            window.removeEventListener("resize", updateParentWidth);
-        };
-    }, []);
-
+    const {windowWidth} = useThemeContext();
     const isCompressed = () => {
-        return parentWidth < 320;
+        return windowWidth < 360
     }
 
-
     const nodeRef = React.useRef(null)
-
-    // const [isDeleting, setIsDeleting] = useState(true)
 
     return (
         <CSSTransition
@@ -68,7 +47,6 @@ export default function LocationWeatherCard({locationAndWeather, onDelete, isDel
             >
 
                 <Card
-                    ref={parentRef}
                     elevation={3}
                     style={{
                         position: "absolute",

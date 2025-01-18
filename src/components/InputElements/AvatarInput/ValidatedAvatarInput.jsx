@@ -9,9 +9,6 @@ import {styled} from "@mui/material/styles";
 import FormLabel from "@mui/material/FormLabel";
 import {CircularProgress, FormHelperText, useTheme} from "@mui/material";
 import {uploadAvatar} from "../../../services/fetch/unauth/UploadAvatar.js";
-import {API_BASE_URL} from "../../../UrlConstants.jsx";
-import {useAuth} from "../../../context/Auth/AuthContext.jsx";
-import LoadingButton from "@mui/lab/LoadingButton";
 
 
 export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '', avatarLoading, setAvatarLoading}) {
@@ -26,7 +23,7 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
         zIndex: 1,
     }));
 
-    const {auth} = useAuth();
+
 
     const theme = useTheme();
 
