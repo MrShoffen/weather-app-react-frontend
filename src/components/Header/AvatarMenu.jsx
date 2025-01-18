@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
-import {useAuth} from "../../context/Auth/AuthContext.jsx";
+import {useAuthContext} from "../../context/Auth/AuthContext.jsx";
 import {sendLogout} from "../../services/fetch/auth/SendLogout.js";
 import {useNavigate} from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
@@ -20,7 +20,7 @@ import ProfileModal from '../../modal/ProfileModal/ProfileModal.jsx'
 import KeyIcon from '@mui/icons-material/Key';
 import sunset from "../../assets/img/weather-state/sunset.svg"
 import SecurityModal from "../../modal/SecurityModal/SecurityModal.jsx";
-import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
+import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 
 
 export default function AvatarMenu() {
@@ -33,7 +33,7 @@ export default function AvatarMenu() {
     };
 
     const navigate = useNavigate();
-    const {auth, logout} = useAuth();
+    const {auth, logout} = useAuthContext();
     const [loading, setLoading] = useState(false);
 
     const handleLogout = async () => {
@@ -55,7 +55,7 @@ export default function AvatarMenu() {
         setLoading(false);
     };
 
-    const {windowWidth} = useThemeContext();
+    const {windowWidth} = useCustomThemeContext();
     const isSmallScreen = windowWidth <= 900;
 
     const [isProfileModalOpen, setProfileModalOpen] = useState(false);

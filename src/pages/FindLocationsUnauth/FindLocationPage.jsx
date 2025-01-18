@@ -22,7 +22,7 @@ function FindLocationPage() {
 
     const [foundLocations, setFoundLocations] = useState([]);
 
-    const handleSubmit = async () => {
+    const handleLocationSearch = async () => {
         if (!currentLocationName) {
             setErrors("Field can't be empty");
             return;
@@ -36,8 +36,6 @@ function FindLocationPage() {
 
         setFoundLocations([]);
 
-
-
         try {
             const promise = await sendFindLocations(currentLocationName);
             setFoundLocations(promise);
@@ -48,7 +46,7 @@ function FindLocationPage() {
                     setErrors(error.message);
                     break;
                 default:
-                    alert('Unknown error occurred! ');
+                    console.log('Unknown error occurred! ');
                     window.location.reload();
             }
         }
@@ -71,7 +69,6 @@ function FindLocationPage() {
         setErrors('');
     };
 
-
     return (
         <Container disableGutters className={"locationUnauthPage"}>
 
@@ -81,7 +78,7 @@ function FindLocationPage() {
             <SearchTextField
                 locationName={currentLocationName}
                 setLocationName={setCurrentLocationName}
-                handleSubmit={handleSubmit}
+                handleSubmit={handleLocationSearch}
                 onChange={handleInputChange}
                 errors={errors}
                 loading={loading}/>

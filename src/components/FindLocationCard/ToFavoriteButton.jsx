@@ -5,7 +5,7 @@ import {useState} from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CheckIcon from '@mui/icons-material/Check';
 import {sendGetWeather} from "../../services/fetch/unauth/SendGetWeather.js";
-import {useAuth} from "../../context/Auth/AuthContext.jsx";
+import {useAuthContext} from "../../context/Auth/AuthContext.jsx";
 import {locationAlreadySaved} from "../../services/util/LocationsUtil.jsx";
 
 
@@ -14,7 +14,7 @@ export default function ToFavoriteButton({
                                              isSaved,
                                              setIsSaved,
                                          }) {
-    const {savedLocations, setSavedLocations} = useAuth();
+    const {savedLocations, setSavedLocations} = useAuthContext();
 
     const isAlreadySaved = locationAlreadySaved(location, savedLocations);
 

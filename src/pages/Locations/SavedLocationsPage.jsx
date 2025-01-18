@@ -8,7 +8,7 @@ import {sendGetLocationsAndWeather} from "../../services/fetch/auth/SendGetLocat
 import WeatherApiException from "../../exception/WeatherApiException.jsx";
 import LocationWeatherCard from "../../components/LocationWeatherCard/LocationWeatherCard.jsx";
 import LocationModal from "../../modal/LocationsModal/LocationModal.jsx";
-import {useAuth} from "../../context/Auth/AuthContext.jsx";
+import {useAuthContext} from "../../context/Auth/AuthContext.jsx";
 import {sendGetSavedLocations} from "../../services/fetch/auth/SendGetSavedLocations.js";
 import {locationListUpdated} from "../../services/util/LocationsUtil.jsx";
 import LoadingLocationCard from "../../components/FindLocationCard/LoadingLocationCard.jsx";
@@ -17,17 +17,15 @@ import {sendDeleteSavedLocations} from "../../services/fetch/auth/SendDeleteSave
 function SavedLocationsPage() {
     const [loading, setLoading] = useState(false);
 
-    const {savedLocations, setSavedLocations} = useAuth();
+    const {savedLocations, setSavedLocations} = useAuthContext();
 
     const getSavedLocations = async () => {
         try {
-            // setSavedLocations(promise);
             const locationsFromServer = await sendGetSavedLocations();
 
             if (locationListUpdated(savedLocations, locationsFromServer)) {
                 setLoading(true);
                 const locationsAndWeather = await sendGetLocationsAndWeather();
-                console.log(locationsAndWeather);
                 setSavedLocations(locationsAndWeather);
             }
 
@@ -35,6 +33,7 @@ function SavedLocationsPage() {
         } catch (error) {
             switch (true) {
                 case error instanceof WeatherApiException:
+                    console.log(error.message);
                     break;
                 default:
                     console.log('Unknown error occurred! ');
@@ -74,8 +73,6 @@ function SavedLocationsPage() {
 
         try {
             sendDeleteSavedLocations(locationId);
-
-
         } catch (error) {
             switch (true) {
                 case error instanceof WeatherApiException:
@@ -137,7 +134,6 @@ function SavedLocationsPage() {
                         (
                             savedLocations.length > 0
                             &&
-
                             savedLocations.map((locAndWeath) => (
 
                                 <LocationWeatherCard
@@ -146,8 +142,6 @@ function SavedLocationsPage() {
                                     isDeleting={deletingLocations.includes(locAndWeath.location.id)}
                                 />
                             ))
-
-
                         )
                     }
 
@@ -168,7 +162,6 @@ function SavedLocationsPage() {
             />
         </>
     )
-        ;
 }
 
 export default SavedLocationsPage;

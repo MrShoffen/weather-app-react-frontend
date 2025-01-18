@@ -12,13 +12,13 @@ import {CSSTransition} from "react-transition-group";
 import './LocWeather.css';
 import {getFullCountryNameFromCode} from "../../services/util/LocationsUtil.jsx";
 import {isCloudy, isDay, windDirection} from "../../services/util/WeatherStateUtil.jsx";
-import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
+import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 
 export default function LocationWeatherCard({locationAndWeather, onDelete, isDeleting}) {
     const location = locationAndWeather.location;
     const weather = locationAndWeather.weather;
 
-    const {windowWidth} = useThemeContext();
+    const {windowWidth} = useCustomThemeContext();
     const isCompressed = () => {
         return windowWidth < 360
     }
@@ -34,7 +34,7 @@ export default function LocationWeatherCard({locationAndWeather, onDelete, isDel
             key={locationAndWeather.location.id}
         >
 
-            <div
+            <Box
                 ref={nodeRef}
 
                 style={{
@@ -52,7 +52,6 @@ export default function LocationWeatherCard({locationAndWeather, onDelete, isDel
                         position: "absolute",
                         width: "100%",
                         height: "100%",
-                        backfaceVisibility: "hidden", // Скрыть обратную сторону при фронтальной видимости
                     }}
                 >
                     <CardContent sx={{textAlign: "left", fontSize: 16}}>
@@ -295,7 +294,7 @@ export default function LocationWeatherCard({locationAndWeather, onDelete, isDel
                 </Card>
 
 
-            </div>
+            </Box>
         </CSSTransition>
 
     );

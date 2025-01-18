@@ -7,7 +7,7 @@ import windSock from "../../assets/img/weather-state/windsock.svg"
 import barometer from "../../assets/img/weather-state/barometer.svg"
 import temper from "../../assets/img/weather-state/thermometer-celsius.svg"
 import {isCloudy, isDay, windDirection} from "../../services/util/WeatherStateUtil.jsx";
-import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
+import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 
 export default function WeatherCard({location, flipped, handleFlip, auth, favoriteButton}) {
     const [weatherData, setWeatherData] = useState(null);
@@ -33,7 +33,7 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
         loadWeather();
     }, [flipped]);
 
-    const {windowWidth} = useThemeContext();
+    const {windowWidth} = useCustomThemeContext();
     const isCompressed = () => {
         return windowWidth < 360 && !auth.isAuthenticated || auth.isAuthenticated && windowWidth < 390;
     }

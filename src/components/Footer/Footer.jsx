@@ -3,11 +3,11 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import SportsTennisIcon from '@mui/icons-material/SportsTennis';
-import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
+import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 import React from "react";
 
 export default function Footer() {
-    const {isDarkMode, isVisible} = useThemeContext();
+    const {isDarkMode, isVisible} = useCustomThemeContext();
 
     return (
         <footer className="footer mt-auto py-3"

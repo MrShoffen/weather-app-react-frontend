@@ -74,7 +74,7 @@ export default function SignUpForm() {
                     break;
 
                 default:
-                    alert('Unknown error occurred! ');
+                    console.log('Unknown error occurred! ');
                     window.location.reload();
             }
         }
@@ -149,7 +149,6 @@ export default function SignUpForm() {
                                 fullWidth
                                 type="submit"
                                 variant="contained"
-                                // size="small"
                                 onClick={handleSubmit}
                                 loading={registrationLoading || avatarLoading}
                                 loadingPosition="center"

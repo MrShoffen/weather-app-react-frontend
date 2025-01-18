@@ -5,7 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 
 const ThemeContext = createContext();
 
-export const useThemeContext = () => useContext(ThemeContext);
+export const useCustomThemeContext = () => useContext(ThemeContext);
 
 export const CustomThemeContext = ({children}) => {
     const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -32,7 +32,6 @@ export const CustomThemeContext = ({children}) => {
     );
 
 
-    //size context
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     const handleResize = () => {
@@ -40,44 +39,43 @@ export const CustomThemeContext = ({children}) => {
     };
 
     useEffect(() => {
-        // Добавляем слушатель события
+
         window.addEventListener("resize", handleResize);
 
-        // Удаляем слушатель при размонтировании компонента
+
         return () => {
             window.removeEventListener("resize", handleResize);
         };
-    }, []); // Пустой массив зависимостей означает, что эффект выполнится лишь один раз
+    }, []);
 
 
-    //scroll context
-    const [isVisible, setIsVisible] = useState(true); // состояние видимости заголовка
-    const [prevScrollY, setPrevScrollY] = useState(0); // предыдущее значение прокрутки
+    const [isVisible, setIsVisible] = useState(true);
+    const [prevScrollY, setPrevScrollY] = useState(0);
 
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
 
             if (currentScrollY < prevScrollY) {
-                // Если любое движение вверх - показываем хедер
+
                 setIsVisible(true);
             } else if (Math.abs(currentScrollY - prevScrollY) > 3 && prevScrollY) {
-                // Если скроллим вниз на >50px - прячем хедер
+
                 setIsVisible(false);
             }
 
-            // Обновляем значение предыдущего скролла
+
             setPrevScrollY(currentScrollY);
         };
 
-        // Подписываемся на событие скролла
+
         window.addEventListener("scroll", handleScroll);
 
-        // Отписываемся от события при размонтировании компонента
+
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
-    }, [prevScrollY]); // Обновляем при изменении prevScrollY
+    }, [prevScrollY]);
 
     return (
         <ThemeContext.Provider value={{isDarkMode, toggleTheme, windowWidth, isVisible}}>

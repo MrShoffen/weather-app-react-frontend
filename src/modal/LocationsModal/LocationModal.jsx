@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Box, Modal, Typography} from "@mui/material";
-import {useAuth} from "../../context/Auth/AuthContext.jsx";
+import {useAuthContext} from "../../context/Auth/AuthContext.jsx";
 import {styled} from "@mui/material/styles";
 import MuiCard from "@mui/material/Card";
 import InformationBadge from "../../components/InformationBadge/InformationBadge.jsx";
@@ -51,7 +51,7 @@ const Card = styled(MuiCard)(({theme}) => ({
 
 export default function LocationModal({open, onClose}) {
 
-    const {auth} = useAuth();
+    const {auth} = useAuthContext();
 
     const [currentLocationName, setCurrentLocationName] = useState('');
     const [locationNameForSearch, setLocationNameForSearch] = useState('');
@@ -61,7 +61,7 @@ export default function LocationModal({open, onClose}) {
 
     const [foundLocations, setFoundLocations] = useState([]);
 
-    const handleSubmit = async () => {
+    const handleLocationSearch = async () => {
         if (!currentLocationName) {
             setErrors("Field can't be empty");
             return;
@@ -79,10 +79,9 @@ export default function LocationModal({open, onClose}) {
             const promise = await sendFindLocations(currentLocationName);
             setFoundLocations(promise);
 
-            // Прокрутите к началу
             const scrollableBox = document.getElementById('scrollable-box');
             if (scrollableBox) {
-                scrollableBox.scrollTop = 0; // Прокручиваем вверх
+                scrollableBox.scrollTop = 0;
             }
         } catch (error) {
             switch (true) {
@@ -91,7 +90,7 @@ export default function LocationModal({open, onClose}) {
                     setErrors(error.message);
                     break;
                 default:
-                    alert('Unknown error occurred! ');
+                    console.log('Unknown error occurred! ');
                     window.location.reload();
             }
         }
@@ -104,7 +103,6 @@ export default function LocationModal({open, onClose}) {
     const handleInputChange = event => {
         setErrors('');
         setCurrentLocationName(event.target.value);
-
     }
 
     const handleReset = () => {
@@ -114,9 +112,7 @@ export default function LocationModal({open, onClose}) {
         setErrors('');
     };
 
-
     const [successMessage, setSuccessMessage] = React.useState('');
-
 
     if (auth.isAuthenticated) {
         return (
@@ -166,7 +162,6 @@ export default function LocationModal({open, onClose}) {
 
                     <InformationBadge message={successMessage} type="info"/>
 
-                    {/* Фиксированный верхний блок */}
                     <Box
                         sx={{
                             display: 'flex',
@@ -174,13 +169,13 @@ export default function LocationModal({open, onClose}) {
                             width: '100%',
                             position: 'sticky',
                             top: 0,
-                            zIndex: 2, // Устанавливаем элемент поверх прокручиваемой части
+                            zIndex: 2,
                         }}
                     >
                         <SearchTextField
                             locationName={currentLocationName}
                             setLocationName={setCurrentLocationName}
-                            handleSubmit={handleSubmit}
+                            handleSubmit={handleLocationSearch}
                             onChange={handleInputChange}
                             errors={errors}
                             loading={loading}/>
@@ -193,22 +188,18 @@ export default function LocationModal({open, onClose}) {
                                 />
                             </Box>
                         )}
-
-
                     </Box>
 
-
-                    {/* Прокручиваемая часть */}
                     <Box
-                        id="scrollable-box" // Добавьте идентификатор
+                        id="scrollable-box"
                         sx={{
                             display: 'flex',
                             flexDirection: 'column',
                             flexGrow: 1,
-                            overflowY: 'auto', // Включаем вертикальный скролл
-                            maxHeight: '80vh', // Ограничиваем максимальную высоту прокрутки
-                            paddingLeft: 2, // Визуальный отступ для содержимого внутри
-                            paddingRight: 2, // Визуальный отступ для содержимого внутри
+                            overflowY: 'auto',
+                            maxHeight: '80vh',
+                            paddingLeft: 2,
+                            paddingRight: 2,
                         }}
                     >
                         <Box

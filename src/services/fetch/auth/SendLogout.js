@@ -10,8 +10,6 @@ export const sendLogout = async () => {
         credentials: 'include'
     });
 
-    console.log('heere');
-
 
     if (!response.ok) {
         console.log('heere 22');

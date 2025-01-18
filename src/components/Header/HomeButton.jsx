@@ -1,15 +1,15 @@
 import {Link} from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import * as React from "react";
-import {useAuth} from "../../context/Auth/AuthContext.jsx";
+import {useAuthContext} from "../../context/Auth/AuthContext.jsx";
 import SearchIcon from '@mui/icons-material/Search';
 import Box from "@mui/material/Box";
-import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
+import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 
 
 export default function HomeButton() {
-    const {auth} = useAuth();
-    const {isDarkMode} = useThemeContext();
+    const {auth} = useAuthContext();
+    const {isDarkMode} = useCustomThemeContext();
 
     return (
         <Box

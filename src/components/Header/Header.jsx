@@ -5,12 +5,12 @@ import Container from "@mui/material/Container";
 import {ThemeSwitcher} from "./ThemeSwitcher.jsx";
 import AvatarMenu from "./AvatarMenu.jsx";
 import MainLabel from "./MainLabel.jsx";
-import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
+import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 import Box from "@mui/material/Box";
 import HomeButton from "./HomeButton.jsx";
 
 export default function Header() {
-    const {isDarkMode, toggleTheme, isVisible} = useThemeContext();
+    const {isDarkMode, toggleTheme, isVisible} = useCustomThemeContext();
 
     return (
         <AppBar

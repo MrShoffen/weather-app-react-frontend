@@ -18,8 +18,6 @@ function App() {
         <BrowserRouter>
             <AuthProvider>
                 <CustomThemeContext>
-
-
                     <Routes>
                         <Route path="weather-app" element={<Layout/>}>
                             <Route index element={<HomePage/>}/>

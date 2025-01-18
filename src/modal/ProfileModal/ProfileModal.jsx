@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Box, Button, Modal, Typography} from "@mui/material";
-import {useAuth} from "../../context/Auth/AuthContext.jsx";
+import {useAuthContext} from "../../context/Auth/AuthContext.jsx";
 import ValidatedAvatarInput from "../../components/InputElements/AvatarInput/ValidatedAvatarInput.jsx";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {styled} from "@mui/material/styles";
@@ -31,7 +31,7 @@ const Card = styled(MuiCard)(({theme}) => ({
 
 export default function ProfileModal({open, onClose}) {
 
-    const {auth, login, validateSession} = useAuth();
+    const {auth, login, validateSession} = useAuthContext();
 
     const [avatarUrl, setAvatarUrl] = React.useState('');
 
@@ -71,13 +71,11 @@ export default function ProfileModal({open, onClose}) {
                     break;
 
                 default:
-                    alert('Unknown error occurred! ');
+                    console.log('Unknown error occurred! ');
                     window.location.reload();
             }
         }
         setLoading(false);
-
-        // onClose();
     };
 
     const [avatarLoading, setAvatarLoading] = React.useState(false);

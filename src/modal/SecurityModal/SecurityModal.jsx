@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Box, Button, Divider, Modal, Typography} from "@mui/material";
-import {useAuth} from "../../context/Auth/AuthContext.jsx";
+import {useAuthContext} from "../../context/Auth/AuthContext.jsx";
 import AnimatedElement from "../../components/InputElements/AnimatedElement.jsx";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {useNavigate} from "react-router-dom";
@@ -35,22 +35,22 @@ const Card = styled(MuiCard)(({theme}) => ({
 
 export default function SecurityModal({open, onClose}) {
 
-    const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false); // Стейт для второго модального окна
+    const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
     const handleDeleteClick = () => {
-        setDeleteConfirmOpen(true); // Открываем модальное окно подтверждения
+        setDeleteConfirmOpen(true);
     };
 
     const handleDeleteCancel = () => {
-        setDeleteConfirmOpen(false); // Закрываем модальное окно подтверждения
+        setDeleteConfirmOpen(false);
     };
 
     const handleDeleteConfirm = async () => {
-        setDeleteConfirmOpen(false); // Закрываем модалку
-        await handleDelete(); // Удаляем пользователя
+        setDeleteConfirmOpen(false);
+        await handleDelete();
     };
 
-    const {auth, logout} = useAuth();
+    const {auth, logout} = useAuthContext();
 
 
     const [oldPassword, setOldPassword] = React.useState('');
@@ -86,14 +86,14 @@ export default function SecurityModal({open, onClose}) {
                     break;
 
                 default:
-                    alert('Unknown error occurred! ');
+                    console.log('Unknown error occurred! ');
                     window.location.reload();
             }
         }
         setLoading(false);
         setNewPassword('')
         setConfirmPassword('')
-        // onClose();
+
     };
 
     const navigate = useNavigate();
@@ -111,7 +111,7 @@ export default function SecurityModal({open, onClose}) {
 
 
         } catch (error) {
-            alert('Unknown error occurred! ');
+            console.log('Unknown error occurred! ');
         }
         setLoading(false);
     }

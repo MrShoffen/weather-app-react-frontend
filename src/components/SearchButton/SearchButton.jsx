@@ -1,6 +1,6 @@
 import * as React from "react";
 import SearchIcon from '@mui/icons-material/Search';
-import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
+import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 import AddIcon from '@mui/icons-material/Add';
 import {styled} from "@mui/material/styles";
 import MuiCard from "@mui/material/Card";
@@ -10,11 +10,11 @@ const Card = styled(MuiCard)(({theme, isVisible}) => ({
     position: "fixed",
     top: 70,
     bottom: 'auto',
-    display: "flex", // центровка иконки
+    display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(47,155,255,0.8)", // полупрозрачный фон
-    borderRadius: "50%", // круглая форма
+    backgroundColor: "rgba(47,155,255,0.8)",
+    borderRadius: "50%",
     border: "1px solid",
     color: "white",
     marginLeft: 20,
@@ -43,19 +43,18 @@ const Card = styled(MuiCard)(({theme, isVisible}) => ({
 }));
 
 export default function SearchButton({onClick}) {
-    const {isDarkMode, isVisible} = useThemeContext();
+    const {isVisible} = useCustomThemeContext();
 
 
     return (
-
         <Card
             isVisible={isVisible}
             sx={{
-                borderColor: isDarkMode ? "rgb(18,18,18, 0.2)" : "rgba(0,114,227,0.4)",
+                borderColor: "action.selected",
             }}
             onClick={onClick}
         >
-            <SearchIcon sx={{fontSize:  "45px",}}/>
+            <SearchIcon sx={{fontSize: "45px",}}/>
             <AddIcon sx={{
                 position: "absolute",
                 left: "35%",

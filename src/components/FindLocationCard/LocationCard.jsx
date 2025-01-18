@@ -2,7 +2,7 @@ import {Button, Card, CardContent, Divider} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {useState} from "react";
 import WeatherCard from "./WeatherCard.jsx";
-import {useAuth} from "../../context/Auth/AuthContext.jsx";
+import {useAuthContext} from "../../context/Auth/AuthContext.jsx";
 import ToFavoriteButton from "./ToFavoriteButton.jsx";
 import {getFullCountryNameFromCode} from "../../services/util/LocationsUtil.jsx";
 import Box from "@mui/material/Box";
@@ -15,7 +15,7 @@ export default function LocationCard({location}) {
     };
     const [isSaved, setIsSaved] = useState(false);
 
-    const {auth} = useAuth();
+    const {auth} = useAuthContext();
 
     const favoriteButton = <ToFavoriteButton location={location}
                                              isSaved={isSaved}

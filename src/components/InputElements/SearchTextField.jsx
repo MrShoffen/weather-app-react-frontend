@@ -4,7 +4,7 @@ import {Divider} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import React from "react";
-import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
+import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 import {getAutofilledCities} from "../../services/fetch/unauth/SendNameForAutofill.js";
 import {Autocomplete} from "@mui/material";
 

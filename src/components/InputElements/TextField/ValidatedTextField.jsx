@@ -23,19 +23,20 @@ export default function ValidatedTextField({
         setShowPassword((prev) => !prev);
     };
 
-    const StyledFormLabel = styled(FormLabel)(({theme}) => ({
-        position: "absolute",
-        left: theme.spacing(1.5),
-        top: 0,
-        transform: "translateY(-50%)",
-        backgroundColor: theme.palette.background.default,
-        padding: "0 4px",
-        zIndex: 1,
-    }));
 
     return (
         <FormControl variant='outlined' style={{marginBottom: 25}}>
-            <StyledFormLabel htmlFor={id}>{label}</StyledFormLabel>
+            <FormLabel htmlFor={id}
+                       sx={{
+                           backgroundColor: 'background.default',
+                           position: "absolute",
+                           left: 10,
+                           top: 0,
+                           transform: "translateY(-50%)",
+                           padding: "0 4px",
+                           zIndex: 1,
+                       }}
+            >{label}</FormLabel>
             <TextField
                 id={id}
                 name={id}

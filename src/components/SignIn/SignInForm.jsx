@@ -8,7 +8,7 @@ import '../InputElements/FadeAnimation.css'
 import {Link} from 'react-router-dom';
 import {sendLoginForm} from "../../services/fetch/unauth/SendLoginForm.js"
 import AnimatedElement from '../InputElements/AnimatedElement.jsx'
-import {useAuth} from "../../context/Auth/AuthContext.jsx";
+import {useAuthContext} from "../../context/Auth/AuthContext.jsx";
 import UserNotFoundException from "../../exception/UserNotFoundException.jsx";
 import IncorrectPasswordException from "../../exception/IncorrectPasswordException.jsx";
 import PrevPageInfoBadge from "../PreviusPageInformationBadge/PrevPageInfoBadge.jsx";
@@ -33,7 +33,7 @@ const Card = styled(MuiCard)(({theme}) => ({
 }));
 
 export default function SignInForm() {
-    const {login} = useAuth();
+    const {login} = useAuthContext();
 
     const [username, setUsername] = React.useState('');
     const [usernameError, setUsernameError] = React.useState('');
@@ -71,7 +71,7 @@ export default function SignInForm() {
                     await handleSubmit();
                     break;
                 default:
-                    alert('Unknown error occurred! ');
+                    console.log('Unknown error occurred! ');
                     window.location.reload();
             }
         }
@@ -80,7 +80,6 @@ export default function SignInForm() {
 
     return (
         <Card variant="outlined">
-
 
             <PrevPageInfoBadge/>
 
@@ -127,7 +126,6 @@ export default function SignInForm() {
                                 fullWidth
                                 type="submit"
                                 variant="contained"
-                                // size="small"
                                 onClick={handleSubmit}
                                 loading={loading}
                             >

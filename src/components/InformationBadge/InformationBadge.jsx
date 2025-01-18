@@ -18,14 +18,11 @@ const colors = {
 export default function InformationBadge({message, type}) {
 
     if (message) {
-
         const [isVisible, setIsVisible] = React.useState(true);
-
 
         const handleClose = () => {
             setIsVisible(false);
         };
-
 
         return (
             <>

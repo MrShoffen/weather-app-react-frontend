@@ -3,7 +3,7 @@ import {checkSession} from "../../services/fetch/auth/CheckSession.js";
 
 const AuthContext = createContext();
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuthContext = () => useContext(AuthContext);
 
 export const AuthProvider = ({children}) => {
     const [auth, setAuth] = useState(extractAuthUser);
@@ -53,7 +53,6 @@ export const AuthProvider = ({children}) => {
                 const user = await checkSession();
                 if (user !== auth.user) {
                     login(user);
-                    console.log(user);
                 }
             } catch (error) {
                 if (auth.isAuthenticated) {
@@ -71,18 +70,17 @@ export const AuthProvider = ({children}) => {
     };
 
     useEffect(() => {
-        const SESSION_CHECK_INTERVAL = 1000 * 60; // Каждые 5 минут
+        const SESSION_CHECK_INTERVAL = 1000 * 60 * 5;
         const intervalId = setInterval(validateSession, SESSION_CHECK_INTERVAL);
 
         validateSession();
 
-        return () => clearInterval(intervalId); // Очищаем интервал при размонтировании
+        return () => clearInterval(intervalId);
     }, []);
 
     const validateCookieIsAlive = async () => {
         if (!auth.isAuthenticated) {
             try {
-                console.log('in validate cookie func')
                 const user = await checkSession();
                 if (user) {
                     login(user);
@@ -95,7 +93,7 @@ export const AuthProvider = ({children}) => {
     };
 
     useEffect(() => {
-        validateCookieIsAlive()// Очищаем интервал при размонтировании
+        validateCookieIsAlive()
     }, []);
 
 
