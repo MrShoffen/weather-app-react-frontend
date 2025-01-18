@@ -91,13 +91,13 @@ export default function LocationCard({location}) {
                             variant="body2"
                             sx={{fontSize: 16, color: "text.secondary"}}
                         >
-                            Latitude: <span style={{fontWeight: 500}}>{location.lat}</span>
+                            Latitude: <span style={{fontWeight: 500}}>{location.lat.toFixed(5)}</span>
                         </Typography>
                         <Typography
                             variant="body2"
                             sx={{fontSize: 16, color: "text.secondary"}}
                         >
-                            Longitude: <span style={{fontWeight: 500}}>{location.lon}</span>
+                            Longitude: <span style={{fontWeight: 500}}>{location.lon.toFixed(5)}</span>
                         </Typography>
                     </CardContent>
 

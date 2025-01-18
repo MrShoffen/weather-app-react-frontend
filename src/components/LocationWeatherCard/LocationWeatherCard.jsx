@@ -1,8 +1,6 @@
 import {Card, CardContent, Divider} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import React, {useEffect, useRef, useState} from "react";
-import countries from "i18n-iso-countries";
-import enLocale from "i18n-iso-countries/langs/en.json";
 import weatherStatePictureFromCode from "../../services/util/WeatherStatePictureFromCode.jsx";
 import temper from "../../assets/img/weather-state/thermometer-celsius.svg";
 import windSock from "../../assets/img/weather-state/windsock.svg";
@@ -12,13 +10,12 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {CSSTransition} from "react-transition-group";
 import './LocWeather.css';
+import {getFullCountryNameFromCode} from "../../services/util/LocationsUtil.jsx";
+import {isCloudy, isDay, windDirection} from "../../services/util/WeatherStateUtil.jsx";
 
 export default function LocationWeatherCard({locationAndWeather, onDelete, isDeleting}) {
     const location = locationAndWeather.location;
     const weather = locationAndWeather.weather;
-
-    //todo move to util
-    countries.registerLocale(enLocale);
 
 
     const [parentWidth, setParentWidth] = useState(0); // Хранение ширины родителя
@@ -44,41 +41,6 @@ export default function LocationWeatherCard({locationAndWeather, onDelete, isDel
         return parentWidth < 320;
     }
 
-
-    const isDay = (weather) => {
-
-        return weather && weather.weather[0].icon.endsWith("d");
-    }
-
-    const isCloudy = (weather) => {
-        return weather && weather.clouds.all > 60
-    }
-
-    const windDirection = (weather) => {
-        const wind = weather.wind.deg;
-        if (!weather.wind.speed) {
-            return '';
-        }
-
-        if (wind > 337 || wind <= 22) {
-            return 'N';
-        } else if (wind > 22 && wind <= 67) {
-            return 'NE';
-        } else if (wind > 67 && wind <= 112) {
-            return 'E';
-        } else if (wind > 112 && wind <= 157) {
-            return 'SE';
-        } else if (wind > 157 && wind <= 202) {
-            return 'S';
-        } else if (wind > 202 && wind <= 247) {
-            return 'SW';
-        } else if (wind > 247 && wind <= 292) {
-            return 'W';
-        } else if (wind > 292 && wind <= 337) {
-            return 'NW';
-        }
-
-    }
 
     const nodeRef = React.useRef(null)
 
@@ -140,7 +102,7 @@ export default function LocationWeatherCard({locationAndWeather, onDelete, isDel
 
 
                         <Typography variant="body2" sx={{fontSize: 16}}>
-                            Country: <span style={{fontWeight: 500}}>{countries.getName(location.country, "en")}</span>
+                            Country: <span style={{fontWeight: 500}}>{getFullCountryNameFromCode(location.country)}</span>
                         </Typography>
 
                         <Typography variant="body2" sx={{fontSize: 16}}>
@@ -153,13 +115,13 @@ export default function LocationWeatherCard({locationAndWeather, onDelete, isDel
                             variant="body2"
                             sx={{fontSize: 16, color: "text.secondary"}}
                         >
-                            Latitude: <span style={{fontWeight: 500}}>{location.lat}</span>
+                            Latitude: <span style={{fontWeight: 500}}>{location.lat.toFixed(5)}</span>
                         </Typography>
                         <Typography
                             variant="body2"
                             sx={{fontSize: 16, color: "text.secondary"}}
                         >
-                            Longitude: <span style={{fontWeight: 500}}>{location.lon}</span>
+                            Longitude: <span style={{fontWeight: 500}}>{location.lon.toFixed(5)}</span>
                         </Typography>
 
                         <Box>

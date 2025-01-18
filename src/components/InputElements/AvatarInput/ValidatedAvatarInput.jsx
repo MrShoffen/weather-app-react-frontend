@@ -78,7 +78,7 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
                 setAvatarError(false)
                 setAvatarErrorMessage('')
             } catch (error) {
-                console.log(error.message);   //todo handle right
+                console.log(error.message);
             }
 
         }

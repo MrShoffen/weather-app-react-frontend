@@ -10,45 +10,11 @@ import barometer from "../../assets/img/weather-state/barometer.svg"
 import temper from "../../assets/img/weather-state/thermometer-celsius.svg"
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ToFavoriteButton from "./ToFavoriteButton.jsx";
+import {isCloudy, isDay, windDirection} from "../../services/util/WeatherStateUtil.jsx";
 
 export default function WeatherCard({location, flipped, handleFlip, auth, favoriteButton}) {
     const [weatherData, setWeatherData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-
-    const isDay = (weatherData) => {
-
-        return weatherData && weatherData.weather[0].icon.endsWith("d");
-    }
-
-    const isCloudy = (weatherData) => {
-        return weatherData && weatherData.clouds.all > 60
-    }
-
-    const windDirection = (weatherData) => {
-        const wind = weatherData.wind.deg;
-        if (!weatherData.wind.speed) {
-            return '';
-        }
-
-        if (wind > 337 || wind <= 22) {
-            return 'N';
-        } else if (wind > 22 && wind <= 67) {
-            return 'NE';
-        } else if (wind > 67 && wind <= 112) {
-            return 'E';
-        } else if (wind > 112 && wind <= 157) {
-            return 'SE';
-        } else if (wind > 157 && wind <= 202) {
-            return 'S';
-        } else if (wind > 202 && wind <= 247) {
-            return 'SW';
-        } else if (wind > 247 && wind <= 292) {
-            return 'W';
-        } else if (wind > 292 && wind <= 337) {
-            return 'NW';
-        }
-
-    }
 
     useEffect(() => {
         const effect = async () => {
