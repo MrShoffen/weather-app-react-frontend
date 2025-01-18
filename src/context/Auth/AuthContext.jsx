@@ -78,7 +78,7 @@ export const AuthProvider = ({children}) => {
     useEffect(() => {
         setPageVisits((prev) => prev + 1);
 
-        if (pageVisits === 2) {
+        if (pageVisits === 3) {
             validateSession();
             setPageVisits(0);
         }
