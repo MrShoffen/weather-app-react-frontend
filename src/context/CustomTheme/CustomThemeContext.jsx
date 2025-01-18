@@ -1,6 +1,9 @@
 import React, {createContext, useContext, useMemo, useState} from 'react';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import {useMediaQuery} from "@mui/material";
+import Box from "@mui/material/Box";
+import {ThemeSwitcher} from "../../components/Header/ThemeSwitcher.jsx";
 
 
 const ThemeContext = createContext();

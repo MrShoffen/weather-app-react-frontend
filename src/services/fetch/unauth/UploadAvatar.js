@@ -14,7 +14,6 @@ export const uploadAvatar = async (formData) => {
         const error = await response.json();
         throwSpecifyException(error);
     }
-    console.log(response);
 
     return await response.json();
 }

@@ -80,6 +80,7 @@ export default function ProfileModal({open, onClose}) {
         // onClose();
     };
 
+    const [avatarLoading, setAvatarLoading] = React.useState(false);
 
     const [successMessage, setSuccessMessage] = React.useState('');
 
@@ -151,6 +152,8 @@ export default function ProfileModal({open, onClose}) {
                         <ValidatedAvatarInput
                             setAvatarUrl={setAvatarUrl}
                             initialAvatarUrl={avatarUrl}
+                            avatarLoading={avatarLoading}
+                            setAvatarLoading={setAvatarLoading}
                         />
 
                         <ValidatedUsernameTextField
@@ -168,7 +171,7 @@ export default function ProfileModal({open, onClose}) {
                             <LoadingButton
                                 variant="contained"
                                 onClick={handleSave}
-                                loading={loading}
+                                loading={loading || avatarLoading}
                                 disabled={(usernameError || username === auth.user.username || username.length === 0) && (avatarUrl === auth.user.avatarUrl)}
                             >
                                 Save

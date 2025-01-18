@@ -41,7 +41,7 @@ export default function SignInForm() {
     const [password, setPassword] = React.useState('');
     const [passwordError, setPasswordError] = React.useState('');
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setloading] = useState(false);
 
     const handleSubmit = async () => {
         if (usernameError || passwordError) {
@@ -54,7 +54,7 @@ export default function SignInForm() {
         };
 
         try {
-            setLoading(true);
+            setloading(true);
             const profile = await sendLoginForm(requestData);
             login(profile);
         } catch (error) {
@@ -75,7 +75,7 @@ export default function SignInForm() {
                     window.location.reload();
             }
         }
-        setLoading(false);
+        setloading(false);
     };
 
     return (

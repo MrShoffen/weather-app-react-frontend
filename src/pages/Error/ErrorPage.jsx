@@ -1,4 +1,6 @@
 import React from 'react'
+import Header from "../../components/Header/Header.jsx";
+import thunderstorm from "../../assets/img/weather-state/thunderstorms.svg";
 import Container from "@mui/material/Container";
 
 import './Error.css'

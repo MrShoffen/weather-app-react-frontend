@@ -11,7 +11,10 @@ import LocationModal from "../../modal/LocationsModal/LocationModal.jsx";
 import {useAuth} from "../../context/Auth/AuthContext.jsx";
 import {sendGetSavedLocations} from "../../services/fetch/auth/SendGetSavedLocations.js";
 import {locationListUpdated} from "../../services/util/LocationsUtil.jsx";
+import LoadingButton from "@mui/lab/LoadingButton";
 import LoadingLocationCard from "../../components/FindLocationCard/LoadingLocationCard.jsx";
+import {CSSTransition, TransitionGroup} from "react-transition-group";
+import {findDOMNode} from 'react-dom';
 import {sendDeleteSavedLocations} from "../../services/fetch/auth/SendDeleteSavedLocations.js";
 
 function SavedLocationsPage() {

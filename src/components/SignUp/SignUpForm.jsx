@@ -43,7 +43,7 @@ export default function SignUpForm() {
     const [confirmPassword, setConfirmPassword] = React.useState('');
     const [confirmPasswordError, setConfirmPasswordError] = React.useState('');
 
-    const [loading, setLoading] = useState(false);
+    const [registrationLoading, setRegistrationLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async () => {
@@ -58,7 +58,7 @@ export default function SignUpForm() {
         };
 
         try {
-            setLoading(true);
+            setRegistrationLoading(true);
             await sendRegistrationForm(requestData);
 
             navigate("/weather-app/login", {
@@ -78,8 +78,10 @@ export default function SignUpForm() {
                     window.location.reload();
             }
         }
-        setLoading(false);
+        setRegistrationLoading(false);
     };
+
+    const [avatarLoading, setAvatarLoading] = React.useState(false);
 
     return (
         <Card variant="outlined">
@@ -104,6 +106,8 @@ export default function SignUpForm() {
                 >
                     <ValidatedAvatarInput
                         setAvatarUrl={setAvatarUrl}
+                        avatarLoading={avatarLoading}
+                        setAvatarLoading={setAvatarLoading}
                     />
 
                     <ValidatedUsernameTextField
@@ -139,7 +143,7 @@ export default function SignUpForm() {
                     </AnimatedElement>
 
                     <AnimatedElement
-                        condition={!passwordError && !usernameError && !confirmPasswordError && username.length > 0 && password.length > 0 && confirmPassword.length > 0}>
+                        condition={!passwordError && !usernameError && !confirmPasswordError && username.length > 0 && password.length > 0 && confirmPassword.length > 0 }>
                         <div>
                             <LoadingButton
                                 fullWidth
@@ -147,7 +151,7 @@ export default function SignUpForm() {
                                 variant="contained"
                                 // size="small"
                                 onClick={handleSubmit}
-                                loading={loading}
+                                loading={registrationLoading || avatarLoading}
                                 loadingPosition="center"
                             >
                                 Sign up

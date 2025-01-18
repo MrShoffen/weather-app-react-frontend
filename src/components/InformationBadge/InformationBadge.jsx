@@ -2,6 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import '../InputElements/FadeAnimation.css'
 import CloseIcon from '@mui/icons-material/Close';
+import {useLocation} from 'react-router-dom';
 import IconButton from "@mui/material/IconButton";
 
 const backgroundColors = {

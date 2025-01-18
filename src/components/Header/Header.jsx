@@ -8,6 +8,8 @@ import MainLabel from "./MainLabel.jsx";
 import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 import Box from "@mui/material/Box";
 import HomeButton from "./HomeButton.jsx";
+import SearchButton from "../SearchButton/SearchButton.jsx";
+import SearchIcon from "@mui/icons-material/Search";
 
 export default function Header() {
     const {isDarkMode, toggleTheme} = useThemeContext();

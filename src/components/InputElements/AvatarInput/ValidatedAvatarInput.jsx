@@ -7,13 +7,14 @@ import * as React from "react";
 import {useState} from "react";
 import {styled} from "@mui/material/styles";
 import FormLabel from "@mui/material/FormLabel";
-import {FormHelperText, useTheme} from "@mui/material";
+import {CircularProgress, FormHelperText, useTheme} from "@mui/material";
 import {uploadAvatar} from "../../../services/fetch/unauth/UploadAvatar.js";
 import {API_BASE_URL} from "../../../UrlConstants.jsx";
 import {useAuth} from "../../../context/Auth/AuthContext.jsx";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 
-export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = ''}) {
+export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '', avatarLoading, setAvatarLoading}) {
 
     const StyledFormLabel = styled(FormLabel)(({theme}) => ({
         position: "absolute",
@@ -54,6 +55,7 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
 
     // Обработчик выбора файла
     const handleAvatarChange = async (e) => {
+        setAvatarLoading(true);
         const file = e.target.files[0];
         if (file && validateAvatar(file)) {
 
@@ -76,19 +78,13 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
                 setAvatarError(false)
                 setAvatarErrorMessage('')
             } catch (error) {
-                alert(error.message);   //todo handle right
+                console.log(error.message);   //todo handle right
             }
 
         }
+
+        setAvatarLoading(false);
     };
-
-    const calculateAvatarUrl = () => {
-        if (avatarPreview.startsWith("/weather/api/images/")) {
-            return API_BASE_URL + avatarPreview;
-        }
-
-        return avatarPreview;
-    }
 
     const handleDeleteAvatar = () => {
         setAvatarPreview(null);
@@ -168,24 +164,28 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
                                 }}
                             />
                         )}
-                        {avatarPreview && (
-                            <Box
-                                component="img"
-                                src={avatarPreview}
-                                alt="Avatar Preview"
-                                sx={{
-                                    width: "100%",
-                                    height: "100%",
-                                    objectFit: "cover",
-                                    borderRadius: "6px"
-                                }}
-                            />
+                        {avatarPreview && (<>
+                                <Box
+                                    component="img"
+                                    src={avatarPreview}
+                                    alt="Avatar Preview"
+                                    sx={{
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "cover",
+                                        borderRadius: "6px"
+                                    }}
+                                />
+                                {avatarLoading &&
+                                    <CircularProgress size={50} sx={{top: 10, left: 10, position: "absolute"}}/>
+                                }
+                            </>
                         )}
 
 
                     </label>
 
-                    {avatarPreview && (
+                    {avatarPreview && !avatarLoading && (
                         <IconButton
                             aria-label="close"
                             size="small"

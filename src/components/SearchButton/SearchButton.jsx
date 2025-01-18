@@ -2,6 +2,7 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import SearchIcon from '@mui/icons-material/Search';
 import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
+import LocationModal from "../../modal/LocationsModal/LocationModal.jsx";
 import AddIcon from '@mui/icons-material/Add';
 import {styled} from "@mui/material/styles";
 import MuiCard from "@mui/material/Card";
