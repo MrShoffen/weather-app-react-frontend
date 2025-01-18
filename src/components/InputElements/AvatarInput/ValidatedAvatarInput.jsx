@@ -67,7 +67,7 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
             //----------------
             const formData = new FormData();
 
-            formData.append('avatar', file);
+            formData.append('image', file);
 
             try {
                 const avatar = await uploadAvatar(formData);
@@ -171,9 +171,7 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
                         {avatarPreview && (
                             <Box
                                 component="img"
-                                src={avatarPreview.startsWith("/weather/api/images/")
-                                    ? (API_BASE_URL + avatarPreview)
-                                    : avatarPreview}
+                                src={avatarPreview}
                                 alt="Avatar Preview"
                                 sx={{
                                     width: "100%",

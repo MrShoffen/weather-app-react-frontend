@@ -1,4 +1,4 @@
-import {API_LOGIN, API_REGISTRATION} from "../../../UrlConstants.jsx";
+import {API_REGISTRATION} from "../../../UrlConstants.jsx";
 import {throwSpecifyException} from "../../../exception/ThrowSpecifyException.jsx";
 
 

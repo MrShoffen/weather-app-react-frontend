@@ -1,4 +1,4 @@
-import {API_FIND_LOCATIONS_UNAUTH, AUTOFILL_CITY_API} from "../../../UrlConstants.jsx";
+import {AUTOFILL_CITY_API} from "../../../UrlConstants.jsx";
 import {throwSpecifyException} from "../../../exception/ThrowSpecifyException.jsx";
 
 export const getAutofilledCities = async (cityName) => {

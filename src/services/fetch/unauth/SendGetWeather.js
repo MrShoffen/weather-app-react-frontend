@@ -1,4 +1,4 @@
-import {API_FIND_LOCATIONS_UNAUTH, API_GET_WEATHER_INFO_UNAUTH, API_IMAGES_UNAUTH, API_LOGIN} from "../../../UrlConstants.jsx";
+import {API_GET_WEATHER_INFO_UNAUTH} from "../../../UrlConstants.jsx";
 import {throwSpecifyException} from "../../../exception/ThrowSpecifyException.jsx";
 
 

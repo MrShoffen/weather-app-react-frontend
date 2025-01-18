@@ -4,7 +4,7 @@ import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import * as React from "react";
 import {IconButton, InputAdornment} from "@mui/material";
-import {Image, Visibility, VisibilityOff} from "@mui/icons-material";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 
 export default function ValidatedTextField({

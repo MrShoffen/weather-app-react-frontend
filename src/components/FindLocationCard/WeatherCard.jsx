@@ -1,15 +1,11 @@
-import {Button, Card, CardActions, CardContent, CardMedia, Divider, Skeleton} from "@mui/material";
+import {Button, Card, CardContent, Divider, Skeleton} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import {hasFlag} from 'country-flag-icons'
 import React, {useEffect, useRef, useState} from "react";
 import weatherStatePictureFromCode from "../../services/util/WeatherStatePictureFromCode.jsx";
 import {sendGetWeather} from "../../services/fetch/unauth/SendGetWeather.js";
-import Box from "@mui/material/Box";
 import windSock from "../../assets/img/weather-state/windsock.svg"
 import barometer from "../../assets/img/weather-state/barometer.svg"
 import temper from "../../assets/img/weather-state/thermometer-celsius.svg"
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ToFavoriteButton from "./ToFavoriteButton.jsx";
 
 export default function WeatherCard({location, flipped, handleFlip, auth, favoriteButton}) {
     const [weatherData, setWeatherData] = useState(null);

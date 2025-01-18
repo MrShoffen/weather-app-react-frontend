@@ -4,10 +4,7 @@ import TelegramIcon from '@mui/icons-material/Telegram';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import SportsTennisIcon from '@mui/icons-material/SportsTennis';
 import {useThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
-import Box from "@mui/material/Box";
-import {ThemeSwitcher} from "../Header/ThemeSwitcher.jsx";
 import React, {useEffect, useState} from "react";
-import SearchButton from "../SearchButton/SearchButton.jsx";
 
 export default function Footer() {
     const {isDarkMode, isSmallScreen} = useThemeContext();

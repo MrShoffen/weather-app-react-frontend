@@ -1,9 +1,5 @@
 import {
-    API_FIND_LOCATIONS_UNAUTH,
-    API_IMAGES_UNAUTH,
-    API_LOCATIONS_INFO,
-    API_LOGIN,
-    API_SAVED_LOCATIONS_WEATHER
+    API_LOCATIONS_INFO
 } from "../../../UrlConstants.jsx";
 import {throwSpecifyException} from "../../../exception/ThrowSpecifyException.jsx";
 

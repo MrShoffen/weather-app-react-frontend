@@ -1,13 +1,11 @@
-import {API_IMAGES_UNAUTH, API_LOGIN} from "../../../UrlConstants.jsx";
+import {API_IMAGE_UPLOAD} from "../../../UrlConstants.jsx";
 import {throwSpecifyException} from "../../../exception/ThrowSpecifyException.jsx";
 
 
 export const uploadAvatar = async (formData) => {
 
-    const response = await fetch(API_IMAGES_UNAUTH, {
+    const response = await fetch(API_IMAGE_UPLOAD, {
         method: 'POST',
-
-        credentials: 'include',
 
         body: formData
     });
@@ -16,6 +14,7 @@ export const uploadAvatar = async (formData) => {
         const error = await response.json();
         throwSpecifyException(error);
     }
+    console.log(response);
 
     return await response.json();
 }

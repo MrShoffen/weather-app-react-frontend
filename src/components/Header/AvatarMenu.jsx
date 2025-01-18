@@ -125,7 +125,7 @@ export default function AvatarMenu() {
         return auth.isAuthenticated
             ? <Avatar alt={auth.user.username}
                       style={{width: 42, height: 42}}
-                      src={API_BASE_URL + auth.user.avatarUrl}>
+                      src={auth.user.avatarUrl}>
                 {auth.user.username.slice(0, 2)}
             </Avatar>
             : <MenuIcon/>
