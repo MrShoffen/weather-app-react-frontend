@@ -3,14 +3,11 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Box from "@mui/material/Box";
 import React from "react";
-import {useThemeContext} from "../../../context/CustomTheme/CustomThemeContext.jsx";
 
 
 export default function ClearLocationBadge({locationNameForSearch, handleReset}) {
 
-    const {isDarkMode} = useThemeContext();
-
-    return(
+    return (
         <Box className={"locationDeleteBadge"}
              sx={{
                  display: 'flex',
@@ -20,16 +17,16 @@ export default function ClearLocationBadge({locationNameForSearch, handleReset})
                  justifyContent: 'space-between',
                  mt: 2,
                  p: 1,
-                 opacity: 0.8,
-                 backgroundColor: isDarkMode ? '#424242' : '#f5f5f5',
+                 opacity: 0.9,
+                 backgroundColor: 'text.disabled',
                  borderRadius: '8px',
-                 position: 'absolute', // Абсолютное позиционирование
-                 right: '16px', // Отступ от правого края Container
+                 position: 'absolute',
+                 right: '16px',
                  top: '110px',
-                 maxWidth: '150px', // Ограничиваем максимальную ширину Box
-                 overflow: 'hidden', // Скрываем содержимое за пределами Box
+                 maxWidth: '150px',
+                 overflow: 'hidden',
                  border: '1px solid',
-                 borderColor: isDarkMode ? "rgba(210,210,210,0.65)" : "rgba(47,155,255,0.53)", // полупрозрачный фон
+                 borderColor: "divider",
 
              }}
         >
@@ -38,10 +35,10 @@ export default function ClearLocationBadge({locationNameForSearch, handleReset})
                     fontSize: 16,
                     fontWeight: 500,
                     mr: 1,
-                    whiteSpace: 'nowrap',       // Запрещаем тексту переноситься на следующую строку
-                    overflow: 'hidden',        // Скрываем текст, выходящий за пределы контейнера
-                    textOverflow: 'ellipsis',  // Добавляем многоточие для длинного текста
-                    maxWidth: '100%',          // Ограничиваем ширину текста до размеров родителя (Box)
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    maxWidth: '100%',
                 }}
             >
                 {locationNameForSearch}
@@ -50,14 +47,14 @@ export default function ClearLocationBadge({locationNameForSearch, handleReset})
                         sx={{
                             mr: -1.5,
                             '&:hover': {
-                                backgroundColor: 'transparent', // Отключаем фон при наведении
+                                backgroundColor: 'transparent',
                                 transform: 'scale(1.1)',
                             },
                             '&:active': {
-                                backgroundColor: 'transparent', // Убираем нажимание
+                                backgroundColor: 'transparent',
                             },
                             '&:focus': {
-                                outline: 'none', // Убираем фокус
+                                outline: 'none',
 
                             },
                         }}>

@@ -36,8 +36,6 @@ export default function AvatarMenu() {
     const {auth, logout} = useAuth();
     const [loading, setLoading] = useState(false);
 
-    const {isSmallScreen} = useThemeContext();
-
     const handleLogout = async () => {
         try {
             setLoading(true);
@@ -52,28 +50,34 @@ export default function AvatarMenu() {
 
             handleCloseUserMenu()
         } catch (error) {
-            alert('Unknown error occurred! ');
+            console.log('Unknown error occurred! ');
         }
         setLoading(false);
     };
 
+    const {windowWidth} = useThemeContext();
+    const isSmallScreen = windowWidth <= 900;
+
     const [isProfileModalOpen, setProfileModalOpen] = useState(false);
+    const handleProfile = async () => {
+        setProfileModalOpen(true);
+    }
     const handleCloseProfileModal = () => {
         setProfileModalOpen(false);
     };
 
-    const handleProfile = async () => {
-        setProfileModalOpen(true);
-    }
-
 
     const [isSecurityModalOpen, setSecurityModalOpen] = useState(false);
+    const handleSecurity = async () => {
+        setSecurityModalOpen(true);
+    }
     const handleCloseSecurityModal = () => {
         setSecurityModalOpen(false);
     };
 
-    const handleSecurity = async () => {
-        setSecurityModalOpen(true);
+    if (loading) {
+        return <img src={sunset} alt style={{height: '60px'}}/>
+
     }
 
     function getAvatarMenu() {
@@ -129,14 +133,6 @@ export default function AvatarMenu() {
             </Avatar>
             : <MenuIcon/>
     }
-
-
-
-    if (loading) {
-        return <img src={sunset} alt style={{height: '60px'}}/>
-
-    }
-
 
     return (
         <Box sx={{flexGrow: 0}}>

@@ -5,32 +5,15 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import * as React from "react";
 import {useState} from "react";
-import {styled} from "@mui/material/styles";
 import FormLabel from "@mui/material/FormLabel";
-import {CircularProgress, FormHelperText, useTheme} from "@mui/material";
+import {CircularProgress, FormHelperText} from "@mui/material";
 import {uploadAvatar} from "../../../services/fetch/unauth/UploadAvatar.js";
 
 
 export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '', avatarLoading, setAvatarLoading}) {
-
-    const StyledFormLabel = styled(FormLabel)(({theme}) => ({
-        position: "absolute",
-        left: theme.spacing(1.5),
-        top: 0,
-        transform: "translateY(-50%)",
-        backgroundColor: theme.palette.background.default,
-        padding: "0 4px",
-        zIndex: 1,
-    }));
-
-
-
-    const theme = useTheme();
-
-    const [avatarPreview, setAvatarPreview] = useState(initialAvatarUrl || null); // Хранит ссылку на отображаемую картинку
+    const [avatarPreview, setAvatarPreview] = useState(initialAvatarUrl || null);
     const [avatarError, setAvatarError] = React.useState(false);
     const [avatarErrorMessage, setAvatarErrorMessage] = React.useState('');
-
 
     const validateAvatar = (file) => {
         const acceptedFileTypes = ["image/jpeg", "image/png", "image/jpg"];
@@ -40,7 +23,7 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
             return false;
         }
 
-        const maxSize = 5 * 1024 * 1024; // 5 MB
+        const maxSize = 5 * 1024 * 1024;
         if (file.size > maxSize) {
             setAvatarErrorMessage("Maximum file size is 5MB");
             setAvatarError(true)
@@ -50,7 +33,6 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
         return true;
     }
 
-    // Обработчик выбора файла
     const handleAvatarChange = async (e) => {
         setAvatarLoading(true);
         const file = e.target.files[0];
@@ -58,14 +40,11 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
 
             const reader = new FileReader();
             reader.onloadend = () => {
-                setAvatarPreview(reader.result); // Сохраняем URL изображения
+                setAvatarPreview(reader.result);
             };
             reader.readAsDataURL(file);
 
-
-            //----------------
             const formData = new FormData();
-
             formData.append('image', file);
 
             try {
@@ -77,7 +56,6 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
             } catch (error) {
                 console.log(error.message);
             }
-
         }
 
         setAvatarLoading(false);
@@ -94,14 +72,22 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
                      variant='outlined'
         >
 
-            <StyledFormLabel htmlFor="avatar-upload">
+            <FormLabel htmlFor="avatar-upload" sx={{
+                backgroundColor: 'background.default',
+                position: "absolute",
+                left: 10,
+                top: 0,
+                transform: "translateY(-50%)",
+                padding: "0 4px",
+                zIndex: 1,
+            }}>
                 Upload avatar (Optional)
-            </StyledFormLabel>
+            </FormLabel>
 
             <Box
                 sx={{
                     display: "flex",
-                    justifyContent: "center", // Распределяем содержимое между краями
+                    justifyContent: "center",
                     alignItems: "center",
                     width: "100%",
                     border: "1px solid",
@@ -114,8 +100,6 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
                     paddingBottom: 1
                 }}
             >
-
-                {/* Avatar Upload Box */}
                 <Box
                     sx={{
                         width: 70,
@@ -128,11 +112,10 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
 
                         "&:hover": {
                             cursor: "pointer",
-                            borderColor: theme.palette.text.primary, // Изменение цвета границы Box
-                            "& > label > svg": { // Нацеливаемся на AddIcon внутри label
-                                color: theme.palette.text.primary,
+                            borderColor: 'text.primary',
+                            "& > label > svg": {
+                                color: 'text.primary',
                                 cursor: "pointer",
-
                             }
                         }
 
@@ -196,7 +179,7 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
                                 height: "15px",
                                 backgroundColor: "rgba(151,151,151,0.77)",
                                 "&:hover": {
-                                    backgroundColor: "rgba(244, 67, 54, 0.3)", // Красный фон при наведении
+                                    backgroundColor: "rgba(244, 67, 54, 0.3)",
                                 },
                             }}
                         >

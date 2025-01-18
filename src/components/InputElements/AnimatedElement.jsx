@@ -13,9 +13,7 @@ export default function AnimatedElement({children, condition}) {
             classNames="fade"
             unmountOnExit
         >
-
-                {children}
-
+            {children}
         </CSSTransition>
     )
 }

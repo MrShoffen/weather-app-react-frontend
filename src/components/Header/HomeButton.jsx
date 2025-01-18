@@ -11,18 +11,17 @@ export default function HomeButton() {
     const {auth} = useAuth();
     const {isDarkMode} = useThemeContext();
 
-
     return (
         <Box
             sx={{
-                display: "flex", // центровка иконки
+                display: "flex",
                 width: 42,
                 height: 42,
                 marginRight: '8px',
                 alignItems: "center",
                 justifyContent: "center",
-                backgroundColor: isDarkMode ? "rgba(0,0,0,0.32)" : "rgba(47,155,255,0.53)", // полупрозрачный фон
-                borderRadius: "8px", // круглая форма
+                backgroundColor: isDarkMode ? "rgba(0,0,0,0.32)" : "rgba(47,155,255,0.53)",
+                borderRadius: "8px",
                 border: "1px solid",
                 color: "white",
                 '&:hover': {

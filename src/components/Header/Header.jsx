@@ -28,13 +28,9 @@ export default function Header() {
         >
             <Container disableGutters>
                 <Toolbar>
-
-
-
                     <MainLabel/>
 
                     <Box sx={{flexGrow: 1}}/>
-
 
                     <Box
                         elevation={0}
@@ -43,19 +39,18 @@ export default function Header() {
                             position: "absolute",
                             top: 70,
                             right: '7%',
-                            width: "48px", // фиксированная ширина кнопки
-                            height: "48px", // фиксированная высота кнопки
-                            display: "flex", // центровка иконки
+                            width: "48px",
+                            height: "48px",
+                            display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
                             borderRadius: "25%",
                             border: "1px solid",
                             borderColor: isDarkMode ? "rgb(18,18,18, 0.5)" : "rgba(47,155,255,0.53)",
-                            backgroundColor: "rgba(255, 255, 255, 0.3)", // полупрозрачный фон
+                            backgroundColor: "rgba(255, 255, 255, 0.3)",
 
-                            // Анимация исчезновения
                             opacity: isVisible ? 1 : 0,
-                            visibility: isVisible ? "visible" : "hidden", // Дополнительно скрываем элемент
+                            visibility: isVisible ? "visible" : "hidden",
                             transition: "opacity 0.3s ease-in-out, visibility 0.3s ease-in-out",
                         }}
                     >
@@ -66,8 +61,8 @@ export default function Header() {
                         />
                     </Box>
 
-
                     <HomeButton/>
+
                     <AvatarMenu/>
                 </Toolbar>
             </Container>
