@@ -14,13 +14,14 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const effect = async () => {
+        const loadWeather = async () => {
             if (flipped && !weatherData) {
 
                 try {
                     const weatherJson = await sendGetWeather(location.lat, location.lon);
                     setWeatherData(weatherJson);
                 } catch (error) {
+                    console.log(error);
                 }
 
                 setTimeout(() => {
@@ -29,31 +30,23 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
             }
         };
 
-        effect();
+        loadWeather();
     }, [flipped]);
 
-
-
     const {windowWidth} = useThemeContext();
-
-
     const isCompressed = () => {
         return windowWidth < 360 && !auth.isAuthenticated || auth.isAuthenticated && windowWidth < 390;
     }
 
-
     return (
         <Card
-            // ref={parentRef}
-
-            elevation={3}
+            elevation={5}
             style={{
                 position: "absolute",
                 width: "100%",
                 height: "100%",
                 backfaceVisibility: "hidden",
-                transform: "rotateY(180deg)", // Повернуть обратную сторону
-                textAlign: "center",
+                transform: "rotateY(180deg)",
             }}
         >
             <CardContent sx={{textAlign: "left", fontSize: 16}}>
@@ -79,22 +72,21 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
                     />
                 </Typography>
 
-                {isLoading ? (
-                    <>
-                        <Skeleton sx={{height: 60, mb: 1, marginRight: 1, marginLeft: 1}} animation="wave"
-                                  variant="rectangular"/>
-                        <React.Fragment>
-                            <Skeleton animation="wave" height={10}
-                                      style={{marginBottom: 6, marginRight: 8, marginLeft: 8}}/>
-                            <Skeleton animation="wave" height={10} width="75%"
-                                      style={{marginBottom: 6, marginRight: 8, marginLeft: 8}}/>
-                            <Skeleton animation="wave" height={10} width="60%" style={{marginRight: 6, marginLeft: 8}}/>
-                        </React.Fragment>
-                    </>
-                ) : (
-                    <>
+                {isLoading ? (<>
+                    <Skeleton sx={{height: 60, mb: 1, marginRight: 1, marginLeft: 1}} animation="wave"
+                              variant="rectangular"/>
+                    <React.Fragment>
+                        <Skeleton animation="wave" height={10}
+                                  style={{marginBottom: 6, marginRight: 8, marginLeft: 8}}/>
+                        <Skeleton animation="wave" height={10} width="75%"
+                                  style={{marginBottom: 6, marginRight: 8, marginLeft: 8}}/>
+                        <Skeleton animation="wave" height={10} width="60%" style={{marginRight: 6, marginLeft: 8}}/>
+                    </React.Fragment>
+                </>) : (<>
                         <img
-                            src={weatherStatePictureFromCode(weatherData.weather[0].id, isDay(weatherData), isCloudy(weatherData))}
+                            src={weatherStatePictureFromCode(weatherData.weather[0].id,
+                                isDay(weatherData),
+                                isCloudy(weatherData))}
                             alt
                             style={{
                                 width: "100px",
@@ -114,14 +106,11 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
                                 right: 82,
                                 top: 112,
                                 transform: "translateX(50%)"
-                            }}
-                        >
+                            }}>
                             <span style={{fontWeight: 500}}>
-
                             {weatherData.weather[0].description}
                             </span>
                         </Typography>
-
 
                         <Typography
                             gutterBottom
@@ -137,6 +126,7 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
                         >
                             {Math.round(weatherData.main.temp)}°
                         </Typography>
+
                         <Divider sx={{mb: '2px', width: isCompressed() ? '38%' : '47%'}}/>
 
                         <Typography variant="body2" sx={{fontSize: 16, height: '23px'}}>
@@ -168,8 +158,8 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
                                 {Math.round(weatherData.main.feels_like)}°
                             </span>
                         </Typography>
-                        <Divider sx={{mt: '2px', mb: '2px', width: isCompressed() ? '38%' : '47%'}}/>
 
+                        <Divider sx={{mt: '2px', mb: '2px', width: isCompressed() ? '38%' : '47%'}}/>
 
                         <Typography variant="body2" sx={{fontSize: 16, height: '23px'}}>
                             {isCompressed() ?
@@ -186,7 +176,6 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
 
                             }
                         </Typography>
-
 
                         <Typography variant="body2"
                                     sx={{
@@ -235,7 +224,6 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
 
                         <Divider sx={{mt: '2px', mb: '2px'}}/>
 
-
                         <Typography
                             variant="body2"
                             sx={{fontSize: 16, color: "text.secondary"}}
@@ -246,7 +234,6 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
                             style={{fontWeight: 500}}>{weatherData.clouds.all}%</span>
                         </Typography>
 
-
                         <Typography
                             variant="body2"
                             sx={{fontSize: 16, color: "text.secondary"}}
@@ -254,28 +241,19 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
                             Wind direction: <span
                             style={{fontWeight: 500}}>{windDirection(weatherData)}</span>
                         </Typography>
-
-
                     </>
-
-                )
-                }
-
-
+                )}
             </CardContent>
 
             {isLoading ? (
-                <>
-                    <Skeleton variant="rectangular" width={70} height={22}
-                              style={{
+                <Skeleton variant="rectangular" width={70} height={22}
+                          style={{
+                              marginBottom: 6,
+                              marginRight: 8,
+                              marginLeft: 10
+                          }}/>
 
-                                  marginBottom: 6,
-                                  marginRight: 8,
-                                  marginLeft: 10
-                              }}/>
-                </>
-            ) : (
-                <>
+            ) : (<>
                     <Button size="small" onClick={handleFlip}
                             style={{
                                 position: 'absolute',
@@ -288,11 +266,7 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
                     {auth.isAuthenticated && favoriteButton}
 
                 </>
-            )
-            }
-
-
+            )}
         </Card>
     )
-        ;
 }

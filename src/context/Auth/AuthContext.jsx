@@ -42,8 +42,8 @@ export const AuthProvider = ({children}) => {
             isAuthenticated: false,
             user: null,
         });
+        setSavedLocations([]);
     };
-
 
 
     const validateSession = async () => {
@@ -97,8 +97,6 @@ export const AuthProvider = ({children}) => {
     useEffect(() => {
         validateCookieIsAlive()// Очищаем интервал при размонтировании
     }, []);
-
-
 
 
     return (

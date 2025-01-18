@@ -20,67 +20,51 @@ export default function ToFavoriteButton({
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = async () => {
-
+    const handleSaveLocation = async () => {
         setIsLoading(true);
         try {
             const savedLocation = await sendSaveLocation(location);
-
-
             const weatherForSaved = await sendGetWeather(savedLocation.lat, savedLocation.lon);
-
-
             setSavedLocations([...savedLocations, {location: savedLocation, weather: weatherForSaved}]);
-
         } catch (error) {
             switch (true) {
                 case error instanceof LocationAlreadySavedException:
+                    console.log(error);
                     break;
                 default:
                     console.log('Unknown error occurred! ');
                     window.location.reload();
             }
         }
-
         setTimeout(() => {
             setIsLoading(false);
             setIsSaved(true);
         }, 500);
     };
 
-
     return (
-        <LoadingButton size="small"
-                       variant="contained"
-                       onClick={handleSubmit}
-                       loading={isLoading}
-                       style={{
-                           position: 'absolute',
-                           bottom: 11,
-                           right: 8.5,
-                           paddingRight: 35,
-                       }}
-                       sx={{
-                           backgroundColor: isSaved || isAlreadySaved ? 'success.main' : 'primary.dark',
-                           ...((isSaved || isAlreadySaved) && {
-                               pointerEvents: 'none', // Дополнительно игнорируем клики
-
-                           })
-                       }}
-
+        <LoadingButton
+            size="small"
+            variant="contained"
+            onClick={handleSaveLocation}
+            loading={isLoading}
+            style={{
+                position: 'absolute',
+                bottom: 11,
+                right: 8.5,
+                paddingRight: 35,
+            }}
+            sx={{
+                backgroundColor: isSaved || isAlreadySaved ? 'success.main' : 'primary.dark',
+                ...((isSaved || isAlreadySaved) && {
+                    pointerEvents: 'none',
+                })
+            }}
         >
-
             {isSaved || isAlreadySaved ?
-                (
-                    <>saved
-                        <CheckIcon style={{fontSize: 16, position: 'absolute', right: 0, top: -3}}/>
-                    </>
-                )
+                (<>saved<CheckIcon style={{fontSize: 16, position: 'absolute', right: 0, top: -3}}/></>)
                 :
-                (<>save
-                        <FavoriteIcon style={{fontSize: 16, position: 'absolute', right: 0, top: -3}}/>
-                    </>
-                )
+                (<>save<FavoriteIcon style={{fontSize: 16, position: 'absolute', right: 0, top: -3}}/></>)
             }
         </LoadingButton>
     )

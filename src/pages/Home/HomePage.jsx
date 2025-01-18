@@ -101,14 +101,18 @@ function HomePage() {
                         href="https://react.dev/learn">Examples</a><br/>
                         Material UI React <a
                         href="https://mui.com/material-ui/getting-started/">Library</a><br/>
-                        <hr style={{marginRight: 50, marginLeft: 50}}/>
+                        Nginx server<br/>
+
+                        <hr style={{marginRight: 50, marginLeft: 50}}/><br/>
 
 
                         <h4>Backend</h4>
                         Java 21 Core<br/>
                         Gradle<br/>
                         Spring Boot (Data JPA, Validation, Web and Test starters)<br/>
-
+                        Liquibase<br/>
+                        PostgreSQL Database<br/>
+                        Docker and Docker Compose
 
                     </div>
                 </div>

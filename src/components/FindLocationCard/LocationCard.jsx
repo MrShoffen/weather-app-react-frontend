@@ -2,38 +2,33 @@ import {Button, Card, CardContent, Divider} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {useState} from "react";
 import WeatherCard from "./WeatherCard.jsx";
-import countries from "i18n-iso-countries";
-import enLocale from "i18n-iso-countries/langs/en.json";
 import {useAuth} from "../../context/Auth/AuthContext.jsx";
 import ToFavoriteButton from "./ToFavoriteButton.jsx";
+import {getFullCountryNameFromCode} from "../../services/util/LocationsUtil.jsx";
+import Box from "@mui/material/Box";
 
 
 export default function LocationCard({location}) {
     const [isFlipped, setIsFlipped] = useState(false);
-    const {auth} = useAuth();
-
-
     const handleFlip = () => {
         setIsFlipped(!isFlipped);
     };
-
-    countries.registerLocale(enLocale);
-
     const [isSaved, setIsSaved] = useState(false);
+
+    const {auth} = useAuth();
 
     const favoriteButton = <ToFavoriteButton location={location}
                                              isSaved={isSaved}
-                                             setIsSaved={setIsSaved}
-    />
+                                             setIsSaved={setIsSaved}/>
 
     return (
-        <div
+        <Box
             style={{
-                perspective: "1000px", // Перспектива для 3D-эффекта
+                perspective: "1000px",
                 display: "inline-block",
             }}
         >
-            <div
+            <Box
                 style={{
                     minWidth: "290px",
                     minHeight: 230,
@@ -46,12 +41,12 @@ export default function LocationCard({location}) {
             >
 
                 <Card
-                    elevation={3}
+                    elevation={5}
                     style={{
                         position: "absolute",
                         width: "100%",
                         height: "100%",
-                        backfaceVisibility: "hidden", // Скрыть обратную сторону при фронтальной видимости
+                        backfaceVisibility: "hidden",
                     }}
                 >
                     <CardContent sx={{textAlign: "left", fontSize: 16}}>
@@ -78,7 +73,8 @@ export default function LocationCard({location}) {
                         </Typography>
 
                         <Typography variant="body2" sx={{fontSize: 16}}>
-                            Country: <span style={{fontWeight: 500}}>{countries.getName(location.country, "en")}</span>
+                            Country: <span
+                            style={{fontWeight: 500}}>{getFullCountryNameFromCode(location.country)}</span>
                         </Typography>
 
                         <Typography variant="body2" sx={{fontSize: 16}}>
@@ -114,7 +110,6 @@ export default function LocationCard({location}) {
 
                 </Card>
 
-                {/* Обратная сторона карточки */}
                 <WeatherCard
                     location={location}
                     handleFlip={handleFlip}
@@ -122,7 +117,7 @@ export default function LocationCard({location}) {
                     auth={auth}
                     favoriteButton={favoriteButton}
                 />
-            </div>
-        </div>
+            </Box>
+        </Box>
     );
 }

@@ -8,11 +8,8 @@ export default function LoadingLocationCard() {
             minWidth: "290px",
             minHeight: 230,
             maxHeight: 230,
-
-
         }}
-              elevation={3}
-        >
+              elevation={3}>
             <CardHeader
                 avatar={
                     <Skeleton animation="wave" variant="circular" width={40} height={40}/>
@@ -34,13 +31,12 @@ export default function LoadingLocationCard() {
 
             <CardContent>
 
-                    <React.Fragment>
-                        <Skeleton animation="wave" height={10} style={{marginBottom: 6}}/>
-                        <Skeleton animation="wave" height={10} width="80%"/>
-                    </React.Fragment>
+                <React.Fragment>
+                    <Skeleton animation="wave" height={10} style={{marginBottom: 6}}/>
+                    <Skeleton animation="wave" height={10} width="80%"/>
+                </React.Fragment>
 
             </CardContent>
-
         </Card>
     );
 }
