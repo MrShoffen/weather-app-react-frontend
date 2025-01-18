@@ -54,6 +54,8 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
                 setAvatarErrorMessage('')
             } catch (error) {
                 console.log(error.message);
+                setAvatarError(true);
+                setAvatarErrorMessage('Failed to upload avatar');
             }
         }
 
