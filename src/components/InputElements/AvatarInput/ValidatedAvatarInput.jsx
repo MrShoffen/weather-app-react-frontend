@@ -49,7 +49,6 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
 
             try {
                 const avatar = await uploadAvatar(formData);
-                console.log(avatar);
                 setAvatarUrl(avatar.imageUrl);
                 setAvatarError(false)
                 setAvatarErrorMessage('')

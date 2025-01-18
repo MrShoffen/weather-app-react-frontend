@@ -11,7 +11,6 @@ export const checkSession = async () => {
 
     if (!response.ok) {
         const error = await response.json();
-        console.log('here');
         throw new UserUnauthorizedException(error.detail);
     }
 

@@ -65,12 +65,10 @@ function SavedLocationsPage() {
     }
 
 
-    const [deletingLocations, setDeletingLocations] = useState([]); // Хранение удаляемых локаций
+    const [deletingLocations, setDeletingLocations] = useState([]);
 
     const handleDelete = (locationId) => {
         setDeletingLocations((prev) => [...prev, locationId]);
-        console.log(locationId);
-
         try {
             sendDeleteSavedLocations(locationId);
         } catch (error) {
@@ -83,17 +81,15 @@ function SavedLocationsPage() {
             }
         }
 
-        // Удалить карту с задержкой после анимации
         setTimeout(() => {
 
             const updatedLocations = savedLocations.filter((item) => item.location.id !== locationId);
-            console.log(updatedLocations);
             setSavedLocations(updatedLocations);
 
             setDeletingLocations((prev) =>
                 prev.filter((id) => id !== locationId)
             );
-        }, 500); // Время соответствует длительности анимации
+        }, 500);
     };
 
     return (

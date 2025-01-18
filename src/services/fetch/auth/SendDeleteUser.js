@@ -8,8 +8,6 @@ export const sendDeleteUser = async () =>{
         credentials: 'include',
     });
 
-console.log(response);
-
     if (!response.ok) {
         const error = await response.json();
         throwSpecifyException(error);

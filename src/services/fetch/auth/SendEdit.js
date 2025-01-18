@@ -13,8 +13,6 @@ export const sendEdit = async (editData, type) =>{
         body: JSON.stringify(editData),
     });
 
-console.log(response);
-
     if (!response.ok) {
         const error = await response.json();
         throwSpecifyException(error);
