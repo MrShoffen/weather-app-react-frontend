@@ -1,13 +1,15 @@
 import React, {createContext, useContext, useEffect, useState} from "react";
 import {checkSession} from "../../services/fetch/auth/CheckSession.js";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const AuthContext = createContext();
 
 export const useAuthContext = () => useContext(AuthContext);
 
 export const AuthProvider = ({children}) => {
-    const [auth, setAuth] = useState(extractAuthUser);
     const [savedLocations, setSavedLocations] = useState([]);
+
+    const [auth, setAuth] = useState(extractAuthUser);
 
     function extractAuthUser() {
         const isAuth = localStorage.getItem("isAuthenticated");
@@ -46,37 +48,42 @@ export const AuthProvider = ({children}) => {
     };
 
 
+    const urlLocation = useLocation();
+    const [pageVisits, setPageVisits] = useState(0);
+    const navigate = useNavigate();
     const validateSession = async () => {
         if (auth.isAuthenticated) {
-
+            console.log('validating session....')
             try {
                 const user = await checkSession();
                 if (user !== auth.user) {
+                    console.log(user);
                     login(user);
                 }
             } catch (error) {
                 if (auth.isAuthenticated) {
                     logout();
-                    // navigate("/weather-app/login", {
-                    //     state: {
-                    //         message: "Session is expired! Please login again",
-                    //         type: "error"
-                    //     },
-                    // });
-                    // window.location.reload();
+
+                    setTimeout(() => navigate("/weather-app/login", {
+                        state: {
+                            message: "Session is expired! Please login again",
+                            type: "error"
+                        },
+                    }), 300)
                 }
             }
         }
     };
 
     useEffect(() => {
-        const SESSION_CHECK_INTERVAL = 1000 * 60 * 5;
-        const intervalId = setInterval(validateSession, SESSION_CHECK_INTERVAL);
+        setPageVisits((prev) => prev + 1);
 
-        validateSession();
+        if (pageVisits === 2) {
+            validateSession();
+            setPageVisits(0);
+        }
+    }, [urlLocation.pathname]);
 
-        return () => clearInterval(intervalId);
-    }, []);
 
     const validateCookieIsAlive = async () => {
         if (!auth.isAuthenticated) {
@@ -87,13 +94,13 @@ export const AuthProvider = ({children}) => {
                 }
             } catch (error) {
                 logout();
-
             }
         }
     };
 
     useEffect(() => {
-        validateCookieIsAlive()
+        validateSession();
+        validateCookieIsAlive();
     }, []);
 
 
