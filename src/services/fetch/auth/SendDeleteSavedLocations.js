@@ -20,5 +20,4 @@ export const sendDeleteSavedLocations = async (locationId) => {
         throwSpecifyException(error);
     }
 
-    return await response.json(response);
 }
