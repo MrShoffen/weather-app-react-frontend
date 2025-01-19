@@ -15,7 +15,7 @@ export default function Footer() {
                     color: isDarkMode ? "#d2d2d2" : "#2c2c2c",
                     backgroundColor: isDarkMode ? "rgb(18,18,18, 0.5)" : "rgba(255, 255, 255, 0.5)",
                     transform: isVisible ? "translateY(0)" : "translateY(100%)",
-                    transition: "transform 0.3s ease-in-out",
+                    transition: "transform 0.3s linear",
                 }}
         >
 

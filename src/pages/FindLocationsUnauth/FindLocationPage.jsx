@@ -10,6 +10,8 @@ import Typography from "@mui/material/Typography";
 import WeatherApiException from "../../exception/WeatherApiException.jsx";
 import thunderstorm from "../../assets/img/weather-state/thunderstorms.svg";
 import ClearLocationBadge from "../../components/InputElements/ClearLocationBadge/ClearLocationBadge.jsx";
+import {Paper} from "@mui/material";
+import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 
 
 function FindLocationPage() {
@@ -69,26 +71,55 @@ function FindLocationPage() {
         setErrors('');
     };
 
+    const {isScrolled, isVisible} = useCustomThemeContext();
+
+
     return (
         <Container disableGutters className={"locationUnauthPage"}>
 
-            <Typography sx={{fontSize: 28, fontWeight: 500, mb: 2}}>Locations</Typography>
+            <Box className="homeContainer"
+                   // elevation={isScrolled ? 3 : 0}
+                   sx={{
+                       position: 'fixed',
+                       borderRadius: 0,
+                       left: 0,
+                       top: 0,
+                       zIndex: 2,
+
+                       paddingTop: '70px',
+                       backgroundColor: 'background.paper',
+                       width: '100%',
+                       transform: isVisible ? "translateY(0)" : "translateY(-60px)",
+                       transition: "transform 0.3s linear",
+                   }}>
+                <Typography
+                    sx={{fontSize: 28, fontWeight: 500}}>Locations
+                </Typography>
+
+                <Container disableGutters>
 
 
-            <SearchTextField
-                locationName={currentLocationName}
-                setLocationName={setCurrentLocationName}
-                handleSubmit={handleLocationSearch}
-                onChange={handleInputChange}
-                errors={errors}
-                loading={loading}/>
+                    <SearchTextField
+                        locationName={currentLocationName}
+                        setLocationName={setCurrentLocationName}
+                        handleSubmit={handleLocationSearch}
+                        onChange={handleInputChange}
+                        errors={errors}
+                        loading={loading}/>
 
-            {locationNameForSearch && (
-                <ClearLocationBadge
-                    handleReset={handleReset}
-                    locationNameForSearch={locationNameForSearch}
-                />
-            )}
+                    {locationNameForSearch && (
+                        <Box position="relative" top={-119} right={0}>
+                            <ClearLocationBadge
+                                handleReset={handleReset}
+                                locationNameForSearch={locationNameForSearch}
+                            />
+                        </Box>
+                    )}
+
+                </Container>
+
+
+            </Box>
 
 
             <Box
@@ -96,6 +127,7 @@ function FindLocationPage() {
                     mt: 7,
                     pl: 2,
                     pr: 2,
+                    pt: 13,
                     width: '100%',
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fill, minmax(min(328px, 100%), 1fr))',
@@ -142,7 +174,8 @@ function FindLocationPage() {
                 color: "rgba(0,0,0,0)",
             }}> first first first first first first first first first first first first first first first first
                 first
-                first first first fi rst fir ааfi fi fi fi а rst first fir st fir st first first first
+                first first first fi rst fir ааfi fi fi fi а а а а а а а
+                а а а а а а а а а а а rst first fir st fir st first first first
             </div>
         </Container>
     );

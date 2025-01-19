@@ -14,6 +14,8 @@ import {locationListUpdated} from "../../services/util/LocationsUtil.jsx";
 import LoadingLocationCard from "../../components/FindLocationCard/LoadingLocationCard.jsx";
 import {sendDeleteSavedLocations} from "../../services/fetch/auth/SendDeleteSavedLocations.js";
 import LocationModal from "../../modal/LocationsModal/LocationModal.jsx";
+import {Paper} from "@mui/material";
+import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 
 function SavedLocationsPage() {
     const [loading, setLoading] = useState(false);
@@ -96,6 +98,9 @@ function SavedLocationsPage() {
 
     const [activeCardId, setActiveCardId] = useState(null);
 
+    const {isScrolled, isVisible} = useCustomThemeContext();
+
+
     return (
         <>
             <Container disableGutters>
@@ -104,24 +109,41 @@ function SavedLocationsPage() {
                     onClick={!isLocationModalOpen && handleOpenLocationModal}
                 />
 
-
-                <div className="homeContainer">
-                    <Typography sx={{fontSize: 28, fontWeight: 500, mt: '75px', mb: '30px'}}>Saved
-                        Locations</Typography>
-                </div>
+                <Paper className="homeContainer"
+                       elevation={isScrolled ? 3 : 0}
+                       sx={{
+                           position: 'fixed',
+                           borderRadius: 0,
+                           left: 0,
+                           zIndex: 2,
+                           paddingBottom: '19px',
+                           paddingTop: '78px',
+                           backgroundColor: 'background.paper',
+                           width: '100%',
+                           transform: isVisible ? "translateY(0)" : "translateY(-65px)",
+                           transition: "transform 0.3s linear",
+                       }}>
+                    <Typography
+                        sx={{fontSize: 28, fontWeight: 500}}
+                    >
+                        Saved Locations
+                    </Typography>
+                </Paper>
 
                 <Box
                     sx={{
                         width: '100%',
+                        pt: 18,
                         pl: 2,
                         pr: 2,
                         display: 'grid',
                         gridTemplateColumns: 'repeat(auto-fill, minmax(min(328px, 100%), 1fr))',
                         gap: 2,
                         pb: 5,
+                        transform: isVisible ? "translateY(0)" : "translateY(-65px)",
+                        transition: "transform 0.3s linear",
                     }}
                 >
-
                     {loading ? (
                             <>
                                 <LoadingLocationCard/>
@@ -146,8 +168,6 @@ function SavedLocationsPage() {
                             ))
                         )
                     }
-
-
                 </Box>
                 <div style={{
                     color: "rgba(0,0,0,0)",
@@ -156,6 +176,7 @@ function SavedLocationsPage() {
                     first first first fi rst fir i i i i i ааfi fi i i i i i i i i fi fi а rst first fir st fir st first
                     first first
                 </div>
+
             </Container>
             <LocationModal onClose={handleCloseLocationModal}
                            open={isLocationModalOpen}

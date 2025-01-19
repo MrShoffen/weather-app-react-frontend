@@ -14,7 +14,7 @@ export default function MainLabel() {
                     navigate("/weather-app/");
                 }}
                 sx={{
-                    mr: 2,
+                    ml: 1,
                     marginTop: 1,
                     display: 'flex',
                     fontWeight: 700,

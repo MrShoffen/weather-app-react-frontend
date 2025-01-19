@@ -39,9 +39,7 @@ export const CustomThemeContext = ({children}) => {
     };
 
     useEffect(() => {
-
         window.addEventListener("resize", handleResize);
-
 
         return () => {
             window.removeEventListener("resize", handleResize);
@@ -51,16 +49,17 @@ export const CustomThemeContext = ({children}) => {
 
     const [isVisible, setIsVisible] = useState(true);
     const [prevScrollY, setPrevScrollY] = useState(0);
+    const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
 
-            if (currentScrollY < prevScrollY) {
+            setIsScrolled(window.scrollY > 0);
 
+            if (currentScrollY < prevScrollY && Math.abs(currentScrollY - prevScrollY) > 4) {
                 setIsVisible(true);
-            } else if (Math.abs(currentScrollY - prevScrollY) > 3 && prevScrollY) {
-
+            } else if (Math.abs(currentScrollY - prevScrollY) > 4 && prevScrollY) {
                 setIsVisible(false);
             }
 
@@ -78,7 +77,7 @@ export const CustomThemeContext = ({children}) => {
     }, [prevScrollY]);
 
     return (
-        <ThemeContext.Provider value={{isDarkMode, toggleTheme, windowWidth, isVisible}}>
+        <ThemeContext.Provider value={{isDarkMode, toggleTheme, windowWidth, isVisible, isScrolled, setIsScrolled}}>
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
                 {children}

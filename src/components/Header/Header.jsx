@@ -11,31 +11,26 @@ import HomeButton from "./HomeButton.jsx";
 import {useScrollTrigger} from "@mui/material";
 
 export default function Header() {
-    const {isDarkMode, isVisible} = useCustomThemeContext();
-
-    useScrollTrigger()
+    const { isVisible} = useCustomThemeContext();
 
     return (
         <AppBar
             component="nav"
             position="fixed"
-            elevation={0}
             sx={{
-                backgroundColor: isDarkMode ? "rgba(0,0,0,0.6)" : "rgba(0,114,227,0.66)",
-                backdropFilter: "blur(10px)",
-                WebkitBackdropFilter: "blur(10px)",
                 borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
                 transform: isVisible ? "translateY(0)" : "translateY(-100%)",
-                transition: "transform 0.3s ease-in-out",
+                transition: "transform 0.3s linear",
                 boxShadow:  5,
+                height: "65px",
 
             }}
         >
             <Container disableGutters>
-                <Toolbar>
+                <Toolbar  sx={{height: "65px"}} disableGutters>
                     <MainLabel/>
 
-                    <Box sx={{flexGrow: 1}}/>
+                    <Box sx={{flexGrow: 1, height: 1}}/>
 
 
 

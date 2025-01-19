@@ -157,7 +157,7 @@ export default function AvatarMenu() {
     }
 
     return (
-        <Box sx={{flexGrow: 0}}>
+        <Box sx={{flexGrow: 0, mr: 2}}>
             <Tooltip title={auth.isAuthenticated ? "Home" : "Authenticate"}>
                 <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
                     {getIcon()}

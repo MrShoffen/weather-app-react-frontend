@@ -17,12 +17,10 @@ const Card = styled(MuiCard)(({theme}) => ({
     display: 'flex',
     flexDirection: 'column',
     alignSelf: 'center',
-    width: '300px',
-    maxWidth: '300px',
+    width: '90%',
+    maxWidth: '90%',
     padding: theme.spacing(4),
     gap: theme.spacing(2),
-    // transform: "translate(-50%, 0%)",
-
     margin: 'auto',
     [theme.breakpoints.up('sm')]: {
         width: '400px',
@@ -112,7 +110,7 @@ export default function ProfileModal({open, onClose}) {
                           backgroundColor: "background.paper",
                           width: 400,
                           boxShadow: 24,
-                          p: 4,
+                          p: 2,
                           borderRadius: "8px",
                           position: "relative",
                       }}
@@ -138,9 +136,9 @@ export default function ProfileModal({open, onClose}) {
 
 
                     <Typography
-                        component="h1"
-                        variant="h4"
-                        sx={{width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)'}}
+                        variant="h5"
+                        textAlign="center"
+                        sx={{width: '100%', mb: 2}}
                     >
                         Edit Profile
                     </Typography>
@@ -172,10 +170,11 @@ export default function ProfileModal({open, onClose}) {
                         />
 
                         <Box display="flex" justifyContent="flex-end" gap={2}>
-                            <Button variant="outlined" onClick={onClose}>
+                            <Button size="small" variant="outlined" onClick={onClose}>
                                 Cancel
                             </Button>
                             <LoadingButton
+                                size="small"
                                 variant="contained"
                                 onClick={handleSave}
                                 loading={loading || avatarLoading}

@@ -6,22 +6,26 @@ import {styled} from "@mui/material/styles";
 import MuiCard from "@mui/material/Card";
 
 
-const Card = styled(MuiCard)(({theme, isVisible}) => ({
+const Card = styled(MuiCard)(({theme, isVisible, isDarkMode}) => ({
     position: "fixed",
-    top: 70,
+    top: 73,
     bottom: 'auto',
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(47,155,255,0.8)",
-    borderRadius: "50%",
+    backgroundColor:  "#1976d2",
+    borderRadius: "16px",
     border: "1px solid",
+    boxShadow: 24,
     color: "white",
+    opacity: 0.9,
     marginLeft: 20,
-    transform: isVisible ? "scale(1.0) translateY(0)" : " scale(1.0) translateY(-90%)",
-    transition: "transform 0.3s ease-in-out",
+    width: "60px",
+    height: '60px',
+    transform: isVisible ? "scale(1.0) translateY(0)" : " scale(1.0) translateY(-65px)",
+    transition: "transform 0.3s linear",
     '&:hover': {
-        transform: isVisible ? "scale(1.1) translateY(0)" : " scale(1.1) translateY(-90%)",
+        transform: isVisible ? "scale(1.05) translateY(0)" : " scale(1.05) translateY(-65px)",
         cursor: 'pointer',
 
     },
@@ -31,34 +35,38 @@ const Card = styled(MuiCard)(({theme, isVisible}) => ({
         top: 'auto',
         bottom: 65,
         right: 15,
-        transform: isVisible ? "scale(1.0) translateY(0)" : " scale(1.0) translateY(80%)",
+        transform: isVisible ? "scale(1.0) translateY(0)" : " scale(1.0) translateY(50px)",
         '&:hover': {
-            transform: isVisible ? "scale(1.1) translateY(0)" : " scale(1.1) translateY(80%)",
+            transform: isVisible ? "scale(1.1) translateY(0)" : " scale(1.1) translateY(50px)",
             cursor: 'pointer',
 
         },
+
+        width: "80px",
+        height: '80px',
     },
 
 
 }));
 
 export default function SearchButton({onClick}) {
-    const {isVisible} = useCustomThemeContext();
+    const {isVisible, isDarkMode} = useCustomThemeContext();
 
 
     return (
         <Card
             isVisible={isVisible}
+            isDarkMode={isDarkMode}
             sx={{
                 borderColor: "action.selected",
             }}
             onClick={onClick}
         >
-            <SearchIcon sx={{fontSize: "45px",}}/>
+            <SearchIcon sx={{fontSize: "50px",}}/>
             <AddIcon sx={{
                 position: "absolute",
-                left: "35%",
-                top: "-10%",
+                left: "45%",
+                top: "-5%",
             }}/>
         </Card>
     );

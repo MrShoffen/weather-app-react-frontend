@@ -21,13 +21,14 @@ const Card = styled(MuiCard)(({theme}) => ({
     display: 'flex',
     flexDirection: 'column',
     alignSelf: 'center',
-    width: '300px',
-    maxWidth: '300px',
-    padding: theme.spacing(4),
+    width: '90%',
+    maxWidth: '90%',
+    // padding: theme.spacing(4),
     gap: theme.spacing(2),
     margin: 'auto',
     [theme.breakpoints.up('sm')]: {
         width: '400px',
+
         maxWidth: '400px',
     },
 }));
@@ -136,9 +137,7 @@ export default function SecurityModal({open, onClose}) {
                     <Slide in={open} direction={'up'}
                            style={{
                                transform: "translate(-50%, 0%)",
-                               // top: "70px",
                                marginTop: "70px",
-                               // position: "absolute",
                            }}
                     >
                         <Card variant="outlined"
@@ -146,7 +145,7 @@ export default function SecurityModal({open, onClose}) {
                                   backgroundColor: "background.paper",
                                   width: 400,
                                   boxShadow: 24,
-                                  p: 4,
+                                  p: 2,
                                   borderRadius: "8px",
                                   position: "relative",
                               }}
@@ -173,9 +172,9 @@ export default function SecurityModal({open, onClose}) {
                             </IconButton>
 
                             <Typography
-                                component="h1"
-                                variant="h4"
-                                sx={{width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)'}}
+                                variant="h5"
+                                textAlign="center"
+                                sx={{width: '100%', mb: 2}}
                             >
                                 Security Settings
                             </Typography>
@@ -233,13 +232,14 @@ export default function SecurityModal({open, onClose}) {
 
 
                                 <Box display="flex" justifyContent="flex-end" gap={2}>
-                                    <Button variant="outlined" onClick={onClose}>
+                                    <Button size="small" variant="outlined" onClick={onClose}>
                                         Cancel
                                     </Button>
 
 
                                     <LoadingButton
                                         variant="contained"
+                                        size="small"
                                         onClick={handleSave}
                                         loading={loading}
                                         disabled={oldPasswordError || oldPassword.length === 0 || newPasswordError || newPassword.length === 0 || confirmPasswordError || confirmPassword.length === 0}
@@ -252,7 +252,7 @@ export default function SecurityModal({open, onClose}) {
                                 <Divider/>
 
 
-                                <LoadingButton loading={loading} style={{width: "100%"}} variant="text"
+                                <LoadingButton size="small" loading={loading} style={{width: "100%"}} variant="text"
                                                onClick={handleDeleteClick} color="error">
                                     Delete Account <DeleteIcon/>
                                 </LoadingButton>
@@ -271,35 +271,39 @@ export default function SecurityModal({open, onClose}) {
                     aria-labelledby="confirm-delete-modal"
                     aria-describedby="confirm-delete-modal-description"
                 >
-                    <Card variant="outlined"
-                          sx={{
-                              position: "absolute",
-                              top: "50%",
-                              left: "50%",
-                              backgroundColor: "background.paper",
-                              transform: "translate(-50%, -50%)",
-                              width: 300,
-                              boxShadow: 24,
-                              p: 4,
-                              borderRadius: "8px",
-                          }}
+                    <Slide in={deleteConfirmOpen} direction={'up'}
+                           style={{
+                               transform: "translate(-50%, 0%)",
+                               marginTop: "170px",
+                           }}
                     >
-                        <Typography
-                            component="h2"
-                            variant="h6"
-                            sx={{textAlign: "center", mb: 2}}
+                        <Card variant="outlined"
+                              sx={{
+                                  position: "relative",
+                                  backgroundColor: "background.paper",
+                                  width: 300,
+                                  boxShadow: 24,
+                                  p: 4,
+                                  borderRadius: "8px",
+                              }}
                         >
-                            Are you sure you want to delete your account?
-                        </Typography>
-                        <Box display="flex" justifyContent="space-between" mt={2}>
-                            <Button variant="outlined" onClick={handleDeleteCancel}>
-                                No
-                            </Button>
-                            <Button variant="contained" color="error" onClick={handleDeleteConfirm}>
-                                Yes
-                            </Button>
-                        </Box>
-                    </Card>
+                            <Typography
+                                component="h2"
+                                variant="h6"
+                                sx={{textAlign: "center", mb: 2}}
+                            >
+                                Are you sure you want to delete your account?
+                            </Typography>
+                            <Box display="flex" justifyContent="space-between" mt={2}>
+                                <Button variant="outlined" onClick={handleDeleteCancel}>
+                                    No
+                                </Button>
+                                <Button variant="contained" color="error" onClick={handleDeleteConfirm}>
+                                    Yes
+                                </Button>
+                            </Box>
+                        </Card>
+                    </Slide>
                 </Modal>
 
             </>
