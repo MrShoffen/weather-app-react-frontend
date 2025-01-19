@@ -7,12 +7,13 @@ import Box from "@mui/material/Box";
 import {sendGetLocationsAndWeather} from "../../services/fetch/auth/SendGetLocationsAndWeather.js";
 import WeatherApiException from "../../exception/WeatherApiException.jsx";
 import LocationWeatherCard from "../../components/LocationWeatherCard/LocationWeatherCard.jsx";
-import LocationModal from "../../modal/LocationsModal/LocationModal.jsx";
+
 import {useAuthContext} from "../../context/Auth/AuthContext.jsx";
 import {sendGetSavedLocations} from "../../services/fetch/auth/SendGetSavedLocations.js";
 import {locationListUpdated} from "../../services/util/LocationsUtil.jsx";
 import LoadingLocationCard from "../../components/FindLocationCard/LoadingLocationCard.jsx";
 import {sendDeleteSavedLocations} from "../../services/fetch/auth/SendDeleteSavedLocations.js";
+import LocationModal from "../../modal/LocationsModal/LocationModal.jsx";
 
 function SavedLocationsPage() {
     const [loading, setLoading] = useState(false);
@@ -92,6 +93,9 @@ function SavedLocationsPage() {
         }, 500);
     };
 
+
+    const [activeCardId, setActiveCardId] = useState(null);
+
     return (
         <>
             <Container disableGutters>
@@ -136,6 +140,8 @@ function SavedLocationsPage() {
                                     locationAndWeather={locAndWeath}
                                     onDelete={handleDelete}
                                     isDeleting={deletingLocations.includes(locAndWeath.location.id)}
+                                    activeCardId={activeCardId}
+                                    setActiveCardId={setActiveCardId}
                                 />
                             ))
                         )

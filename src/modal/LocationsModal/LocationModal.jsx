@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Box, Modal, Typography} from "@mui/material";
+import {Box, Modal, Slide, Typography} from "@mui/material";
 import {useAuthContext} from "../../context/Auth/AuthContext.jsx";
 import {styled} from "@mui/material/styles";
 import MuiCard from "@mui/material/Card";
@@ -125,128 +125,131 @@ export default function LocationModal({open, onClose}) {
                 }}
             >
 
-                <Card variant="outlined">
-                    <IconButton
-                        aria-label="close"
-                        size="small"
-                        onClick={() => {
-                            onClose();
-                            setSuccessMessage("");
-                            handleReset();
+                <Slide in={open} direction={'up'}
+                       style={{
+                           position: "relative",
+                           transform: "translate(50%,50%)",
+                           left: "0%",
+                       }}
+                >
 
-                        }}
+                    <Card variant="outlined"
+                          sx={{
+                              boxShadow: 24,
+                              transform: "translate(50%,50%)",
 
-                        sx={{
-                            position: 'absolute',
-                            top: 5,
-                            right: 5,
-                            width: '25px',
-                            height: '25px',
-                        }}
+                          }}
                     >
-                        <CloseIcon sx={{fontSize: '25px'}}/>
-                    </IconButton>
 
-                    <Typography
-                        component="h1"
-                        variant="h4"
-                        sx={{
-                            textAlign: 'center',
-                            width: '100%',
-                            fontSize: 'clamp(2rem, 10vw, 2.15rem)',
-                            p: 1.5,
-                        }}
-                    >
-                        Find Locations
-                    </Typography>
+                        <IconButton
+                            aria-label="close"
+                            size="small"
+                            onClick={() => {
+                                onClose();
+                                setSuccessMessage("");
+                                handleReset();
 
-                    <InformationBadge message={successMessage} type="info"/>
+                            }}
 
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            width: '100%',
-                            position: 'sticky',
-                            top: 0,
-                            zIndex: 2,
-                        }}
-                    >
-                        <SearchTextField
-                            locationName={currentLocationName}
-                            setLocationName={setCurrentLocationName}
-                            handleSubmit={handleLocationSearch}
-                            onChange={handleInputChange}
-                            errors={errors}
-                            loading={loading}/>
-
-                        {locationNameForSearch && (
-                            <Box position="absolute" top={-59} right={2}>
-                                <ClearLocationBadge
-                                    handleReset={handleReset}
-                                    locationNameForSearch={locationNameForSearch}
-                                />
-                            </Box>
-                        )}
-                    </Box>
-
-                    <Box
-                        id="scrollable-box"
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            flexGrow: 1,
-                            overflowY: 'auto',
-                            maxHeight: '80vh',
-                            paddingLeft: 2,
-                            paddingRight: 2,
-                        }}
-                    >
-                        <Box
                             sx={{
-                                display: 'grid',
-                                gridTemplateColumns: 'repeat(auto-fill, minmax(min(300px, 100%), 1fr))',
-                                gap: 2,
-                                paddingBottom: 2,
-                                paddingTop: 2,
+                                position: 'absolute',
+                                top: 5,
+                                right: 5,
+                                width: '25px',
+                                height: '25px',
                             }}
                         >
-                            {
-                                loading ? (
-                                    <>
-                                        <LoadingLocationCard/>
-                                        <LoadingLocationCard/>
-                                        <LoadingLocationCard/>
-                                        <LoadingLocationCard/>
-                                    </>
-                                ) : (
-                                    foundLocations.length > 0 ? (
-                                        foundLocations.map(location =>
-                                            <LocationCard location={location}/>
-                                        )
-                                    ) : (
-                                        locationNameForSearch ?
-                                            <Box
-                                                sx={{
-                                                    position: 'absolute',
-                                                    left: '50%',
-                                                    transform: "translateX(-50%)"
-                                                }}>
-                                                <Typography sx={{
-                                                    fontSize: 28,
-                                                    fontWeight: 500,
+                            <CloseIcon sx={{fontSize: '25px'}}/>
+                        </IconButton>
 
-                                                }}>Location Not Found</Typography>
-                                                <img src={thunderstorm} alt style={{width: "80%", mt: 5}}/>
-                                            </Box>
-                                            :
-                                            null
-                                    )
-                                )
-                            }
+                        <InformationBadge message={successMessage} type="info"/>
+
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                width: '100%',
+                                position: 'sticky',
+                                marginTop: 4,
+                                zIndex: 2,
+                            }}
+                        >
+                            <SearchTextField
+                                locationName={currentLocationName}
+                                setLocationName={setCurrentLocationName}
+                                handleSubmit={handleLocationSearch}
+                                onChange={handleInputChange}
+                                errors={errors}
+                                loading={loading}/>
+
+                            {locationNameForSearch && (
+                                <Box position="absolute" top={-59} right={2}>
+                                    <ClearLocationBadge
+                                        handleReset={handleReset}
+                                        locationNameForSearch={locationNameForSearch}
+                                    />
+                                </Box>
+                            )}
                         </Box>
-                    </Box>
-                </Card>
+
+                        <Box
+                            id="scrollable-box"
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                flexGrow: 1,
+                                overflowY: 'auto',
+                                maxHeight: '80vh',
+                                paddingLeft: 2,
+                                paddingRight: 2,
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    display: 'grid',
+                                    gridTemplateColumns: 'repeat(auto-fill, minmax(min(300px, 100%), 1fr))',
+                                    gap: 2,
+                                    paddingBottom: 2,
+                                    paddingTop: 2,
+                                }}
+                            >
+                                {
+                                    loading ? (
+                                        <>
+                                            <LoadingLocationCard/>
+                                            <LoadingLocationCard/>
+                                            <LoadingLocationCard/>
+                                            <LoadingLocationCard/>
+                                        </>
+                                    ) : (
+                                        foundLocations.length > 0 ? (
+                                            foundLocations.map(location =>
+                                                <LocationCard location={location}/>
+                                            )
+                                        ) : (
+                                            locationNameForSearch ?
+                                                <Box
+                                                    sx={{
+                                                        position: 'absolute',
+                                                        left: '50%',
+                                                        transform: "translateX(-50%)"
+                                                    }}>
+                                                    <Typography sx={{
+                                                        fontSize: 28,
+                                                        fontWeight: 500,
+
+                                                    }}>Location Not Found</Typography>
+                                                    <img src={thunderstorm} alt style={{width: "80%", mt: 5}}/>
+                                                </Box>
+                                                :
+                                                null
+                                        )
+                                    )
+                                }
+                            </Box>
+                        </Box>
+                    </Card>
+                </Slide>
             </Modal>
         );
     }

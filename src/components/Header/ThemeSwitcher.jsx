@@ -4,9 +4,7 @@ import {Switch} from "@mui/material";
 
 export const ThemeSwitcher = styled(Switch)(({theme}) => ({
     width: 48,
-    position: 'absolute',
-    top: 2,
-    right: -5,
+    // margin: 8,
     height: 27,
     padding: 7,
     opacity: 0.9,

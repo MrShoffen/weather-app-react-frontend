@@ -17,7 +17,7 @@ export default function ClearLocationBadge({locationNameForSearch, handleReset})
                  justifyContent: 'space-between',
                  mt: 2,
                  p: 1,
-                 opacity: 0.9,
+                 opacity: 1,
                  backgroundColor: 'text.disabled',
                  borderRadius: '8px',
                  position: 'absolute',

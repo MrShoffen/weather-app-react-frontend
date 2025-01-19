@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Box, Button, Divider, Modal, Typography} from "@mui/material";
+import {Box, Button, Divider, Modal, Slide, Typography} from "@mui/material";
 import {useAuthContext} from "../../context/Auth/AuthContext.jsx";
 import AnimatedElement from "../../components/InputElements/AnimatedElement.jsx";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -133,127 +133,137 @@ export default function SecurityModal({open, onClose}) {
                     aria-describedby="profile-modal-description"
                 >
 
-                    <Card variant="outlined"
-                          sx={{
-                              position: "absolute",
-                              top: "70px",
-                              left: "50%",
-                              backgroundColor: "background.paper",
-                              transform: "translate(-50%, 0%)",
-                              width: 400,
-                              boxShadow: 24,
-                              p: 4,
-                              borderRadius: "8px",
-                          }}
+                    <Slide in={open} direction={'up'}
+                           style={{
+                               transform: "translate(-50%, 0%)",
+                               // top: "70px",
+                               marginTop: "70px",
+                               // position: "absolute",
+                           }}
                     >
-                        <IconButton
-                            aria-label="close"
-                            size="small"
-                            onClick={() => {
-                                onClose();
-                                setSuccessMessage("");
-                            }}
-
-                            sx={{
-                                position: 'absolute',
-                                top: 5,
-                                right: 5,
-                                width: '25px',
-                                height: '25px',
-                            }}
-                        >
-                            <CloseIcon sx={{fontSize: '25px'}}/>
-                        </IconButton>
-
-                        <Typography
-                            component="h1"
-                            variant="h4"
-                            sx={{width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)'}}
-                        >
-                            Security Settings
-                        </Typography>
-
-
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                width: '100%',
-                                gap: 2,
-                            }}
+                        <Card variant="outlined"
+                              sx={{
+                                  backgroundColor: "background.paper",
+                                  width: 400,
+                                  boxShadow: 24,
+                                  p: 4,
+                                  borderRadius: "8px",
+                                  position: "relative",
+                              }}
                         >
 
-                            <InformationBadge message={successMessage} type="info"/>
 
-                            <ValidatedPasswordField
-                                password={oldPassword}
-                                setPassword={setOldPassword}
+                            <IconButton
+                                aria-label="close"
+                                size="small"
+                                onClick={() => {
+                                    onClose();
+                                    setSuccessMessage("");
+                                }}
 
-                                passwordError={oldPasswordError}
-                                setPasswordError={setOldPasswordError}
+                                sx={{
+                                    position: 'absolute',
+                                    top: 5,
+                                    right: 5,
+                                    width: '25px',
+                                    height: '25px',
+                                }}
+                            >
+                                <CloseIcon sx={{fontSize: '25px'}}/>
+                            </IconButton>
 
-                                label="Current Password"
-                            />
+                            <Typography
+                                component="h1"
+                                variant="h4"
+                                sx={{width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)'}}
+                            >
+                                Security Settings
+                            </Typography>
 
 
-                            <AnimatedElement
-                                condition={!oldPasswordError && oldPassword.length > 0}>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    width: '100%',
+                                    gap: 2,
+                                }}
+                            >
+
+                                <InformationBadge message={successMessage} type="info"/>
+
                                 <ValidatedPasswordField
-                                    password={newPassword}
-                                    setPassword={setNewPassword}
+                                    password={oldPassword}
+                                    setPassword={setOldPassword}
 
-                                    passwordError={newPasswordError}
-                                    setPasswordError={setNewPasswordError}
+                                    passwordError={oldPasswordError}
+                                    setPasswordError={setOldPasswordError}
 
-                                    label="New Password"
+                                    label="Current Password"
                                 />
-                            </AnimatedElement>
-
-                            <AnimatedElement
-                                condition={!oldPasswordError && oldPassword.length > 0 && !newPasswordError && newPassword.length > 0}>
-                                <ValidatedPasswordConfirmField
-                                    confirmPassword={confirmPassword}
-                                    setConfirmPassword={setConfirmPassword}
-
-                                    confirmPasswordError={confirmPasswordError}
-                                    setConfirmPasswordError={setConfirmPasswordError}
-
-                                    originalPassword={newPassword}
-
-                                    label="Confirm New Password"
-                                />
-                            </AnimatedElement>
 
 
-                            <Box display="flex" justifyContent="flex-end" gap={2}>
-                                <Button variant="outlined" onClick={onClose}>
-                                    Cancel
-                                </Button>
+                                <AnimatedElement
+                                    condition={!oldPasswordError && oldPassword.length > 0}>
+                                    <ValidatedPasswordField
+                                        password={newPassword}
+                                        setPassword={setNewPassword}
+
+                                        passwordError={newPasswordError}
+                                        setPasswordError={setNewPasswordError}
+
+                                        label="New Password"
+                                    />
+                                </AnimatedElement>
+
+                                <AnimatedElement
+                                    condition={!oldPasswordError && oldPassword.length > 0 && !newPasswordError && newPassword.length > 0}>
+                                    <ValidatedPasswordConfirmField
+                                        confirmPassword={confirmPassword}
+                                        setConfirmPassword={setConfirmPassword}
+
+                                        confirmPasswordError={confirmPasswordError}
+                                        setConfirmPasswordError={setConfirmPasswordError}
+
+                                        originalPassword={newPassword}
+
+                                        label="Confirm New Password"
+                                    />
+                                </AnimatedElement>
 
 
-                                <LoadingButton
-                                    variant="contained"
-                                    onClick={handleSave}
-                                    loading={loading}
-                                    disabled={oldPasswordError || oldPassword.length === 0 || newPasswordError || newPassword.length === 0 || confirmPasswordError || confirmPassword.length === 0}
-                                >
-                                    Change Password
+                                <Box display="flex" justifyContent="flex-end" gap={2}>
+                                    <Button variant="outlined" onClick={onClose}>
+                                        Cancel
+                                    </Button>
+
+
+                                    <LoadingButton
+                                        variant="contained"
+                                        onClick={handleSave}
+                                        loading={loading}
+                                        disabled={oldPasswordError || oldPassword.length === 0 || newPasswordError || newPassword.length === 0 || confirmPasswordError || confirmPassword.length === 0}
+                                    >
+                                        Change Password
+                                    </LoadingButton>
+
+                                </Box>
+
+                                <Divider/>
+
+
+                                <LoadingButton loading={loading} style={{width: "100%"}} variant="text"
+                                               onClick={handleDeleteClick} color="error">
+                                    Delete Account <DeleteIcon/>
                                 </LoadingButton>
 
+
                             </Box>
+                        </Card>
+                    </Slide>
 
-                            <Divider/>
-
-
-                            <LoadingButton loading={loading} style={{width: "100%"}} variant="text"
-                                           onClick={handleDeleteClick} color="error">
-                                Delete Account <DeleteIcon/>
-                            </LoadingButton>
-
-
-                        </Box>
-                    </Card>
                 </Modal>
+
 
                 <Modal
                     open={deleteConfirmOpen}
@@ -294,6 +304,7 @@ export default function SecurityModal({open, onClose}) {
 
             </>
 
-        );
+        )
+            ;
     }
 };

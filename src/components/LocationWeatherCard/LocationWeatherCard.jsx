@@ -53,6 +53,7 @@ export default function LocationWeatherCard({locationAndWeather, onDelete, isDel
                         width: "100%",
                         height: "100%",
                     }}
+
                 >
                     <CardContent sx={{textAlign: "left", fontSize: 16}}>
                         <Typography

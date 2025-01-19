@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Box, Button, Modal, Typography} from "@mui/material";
+import {Box, Button, Collapse, Fade, Grow, Modal, Slide, Typography} from "@mui/material";
 import {useAuthContext} from "../../context/Auth/AuthContext.jsx";
 import ValidatedAvatarInput from "../../components/InputElements/AvatarInput/ValidatedAvatarInput.jsx";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -21,12 +21,15 @@ const Card = styled(MuiCard)(({theme}) => ({
     maxWidth: '300px',
     padding: theme.spacing(4),
     gap: theme.spacing(2),
+    // transform: "translate(-50%, 0%)",
+
     margin: 'auto',
     [theme.breakpoints.up('sm')]: {
         width: '400px',
         maxWidth: '400px',
     },
 }));
+
 
 
 export default function ProfileModal({open, onClose}) {
@@ -95,17 +98,23 @@ export default function ProfileModal({open, onClose}) {
                 aria-describedby="profile-modal-description"
             >
 
+
+            <Slide in={open} direction={'up'}
+            style={{
+                transform: "translate(-50%, 0%)",
+                // top: "70px",
+                marginTop: "70px",
+                // position: "absolute",
+            }}
+            >
                 <Card variant="outlined"
                       sx={{
-                          position: "absolute",
-                          top: "70px",
-                          left: "50%",
                           backgroundColor: "background.paper",
-                          transform: "translate(-50%, 0%)",
                           width: 400,
                           boxShadow: 24,
                           p: 4,
                           borderRadius: "8px",
+                          position: "relative",
                       }}
                 >
                     <IconButton
@@ -178,6 +187,7 @@ export default function ProfileModal({open, onClose}) {
 
                     </Box>
                 </Card>
+            </Slide>
             </Modal>
         );
     }

@@ -21,6 +21,7 @@ import KeyIcon from '@mui/icons-material/Key';
 import sunset from "../../assets/img/weather-state/sunset.svg"
 import SecurityModal from "../../modal/SecurityModal/SecurityModal.jsx";
 import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
+import {ThemeSwitcher} from "./ThemeSwitcher.jsx";
 
 
 export default function AvatarMenu() {
@@ -35,6 +36,9 @@ export default function AvatarMenu() {
     const navigate = useNavigate();
     const {auth, logout} = useAuthContext();
     const [loading, setLoading] = useState(false);
+
+    const {isDarkMode, toggleTheme, isVisible} = useCustomThemeContext();
+
 
     const handleLogout = async () => {
         try {
@@ -93,6 +97,15 @@ export default function AvatarMenu() {
                 <KeyIcon/>
             </MenuItem>
             <Divider/>
+            <MenuItem key='Theme' style={{display: 'flex', justifyContent: 'space-between'}}
+                      onClick={toggleTheme}>
+                <Typography sx={{textAlign: 'center'}}>Theme</Typography>
+                <ThemeSwitcher
+                    checked={isDarkMode}
+                />
+            </MenuItem>
+
+            <Divider/>
             <MenuItem key='Logout' style={{display: 'flex', justifyContent: 'space-between'}} onClick={handleLogout}>
                 <Typography sx={{textAlign: 'center'}}>Logout</Typography>
                 <LogoutIcon/>
@@ -120,6 +133,15 @@ export default function AvatarMenu() {
 
                 <Typography sx={{textAlign: 'center', marginLeft: '5px'}}>Sign up</Typography>
                 <PersonAddIcon/>
+            </MenuItem>
+
+            <Divider/>
+            <MenuItem key='Theme' style={{display: 'flex', justifyContent: 'space-between'}}
+            onClick={toggleTheme}>
+                <Typography sx={{textAlign: 'center'}}>Theme</Typography>
+                <ThemeSwitcher
+                    checked={isDarkMode}
+                />
             </MenuItem>
         </>;
     }

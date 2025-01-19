@@ -8,9 +8,12 @@ import MainLabel from "./MainLabel.jsx";
 import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 import Box from "@mui/material/Box";
 import HomeButton from "./HomeButton.jsx";
+import {useScrollTrigger} from "@mui/material";
 
 export default function Header() {
-    const {isDarkMode, toggleTheme, isVisible} = useCustomThemeContext();
+    const {isDarkMode, isVisible} = useCustomThemeContext();
+
+    useScrollTrigger()
 
     return (
         <AppBar
@@ -18,12 +21,14 @@ export default function Header() {
             position="fixed"
             elevation={0}
             sx={{
-                backgroundColor: isDarkMode ? "rgb(18,18,18, 0.5)" : "rgba(0,114,227,0.66)",
+                backgroundColor: isDarkMode ? "rgba(0,0,0,0.6)" : "rgba(0,114,227,0.66)",
                 backdropFilter: "blur(10px)",
                 WebkitBackdropFilter: "blur(10px)",
                 borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
                 transform: isVisible ? "translateY(0)" : "translateY(-100%)",
                 transition: "transform 0.3s ease-in-out",
+                boxShadow:  5,
+
             }}
         >
             <Container disableGutters>
@@ -32,34 +37,7 @@ export default function Header() {
 
                     <Box sx={{flexGrow: 1}}/>
 
-                    <Box
-                        elevation={0}
 
-                        sx={{
-                            position: "absolute",
-                            top: 70,
-                            right: '7%',
-                            width: "48px",
-                            height: "48px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            borderRadius: "25%",
-                            border: "1px solid",
-                            borderColor: isDarkMode ? "rgb(18,18,18, 0.5)" : "rgba(47,155,255,0.53)",
-                            backgroundColor: "rgba(255, 255, 255, 0.3)",
-
-                            opacity: isVisible ? 1 : 0,
-                            visibility: isVisible ? "visible" : "hidden",
-                            transition: "opacity 0.3s ease-in-out, visibility 0.3s ease-in-out",
-                        }}
-                    >
-                        <ThemeSwitcher
-                            sx={{m: 1}}
-                            checked={isDarkMode}
-                            onChange={toggleTheme}
-                        />
-                    </Box>
 
                     <HomeButton/>
 

@@ -1,6 +1,6 @@
 import './App.css'
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import SavedLocationsPage from "./pages/Locations/SavedLocationsPage.jsx";
+import SavedLocationsPage from "./pages/SavedLocations/SavedLocationsPage.jsx";
 import LoginPage from "./pages/Login/LoginPage.jsx";
 import {CustomThemeContext} from "./context/CustomTheme/CustomThemeContext.jsx";
 import PageNotFound from "./pages/Error/ErrorPage.jsx";
