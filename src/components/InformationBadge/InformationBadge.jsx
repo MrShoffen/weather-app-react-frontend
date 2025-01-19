@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import '../InputElements/FadeAnimation.css'
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from "@mui/material/IconButton";
+import {Zoom} from "@mui/material";
 
 const backgroundColors = {
     success: "rgba(76, 175, 80, 0.2)",
@@ -25,43 +26,45 @@ export default function InformationBadge({message, type}) {
         };
 
         return (
-            <>
-                {isVisible && (
-                    <Box
+
+            <Zoom in={isVisible} unmountOnExit>
+
+                <Box
+                    sx={{
+                        position: 'relative',
+                        backgroundColor: backgroundColors[type],
+                        color: colors[type],
+                        fontWeight: "500",
+                        padding: 2,
+                        marginBottom: 2,
+                        textAlign: "center",
+                        borderRadius: "4px",
+                        border: "1px solid",
+                        borderColor: colors[type]
+                    }}
+                >
+                    {message}
+
+                    <IconButton
+                        aria-label="close"
+                        size="small"
+                        onClick={handleClose}
+
                         sx={{
-                            position: 'relative',
-                            backgroundColor: backgroundColors[type],
-                            color: colors[type],
-                            fontWeight: "bold",
-                            padding: 2,
-                            marginBottom: 2,
-                            textAlign: "center",
-                            borderRadius: "4px",
-                            border: "1px solid",
-                            borderColor: colors[type]
+                            position: 'absolute',
+                            top: 3,
+                            right: 3,
+                            width: '15px',
+                            height: '15px',
+                            color: colors[type]
                         }}
                     >
-                        {message}
+                        <CloseIcon sx={{fontSize: '17px'}}/>
+                    </IconButton>
+                </Box>
 
-                        <IconButton
-                            aria-label="close"
-                            size="small"
-                            onClick={handleClose}
+            </Zoom>
 
-                            sx={{
-                                position: 'absolute',
-                                top: 3,
-                                right: 3,
-                                width: '15px',
-                                height: '15px',
-                                color: colors[type]
-                            }}
-                        >
-                            <CloseIcon sx={{fontSize: '17px'}}/>
-                        </IconButton>
-                    </Box>
-                )}
-            </>
         );
     }
 

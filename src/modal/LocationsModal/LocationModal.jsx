@@ -126,6 +126,7 @@ export default function LocationModal({open, onClose}) {
             >
 
                 <Slide in={open} direction={'up'}
+                       timeout={250}
                        style={{
                            position: "relative",
                            transform: "translate(50%,50%)",

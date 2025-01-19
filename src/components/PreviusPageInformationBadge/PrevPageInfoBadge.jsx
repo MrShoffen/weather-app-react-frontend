@@ -4,6 +4,7 @@ import '../InputElements/FadeAnimation.css'
 import CloseIcon from '@mui/icons-material/Close';
 import {useLocation} from 'react-router-dom';
 import IconButton from "@mui/material/IconButton";
+import {Zoom} from "@mui/material";
 
 const backgroundColors = {
     success: "rgba(76, 175, 80, 0.2)",
@@ -30,14 +31,14 @@ export default function PrevPageInfoBadge() {
         };
 
         return (
-            <>
-                {isVisible && (
+            <Zoom in={isVisible} unmountOnExit>
+
                     <Box
                         sx={{
                             position: 'relative',
                             backgroundColor: backgroundColors[type],
                             color: colors[type],
-                            fontWeight: "bold",
+                            fontWeight: "500",
                             padding: 2,
                             marginBottom: 2,
                             textAlign: "center",
@@ -65,8 +66,8 @@ export default function PrevPageInfoBadge() {
                             <CloseIcon sx={{fontSize: '17px'}}/>
                         </IconButton>
                     </Box>
-                )}
-            </>
+
+            </Zoom>
         );
     }
 }
