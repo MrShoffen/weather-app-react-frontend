@@ -41,23 +41,29 @@ export default function ForecastModal({activeLocationForecast, onClose}) {
 
     useEffect(() => {
         const loadWeather = async () => {
-            setIsLoading(true);
-            if (!weatherData) {
+            setTimeout(async () => {
+                setIsLoading(true);
+                if (!weatherData) {
 
-                try {
-                    const weatherJson = await sendGetForecast(activeLocationForecast.id);
+                    try {
+                        const weatherJson = await sendGetForecast(activeLocationForecast.id);
 
-                    setWeatherData(parseWeatherData(weatherJson));
+                        setWeatherData(parseWeatherData(weatherJson));
 
-                } catch (error) {
-                    console.log(error);
+                    } catch (error) {
+                        console.log(error);
+                    }
+
                 }
 
-            }
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 500);
 
-            setTimeout(() => {
-                setIsLoading(false);
-            }, 1000);
+            }, 200);
+
+
+
         };
 
         if (activeLocationForecast !== null) {

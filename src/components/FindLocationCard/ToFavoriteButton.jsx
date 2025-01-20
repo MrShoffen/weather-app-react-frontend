@@ -25,7 +25,7 @@ export default function ToFavoriteButton({
         try {
             const savedLocation = await sendSaveLocation(location);
             const weatherForSaved = await sendGetWeather(savedLocation.lat, savedLocation.lon);
-            setSavedLocations([...savedLocations, {location: savedLocation, weather: weatherForSaved}]);
+            setSavedLocations([{ location: savedLocation, weather: weatherForSaved }, ...savedLocations]);
         } catch (error) {
             switch (true) {
                 case error instanceof LocationAlreadySavedException:

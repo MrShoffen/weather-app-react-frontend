@@ -66,9 +66,7 @@ export default function ForecastLoading({country, name}) {
                 <ForecastRow />
                 <ForecastRow />
                 <ForecastRow />
-                <ForecastRow />
-                <ForecastRow />
-                <ForecastRow />
+
 
 
             </Box>
