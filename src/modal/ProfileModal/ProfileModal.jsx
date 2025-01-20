@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Box, Button, Collapse, Fade, Grow, Modal, Slide, Typography} from "@mui/material";
+import {Box, Button, Modal, Slide, Typography} from "@mui/material";
 import {useAuthContext} from "../../context/Auth/AuthContext.jsx";
 import ValidatedAvatarInput from "../../components/InputElements/AvatarInput/ValidatedAvatarInput.jsx";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -8,9 +8,9 @@ import MuiCard from "@mui/material/Card";
 import ValidatedUsernameTextField from "../../components/InputElements/TextField/ValidatedUsernameTextField.jsx";
 import {sendEdit} from "../../services/fetch/auth/SendEdit.js";
 import UserAlreadyExistException from "../../exception/UserAlreadyExistException.jsx";
-import InformationBadge from "../../components/InformationBadge/InformationBadge.jsx";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import {useNotification} from "../../context/Notification/NotificationProvider.jsx";
 
 
 const Card = styled(MuiCard)(({theme}) => ({
@@ -51,10 +51,10 @@ export default function ProfileModal({open, onClose}) {
 
     const [loading, setLoading] = useState(false);
 
+    const {showNotification} = useNotification();
 
     const handleSave = async () => {
         try {
-            setSuccessMessage('');
             setLoading(true);
             const editInformation = {
                 newUsername: username,
@@ -64,7 +64,8 @@ export default function ProfileModal({open, onClose}) {
             const newData = await sendEdit(editInformation, "/profile");
 
             login(newData);
-            setSuccessMessage("Information updated successfully.");
+
+            showNotification({message: "Information updated successfully.", severity: "success"});
         } catch (error) {
             switch (true) {
                 case error instanceof UserAlreadyExistException:
@@ -81,8 +82,6 @@ export default function ProfileModal({open, onClose}) {
 
     const [avatarLoading, setAvatarLoading] = React.useState(false);
 
-    const [successMessage, setSuccessMessage] = React.useState('');
-
 
     if (auth.isAuthenticated) {
         return (
@@ -90,7 +89,6 @@ export default function ProfileModal({open, onClose}) {
                 open={open}
                 onClose={() => {
                     onClose();
-                    setSuccessMessage("");
                 }}
                 aria-labelledby="profile-modal"
                 aria-describedby="profile-modal-description"
@@ -120,7 +118,6 @@ export default function ProfileModal({open, onClose}) {
                         size="small"
                         onClick={() => {
                             onClose();
-                            setSuccessMessage("");
                         }}
 
                         sx={{
@@ -142,8 +139,6 @@ export default function ProfileModal({open, onClose}) {
                     >
                         Edit Profile
                     </Typography>
-
-                    <InformationBadge message={successMessage} type="info"/>
 
 
                     <Box

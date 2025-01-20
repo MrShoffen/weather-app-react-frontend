@@ -22,6 +22,7 @@ import sunset from "../../assets/img/weather-state/sunset.svg"
 import SecurityModal from "../../modal/SecurityModal/SecurityModal.jsx";
 import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 import {ThemeSwitcher} from "./ThemeSwitcher.jsx";
+import {useNotification} from "../../context/Notification/NotificationProvider.jsx";
 
 
 export default function AvatarMenu() {
@@ -40,17 +41,22 @@ export default function AvatarMenu() {
     const {isDarkMode, toggleTheme, isVisible} = useCustomThemeContext();
 
 
+    const {showNotification} = useNotification();
+
     const handleLogout = async () => {
         try {
             setLoading(true);
             await sendLogout();
             logout();
-            setTimeout(() => navigate("/weather-app/login", {
-                state: {
-                    message: "You have successfully logged out.",
-                    type: "info"
-                },
-            }), 400)
+            setTimeout(() => {
+                navigate("/weather-app/login");
+                showNotification({
+                    message: "You've successfully logged out.",
+                    severity: "info"
+                });
+            }, 400);
+
+
 
             handleCloseUserMenu()
         } catch (error) {
@@ -137,7 +143,7 @@ export default function AvatarMenu() {
 
             <Divider/>
             <MenuItem key='Theme' style={{display: 'flex', justifyContent: 'space-between'}}
-            onClick={toggleTheme}>
+                      onClick={toggleTheme}>
                 <Typography sx={{textAlign: 'center'}}>Theme</Typography>
                 <ThemeSwitcher
                     checked={isDarkMode}

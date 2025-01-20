@@ -12,6 +12,7 @@ import thunderstorm from "../../assets/img/weather-state/thunderstorms.svg";
 import ClearLocationBadge from "../../components/InputElements/SearchLocationField/ClearLocationBadge.jsx";
 import {Paper} from "@mui/material";
 import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
+import {useNotification} from "../../context/Notification/NotificationProvider.jsx";
 
 
 function FindLocationPage() {
@@ -23,6 +24,8 @@ function FindLocationPage() {
     const [loading, setLoading] = useState(false);
 
     const [foundLocations, setFoundLocations] = useState([]);
+
+    const {showWarn} = useNotification();
 
     const handleLocationSearch = async () => {
         if (!currentLocationName) {
@@ -46,10 +49,10 @@ function FindLocationPage() {
                 case error instanceof WeatherApiException:
                     handleReset();
                     setErrors(error.message);
+                    showWarn('Failed to retrieve locations');
                     break;
                 default:
-                    console.log('Unknown error occurred! ');
-                    window.location.reload();
+                    showWarn('Unknown error occurred! ');
             }
         }
 

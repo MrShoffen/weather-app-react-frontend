@@ -8,12 +8,15 @@ import {useState} from "react";
 import FormLabel from "@mui/material/FormLabel";
 import {CircularProgress, FormHelperText} from "@mui/material";
 import {uploadAvatar} from "../../../services/fetch/unauth/UploadAvatar.js";
+import {useNotification} from "../../../context/Notification/NotificationProvider.jsx";
 
 
 export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '', avatarLoading, setAvatarLoading}) {
     const [avatarPreview, setAvatarPreview] = useState(initialAvatarUrl || null);
     const [avatarError, setAvatarError] = React.useState(false);
     const [avatarErrorMessage, setAvatarErrorMessage] = React.useState('');
+
+    const {showWarn} = useNotification();
 
     const validateAvatar = (file) => {
         const acceptedFileTypes = ["image/jpeg", "image/png", "image/jpg"];
@@ -56,6 +59,7 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
                 console.log(error.message);
                 setAvatarError(true);
                 setAvatarErrorMessage('Failed to upload avatar');
+                showWarn('Failed to upload avatar');
             }
         }
 

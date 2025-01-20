@@ -14,7 +14,8 @@ import UserAlreadyExistException from "../../exception/UserAlreadyExistException
 import ValidatedAvatarInput from "../InputElements/AvatarInput/ValidatedAvatarInput.jsx";
 import ValidatedUsernameTextField from "../InputElements/TextField/ValidatedUsernameTextField.jsx";
 import ValidatedPasswordField from "../InputElements/TextField/ValidatedPasswordField.jsx";
-import ValidatedPasswordConfirmField from "../InputElements/TextField/ValidatedPasswordConfirmField.jsx"; // Иконка плюса
+import ValidatedPasswordConfirmField from "../InputElements/TextField/ValidatedPasswordConfirmField.jsx";
+import {useNotification} from "../../context/Notification/NotificationProvider.jsx"; // Иконка плюса
 
 const Card = styled(MuiCard)(({theme}) => ({
         padding: theme.spacing(4),
@@ -43,6 +44,7 @@ export default function SignUpForm() {
     const [registrationLoading, setRegistrationLoading] = useState(false);
     const navigate = useNavigate();
 
+    const {showNotification} = useNotification();
     const handleSubmit = async () => {
         if (usernameError || passwordError || confirmPasswordError) {
             return;
@@ -58,12 +60,13 @@ export default function SignUpForm() {
             setRegistrationLoading(true);
             await sendRegistrationForm(requestData);
 
-            navigate("/weather-app/login", {
-                state: {
-                    message: "You've successfully signed up. Now you can log in to your account.",
-                    type: "info"
-                },
-            });
+            navigate("/weather-app/login");
+
+            showNotification({
+                message: "You've successfully signed up. Now you can log in to your account.",
+                severity: "success"
+            })
+
         } catch (error) {
             switch (true) {
                 case error instanceof UserAlreadyExistException:

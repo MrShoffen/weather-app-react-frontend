@@ -1,6 +1,7 @@
 import React, {createContext, useContext, useEffect, useState} from "react";
 import {checkSession} from "../../services/fetch/auth/CheckSession.js";
 import {useLocation, useNavigate} from "react-router-dom";
+import {useNotification} from "../Notification/NotificationProvider.jsx";
 
 const AuthContext = createContext();
 
@@ -51,6 +52,8 @@ export const AuthProvider = ({children}) => {
     const urlLocation = useLocation();
     const [pageVisits, setPageVisits] = useState(0);
     const navigate = useNavigate();
+
+    const {showNotification} = useNotification();
     const validateSession = async () => {
         if (auth.isAuthenticated) {
             console.log('validating session....')
@@ -64,12 +67,16 @@ export const AuthProvider = ({children}) => {
                 if (auth.isAuthenticated) {
                     logout();
 
-                    setTimeout(() => navigate("/weather-app/login", {
-                        state: {
-                            message: "Session is expired! Please login again",
-                            type: "error"
-                        },
-                    }), 300)
+                    setTimeout(() => {
+                            navigate("/weather-app/login");
+
+                            showNotification({
+                                message: "Session is expired! Please login again",
+                                severity: "error"
+                            })
+                        }
+                    , 300)
+
                 }
             }
         }

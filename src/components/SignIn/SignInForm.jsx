@@ -11,11 +11,12 @@ import AnimatedElement from '../InputElements/AnimatedElement.jsx'
 import {useAuthContext} from "../../context/Auth/AuthContext.jsx";
 import UserNotFoundException from "../../exception/UserNotFoundException.jsx";
 import IncorrectPasswordException from "../../exception/IncorrectPasswordException.jsx";
-import PrevPageInfoBadge from "../PreviusPageInformationBadge/PrevPageInfoBadge.jsx";
 import LoadingButton from "@mui/lab/LoadingButton";
 import ValidatedUsernameTextField from "../InputElements/TextField/ValidatedUsernameTextField.jsx";
 import ValidatedPasswordField from "../InputElements/TextField/ValidatedPasswordField.jsx";
 import SessionNotFoundException from "../../exception/SessionNotFoundException.jsx";
+import {useNotification} from "../../context/Notification/NotificationProvider.jsx";
+import {Button} from "@mui/material";
 
 const Card = styled(MuiCard)(({theme}) => ({
     padding: theme.spacing(4),
@@ -39,6 +40,9 @@ export default function SignInForm() {
 
     const [loading, setloading] = useState(false);
 
+    const {showNotification, showWarn} = useNotification();
+
+
     const handleSubmit = async () => {
         if (usernameError || passwordError) {
             return
@@ -53,6 +57,7 @@ export default function SignInForm() {
             setloading(true);
             const profile = await sendLoginForm(requestData);
             login(profile);
+            showNotification({ message: "You've successfully logged in", severity: "info", duration: 2000 });
         } catch (error) {
             switch (true) {
                 case error instanceof UserNotFoundException:
@@ -67,8 +72,7 @@ export default function SignInForm() {
                     await handleSubmit();
                     break;
                 default:
-                    console.log('Unknown error occurred! ');
-                    window.location.reload();
+                    showWarn("Failed to log in! Try again please.");
             }
         }
         setloading(false);
@@ -76,6 +80,8 @@ export default function SignInForm() {
 
     const shouldShowPasswordField = !usernameError && username.length > 0;
     const shouldShowButton = !passwordError && shouldShowPasswordField && password.length > 0;
+
+
 
     return (
         <Card variant="outlined"
@@ -91,8 +97,6 @@ export default function SignInForm() {
                   height: shouldShowButton ? '370px' : shouldShowPasswordField ? '330px' : '240px',
                   transition: 'height 0.5s ease',
               }}>
-
-            <PrevPageInfoBadge/>
 
             <Typography
                 component="h1"
@@ -160,8 +164,8 @@ export default function SignInForm() {
                         <Link to="/weather-app/registration" style={{color: '#1976d2'}}>
                             Sign up
                         </Link>
-                    </Typography>
 
+                    </Typography>
                 </Box>
             </form>
         </Card>

@@ -10,11 +10,11 @@ import ValidatedPasswordField from "../../components/InputElements/TextField/Val
 import ValidatedPasswordConfirmField from "../../components/InputElements/TextField/ValidatedPasswordConfirmField.jsx";
 import IncorrectPasswordException from "../../exception/IncorrectPasswordException.jsx";
 import {sendEdit} from "../../services/fetch/auth/SendEdit.js";
-import InformationBadge from "../../components/InformationBadge/InformationBadge.jsx";
 import {sendDeleteUser} from "../../services/fetch/auth/SendDeleteUser.js";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import {useNotification} from "../../context/Notification/NotificationProvider.jsx";
 
 
 const Card = styled(MuiCard)(({theme}) => ({
@@ -66,10 +66,9 @@ export default function SecurityModal({open, onClose}) {
 
     const [loading, setLoading] = useState(false);
 
-
+    const {showNotification} = useNotification();
     const handleSave = async () => {
         try {
-            setSuccessMessage('');
             setLoading(true);
 
             const editInformation = {
@@ -78,7 +77,7 @@ export default function SecurityModal({open, onClose}) {
             }
 
             await sendEdit(editInformation, "/password");
-            setSuccessMessage("Password updated!.");
+            showNotification({message: "Password updated!", severity: "success"});
 
         } catch (error) {
             switch (true) {
@@ -103,12 +102,14 @@ export default function SecurityModal({open, onClose}) {
             setLoading(true);
             await sendDeleteUser();
             logout();
-            setTimeout(() => navigate("/weather-app/login", {
-                state: {
-                    message: "Your account has been deleted.",
-                    type: "info"
-                },
-            }), 200)
+            setTimeout(() => {
+                navigate("/weather-app/login");
+                showNotification(
+                    {
+                        message: "Your account has been deleted!",
+                        severity: "info"
+                    })
+            }, 200)
 
 
         } catch (error) {
@@ -118,9 +119,6 @@ export default function SecurityModal({open, onClose}) {
     }
 
 
-    const [successMessage, setSuccessMessage] = React.useState('');
-
-
     if (auth.isAuthenticated) {
         return (
             <>
@@ -128,7 +126,6 @@ export default function SecurityModal({open, onClose}) {
                     open={open}
                     onClose={() => {
                         onClose();
-                        setSuccessMessage('');
                     }}
                     aria-labelledby="profile-modal"
                     aria-describedby="profile-modal-description"
@@ -157,7 +154,6 @@ export default function SecurityModal({open, onClose}) {
                                 size="small"
                                 onClick={() => {
                                     onClose();
-                                    setSuccessMessage("");
                                 }}
 
                                 sx={{
@@ -188,8 +184,6 @@ export default function SecurityModal({open, onClose}) {
                                     gap: 2,
                                 }}
                             >
-
-                                <InformationBadge message={successMessage} type="info"/>
 
                                 <ValidatedPasswordField
                                     password={oldPassword}

@@ -128,7 +128,8 @@ function SavedLocationsPage() {
                            transition: "transform 0.3s linear, box-shadow 0.3s linear"
                        }}>
                     <Typography
-                        sx={{fontSize: 28, fontWeight: 500}}
+                        sx={{fontSize: 28, fontWeight: 500, }}
+                        textAlign="center"
                     >
                         Saved Locations
                     </Typography>

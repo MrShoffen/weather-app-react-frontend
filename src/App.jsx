@@ -11,53 +11,54 @@ import AvailableAfterLoginRoute from "./context/Auth/AvailableAfterLoginRoute.js
 import Layout from "./pages/Layout/Layout.jsx";
 import UnavailableAfterLoginRoute from "./context/Auth/UnavailableAfterLoginRoute.jsx";
 import FindLocationPage from "./pages/FindLocationsUnauth/FindLocationPage.jsx";
+import {NotificationProvider} from "./context/Notification/NotificationProvider.jsx";
 
 
 function App() {
     return (
         <BrowserRouter>
-            <AuthProvider>
-                <CustomThemeContext>
-                    <Routes>
-                        <Route path="weather-app" element={<Layout/>}>
-                            <Route index element={<HomePage/>}/>
-                            <Route path="*" element={<PageNotFound status={404} description={'Page Not Found!'}/>}/>
+            <CustomThemeContext>
+                <NotificationProvider>
+                    <AuthProvider>
++                        <Routes>
+                            <Route path="weather-app" element={<Layout/>}>
+                                <Route index element={<HomePage/>}/>
+                                <Route path="*" element={<PageNotFound status={404} description={'Page Not Found!'}/>}/>
 
-                            {/*unavailableAfterLoginRoutes*/}
-                            <Route path="login"
-                                   element={
-                                       <UnavailableAfterLoginRoute>
-                                           <LoginPage/>
-                                       </UnavailableAfterLoginRoute>
-                                   }/>
+                                {/*unavailableAfterLoginRoutes*/}
+                                <Route path="login"
+                                       element={
+                                           <UnavailableAfterLoginRoute>
+                                               <LoginPage/>
+                                           </UnavailableAfterLoginRoute>
+                                       }/>
 
-                            <Route path="registration"
-                                   element={
-                                       <UnavailableAfterLoginRoute>
-                                           <RegistrationPage/>
-                                       </UnavailableAfterLoginRoute>
-                                   }/>
+                                <Route path="registration"
+                                       element={
+                                           <UnavailableAfterLoginRoute>
+                                               <RegistrationPage/>
+                                           </UnavailableAfterLoginRoute>
+                                       }/>
 
-                            <Route path="find"
-                                   element={
-                                       <UnavailableAfterLoginRoute>
-                                           <FindLocationPage/>
-                                       </UnavailableAfterLoginRoute>
-                                   }/>
+                                <Route path="find"
+                                       element={
+                                           <UnavailableAfterLoginRoute>
+                                               <FindLocationPage/>
+                                           </UnavailableAfterLoginRoute>
+                                       }/>
 
-                            {/*availableAfterLoginRoutes*/}
-                            <Route path="locations"
-                                   element={
-                                       <AvailableAfterLoginRoute>
-                                           <SavedLocationsPage/>
-                                       </AvailableAfterLoginRoute>
-                                   }/>
-                        </Route>
-                    </Routes>
-
-
-                </CustomThemeContext>
-            </AuthProvider>
+                                {/*availableAfterLoginRoutes*/}
+                                <Route path="locations"
+                                       element={
+                                           <AvailableAfterLoginRoute>
+                                               <SavedLocationsPage/>
+                                           </AvailableAfterLoginRoute>
+                                       }/>
+                            </Route>
+                        </Routes>
+                    </AuthProvider>
+                </NotificationProvider>
+            </CustomThemeContext>
         </BrowserRouter>
     )
 }

@@ -20,6 +20,8 @@ export default function ForecastRow({row}) {
             whiteSpace: "nowrap",
             gap: "5px",
             padding: "5px 0",
+            paddingLeft: '5px',
+            paddingRight: '5px',
             "&::-webkit-scrollbar": {
                 height: "6px",
             },

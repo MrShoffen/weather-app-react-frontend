@@ -30,8 +30,8 @@ const Card = styled(MuiCard)(({theme}) => ({
         maxWidth: '840px',
     },
     [theme.breakpoints.up('lg')]: {
-        width: '840px',
-        maxWidth: '840px',
+        width: '847px',
+        maxWidth: '847px',
         minHeight: '700px',
 
     },
@@ -88,7 +88,7 @@ export default function ForecastModal({activeLocationForecast, onClose}) {
             e.preventDefault();
 
             const x = e.pageX - rowRef.current.offsetLeft;
-            const walk = (x - startX) * 1.5; // Ускорение прокрутки (1.5 — множитель)
+            const walk = (x - startX) * 1.5;
             rowRef.current.scrollLeft = scrollStart - walk;
         };
 
@@ -147,42 +147,46 @@ export default function ForecastModal({activeLocationForecast, onClose}) {
 
                     <Box
                         sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            width: '100%',
-                            position: 'sticky',
+                            display: "flex",
+                            flexDirection: "column",
+                            width: "100%",
+                            position: "relative",
                             zIndex: 2,
+                            overflow: "hidden",
+                            height: "100%",
                         }}
                     >
                         {
-                            isLoading ?
-                                (
-                                    <Typography>
-                                        loading...
-                                    </Typography>
-                                ) : (
+                            isLoading
+                                ? (
+                                    <Typography>loading...</Typography>
+                                )
+                                : (
                                     weatherData && activeLocationForecast &&
                                     <>
-                                        <Paper className="homeContainer"
-                                               elevation={3}
-                                               sx={{
-                                                   position: 'relative',
-                                                   zIndex: 2,
-                                                   borderRadius: 0,
-                                                   height: '45px',
-                                                   backgroundColor: 'background.paper',
-                                                   padding: 1,
-                                                   width: '100%',
-                                                   // transform: isVisible ? "translateY(0)" : "translateY(-65px)",
-                                                   transition: "transform 0.3s linear, box-shadow 0.3s linear"
-                                               }}>
+                                        {/* Заголовок с флагом и названием города */}
+                                        <Paper
+                                            elevation={3}
+                                            sx={{
+                                                position: "sticky",
+                                                top: 0,
+                                                zIndex: 3,
+                                                backgroundColor: "background.paper",
+                                                borderRadius: 0,
+                                                height: "45px",
+                                                padding: 1,
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                            }}
+                                        >
                                             <Typography
                                                 gutterBottom
                                                 variant="h6"
                                                 component="div"
                                                 textAlign="center"
+                                                sx={{  }}
                                             >
-
                                                 <img
                                                     alt={activeLocationForecast.country}
                                                     src={
@@ -192,72 +196,31 @@ export default function ForecastModal({activeLocationForecast, onClose}) {
                                                     }
                                                     width="30"
                                                     style={{
-                                                        position: 'absolute', left: 5, top: 13,
+                                                        position: "absolute",
+                                                        left: 5,
+                                                        top: 10,
                                                     }}
                                                 />
                                                 {activeLocationForecast.name}
                                             </Typography>
                                         </Paper>
-                                        <Box sx={{marginTop: '30px'}}>
-                                            {weatherData.map(row =>
-                                                <ForecastRow row={row}/>
-                                            )
-                                            }
+
+                                        {/* Прокручиваемая часть */}
+                                        <Box
+                                            sx={{
+                                                overflowY: "auto",
+                                                height: "calc(100% - 50px)",
+                                                "&::-webkit-scrollbar": {
+                                                    display: "none", // Скрывает скроллбар во всех Webkit-совместимых браузерах.
+                                                },
+                                                scrollbarWidth: "none", // Скрывает скроллбар в Firefox.
+                                            }}
+                                        >
+                                            {weatherData.map((row, index) => (
+                                                <ForecastRow key={index} row={row} />
+                                            ))}
                                         </Box>
-
-
                                     </>
-                                    // <TableContainer>
-                                    //     <Table sx={{minWidth: 650, marginLeft: 2}} aria-label="simple table">
-                                    //         <TableHead>
-                                    //             <TableRow>
-                                    //
-                                    //             </TableRow>
-                                    //         </TableHead>
-                                    //         <TableBody sx={{border: 'none'}}>
-                                    //             {weatherData &&
-                                    //                 weatherData.map((row, index) => {
-                                    //                     const isFirstRow = index === 0;
-                                    //                     const isLastRow = index === weatherData.length - 1;
-                                    //
-                                    //                     return (
-                                    //                         <>
-                                    //                             <TableRow>
-                                    //                                 <TableCell sx={{border: 'none',}} variant="string"
-                                    //                                            size="small" colSpan={8} align="center">
-                                    //                                     {row[0].date}
-                                    //                                 </TableCell>
-                                    //                             </TableRow>
-                                    //                             <TableRow>
-                                    //                                 {
-                                    //                                     // Добавляем пустые ячейки в начале для первой строки
-                                    //                                     isFirstRow && Array.from({length: 8 - row.length}).map((_, i) => (
-                                    //                                         <TableCell sx={{ minWidth: '20px',border: 'none',  padding: 0,}}
-                                    //                                                    key={`empty-${i}`}></TableCell>
-                                    //                                     ))
-                                    //                                 }
-                                    //                                 {
-                                    //                                     // Основные ячейки строки
-                                    //                                     row.map((cell, i) => (
-                                    //                                         <ForecastCell key={`cell-${i}`} weather={cell}/>
-                                    //                                     ))
-                                    //                                 }
-                                    //                                 {
-                                    //                                     // Добавляем пустые ячейки в конце для последней строки
-                                    //                                     isLastRow && Array.from({length: 8 - row.length}).map((_, i) => (
-                                    //                                         <TableCell sx={{ minWidth: '20px',border: 'none',  padding: 0,}}
-                                    //                                                    key={`empty-end-${i}`}></TableCell>
-                                    //                                     ))
-                                    //                                 }
-                                    //                             </TableRow>
-                                    //
-                                    //                         </>)
-                                    //                 })
-                                    //             }
-                                    //
-                                    //         </TableBody>
-                                    //     </Table>
-                                    // </TableContainer>
                                 )
                         }
                     </Box>
