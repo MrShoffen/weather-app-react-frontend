@@ -26,6 +26,10 @@ export const CustomThemeContext = ({children}) => {
             createTheme({
                 palette: {
                     mode: isDarkMode ? 'dark' : 'light',
+                    background: {
+                        default: isDarkMode ? 'black' : 'white',
+                    },
+
                 },
             }),
         [isDarkMode]

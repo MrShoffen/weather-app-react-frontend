@@ -4,7 +4,8 @@ import '../InputElements/FadeAnimation.css'
 import CloseIcon from '@mui/icons-material/Close';
 import {useLocation} from 'react-router-dom';
 import IconButton from "@mui/material/IconButton";
-import {Zoom} from "@mui/material";
+import {Snackbar, Zoom} from "@mui/material";
+import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 
 const backgroundColors = {
     success: "rgba(76, 175, 80, 0.2)",
@@ -25,49 +26,61 @@ export default function PrevPageInfoBadge() {
     if (message) {
         const [isVisible, setIsVisible] = React.useState(!!message);
 
+        const {windowWidth} = useCustomThemeContext();
+
+        const isSmall = windowWidth < 1050;
 
         const handleClose = () => {
             setIsVisible(false);
         };
 
         return (
-            <Zoom in={isVisible} unmountOnExit>
+            <Snackbar
+                open={isVisible}
+                autoHideDuration={5000}
+                anchorOrigin={{vertical:  isSmall ? 'bottom' : 'top', horizontal: 'right'}}
 
-                    <Box
+            >
+
+                <Box
+                    sx={{
+                        position: 'relative',
+                        backgroundColor: backgroundColors[type],
+                        color: colors[type],
+                        fontWeight: "500",
+                        padding: 2,
+                        maxWidth: isSmall ? 'auto': '290px',
+                        width: '100%',
+                        marginTop: !isSmall ? '60px' : 0,
+                        marginBottom: isSmall ? 7 : 5,
+                        textAlign: "center",
+                        borderRadius: "4px",
+                        border: "1px solid",
+                        // right: '200%',
+                        borderColor: colors[type]
+                    }}
+                >
+                    {message}
+
+                    <IconButton
+                        aria-label="close"
+                        size="small"
+                        onClick={handleClose}
+
                         sx={{
-                            position: 'relative',
-                            backgroundColor: backgroundColors[type],
-                            color: colors[type],
-                            fontWeight: "500",
-                            padding: 2,
-                            marginBottom: 2,
-                            textAlign: "center",
-                            borderRadius: "4px",
-                            border: "1px solid",
-                            borderColor: colors[type]
+                            position: 'absolute',
+                            top: 3,
+                            right: 3,
+                            width: '15px',
+                            height: '15px',
+                            color: colors[type]
                         }}
                     >
-                        {message}
+                        <CloseIcon sx={{fontSize: '17px'}}/>
+                    </IconButton>
+                </Box>
 
-                        <IconButton
-                            aria-label="close"
-                            size="small"
-                            onClick={handleClose}
-
-                            sx={{
-                                position: 'absolute',
-                                top: 3,
-                                right: 3,
-                                width: '15px',
-                                height: '15px',
-                                color: colors[type]
-                            }}
-                        >
-                            <CloseIcon sx={{fontSize: '17px'}}/>
-                        </IconButton>
-                    </Box>
-
-            </Zoom>
+            </Snackbar>
         );
     }
 }

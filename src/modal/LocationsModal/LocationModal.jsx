@@ -3,13 +3,12 @@ import {Box, Modal, Slide, Typography} from "@mui/material";
 import {useAuthContext} from "../../context/Auth/AuthContext.jsx";
 import {styled} from "@mui/material/styles";
 import MuiCard from "@mui/material/Card";
-import InformationBadge from "../../components/InformationBadge/InformationBadge.jsx";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import SearchTextField from "../../components/InputElements/SearchTextField.jsx";
+import SearchTextField from "../../components/InputElements/SearchLocationField/SearchTextField.jsx";
 import {sendFindLocations} from "../../services/fetch/unauth/SendFindLocations.js";
 import WeatherApiException from "../../exception/WeatherApiException.jsx";
-import ClearLocationBadge from "../../components/InputElements/ClearLocationBadge/ClearLocationBadge.jsx";
+import ClearLocationBadge from "../../components/InputElements/SearchLocationField/ClearLocationBadge.jsx";
 import LoadingLocationCard from "../../components/FindLocationCard/LoadingLocationCard.jsx";
 import LocationCard from "../../components/FindLocationCard/LocationCard.jsx";
 import thunderstorm from "../../assets/img/weather-state/thunderstorms.svg";
@@ -112,24 +111,20 @@ export default function LocationModal({open, onClose}) {
         setErrors('');
     };
 
-    const [successMessage, setSuccessMessage] = React.useState('');
-
     if (auth.isAuthenticated) {
         return (
             <Modal
                 open={open}
                 onClose={() => {
                     onClose();
-                    setSuccessMessage("");
                     handleReset();
                 }}
             >
 
                 <Slide in={open} direction={'up'}
-                       timeout={250}
                        style={{
                            position: "relative",
-                           transform: "translate(50%,50%)",
+                           transform: "translate(50%,50%) 0.5s",
                            left: "0%",
                        }}
                 >
@@ -147,9 +142,7 @@ export default function LocationModal({open, onClose}) {
                             size="small"
                             onClick={() => {
                                 onClose();
-                                setSuccessMessage("");
                                 handleReset();
-
                             }}
 
                             sx={{
@@ -162,8 +155,6 @@ export default function LocationModal({open, onClose}) {
                         >
                             <CloseIcon sx={{fontSize: '25px'}}/>
                         </IconButton>
-
-                        <InformationBadge message={successMessage} type="info"/>
 
                         <Box
                             sx={{
@@ -228,7 +219,7 @@ export default function LocationModal({open, onClose}) {
                                                 <LocationCard location={location}/>
                                             )
                                         ) : (
-                                            locationNameForSearch ?
+                                            locationNameForSearch &&
                                                 <Box
                                                     sx={{
                                                         position: 'absolute',
@@ -242,8 +233,7 @@ export default function LocationModal({open, onClose}) {
                                                     }}>Location Not Found</Typography>
                                                     <img src={thunderstorm} alt style={{width: "80%", mt: 5}}/>
                                                 </Box>
-                                                :
-                                                null
+
                                         )
                                     )
                                 }

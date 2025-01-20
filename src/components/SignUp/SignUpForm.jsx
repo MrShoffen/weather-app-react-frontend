@@ -17,19 +17,16 @@ import ValidatedPasswordField from "../InputElements/TextField/ValidatedPassword
 import ValidatedPasswordConfirmField from "../InputElements/TextField/ValidatedPasswordConfirmField.jsx"; // Иконка плюса
 
 const Card = styled(MuiCard)(({theme}) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    alignSelf: 'center',
-    width: '300px',
-    maxWidth: '300px',
-    padding: theme.spacing(4),
-    gap: theme.spacing(2),
-    margin: 'auto',
-    [theme.breakpoints.up('sm')]: {
-        width: '400px',
-        maxWidth: '400px',
-    },
-}));
+        padding: theme.spacing(4),
+        paddingTop: theme.spacing(3),
+        paddingBottom: theme.spacing(2),
+        gap: theme.spacing(2),
+        [theme.breakpoints.up('sm')]: {
+            width: '400px',
+            maxWidth: '400px',
+        },
+    }))
+;
 
 export default function SignUpForm() {
     const [avatarUrl, setAvatarUrl] = React.useState('');
@@ -83,8 +80,24 @@ export default function SignUpForm() {
 
     const [avatarLoading, setAvatarLoading] = React.useState(false);
 
+    const shouldShowPasswordField = !usernameError && username.length > 0;
+    const shouldShowValidatePasswordField = !passwordError && shouldShowPasswordField&& password.length > 0;
+    const shouldShowButton = shouldShowValidatePasswordField && !confirmPasswordError && confirmPassword.length > 0;
     return (
-        <Card variant="outlined">
+        <Card variant="outlined"
+        sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignSelf: 'center',
+            width: '320px',
+            maxWidth: '320px',
+            margin: 'auto',
+            position: 'relative',
+            height: shouldShowButton ? '615px' : shouldShowValidatePasswordField ? '545px' : shouldShowPasswordField ? '475px' : '405px',
+            transition: 'height 0.5s ease',
+            marginBottom: '200px',
+
+        }}>
 
             <Typography
                 component="h1"
@@ -102,6 +115,7 @@ export default function SignUpForm() {
                         flexDirection: 'column',
                         width: '100%',
                         gap: 2,
+
                     }}
                 >
                     <ValidatedAvatarInput
@@ -119,7 +133,7 @@ export default function SignUpForm() {
                     />
 
                     <AnimatedElement
-                        condition={!usernameError && username.length > 0}>
+                        condition={shouldShowPasswordField}>
                         <ValidatedPasswordField
                             password={password}
                             setPassword={setPassword}
@@ -130,7 +144,7 @@ export default function SignUpForm() {
                     </AnimatedElement>
 
                     <AnimatedElement
-                        condition={!passwordError && !usernameError && username.length > 0 && password.length > 0}>
+                        condition={shouldShowValidatePasswordField}>
                         <ValidatedPasswordConfirmField
                             confirmPassword={confirmPassword}
                             setConfirmPassword={setConfirmPassword}
@@ -143,7 +157,7 @@ export default function SignUpForm() {
                     </AnimatedElement>
 
                     <AnimatedElement
-                        condition={!passwordError && !usernameError && !confirmPasswordError && username.length > 0 && password.length > 0 && confirmPassword.length > 0 }>
+                        condition={shouldShowButton}>
                         <div>
                             <LoadingButton
                                 fullWidth
@@ -160,9 +174,15 @@ export default function SignUpForm() {
 
 
                     <Typography
-                        variant="body2"
+                        variant="body1"
                         component="p"
-                        sx={{textAlign: 'center', marginTop: 2}}
+                        sx={{
+                            position: 'absolute',
+                            transform: 'translateX(-50%)',
+                            left: '50%',
+                            width: '100%',
+                            bottom: 10
+                        }}
                     >
                         Already have an account?{' '}
                         <Link to="/weather-app/login" style={{color: '#1976d2'}}>

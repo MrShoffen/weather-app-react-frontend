@@ -18,14 +18,10 @@ import ValidatedPasswordField from "../InputElements/TextField/ValidatedPassword
 import SessionNotFoundException from "../../exception/SessionNotFoundException.jsx";
 
 const Card = styled(MuiCard)(({theme}) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    alignSelf: 'center',
-    width: '300px',
-    maxWidth: '300px',
     padding: theme.spacing(4),
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(2),
     gap: theme.spacing(2),
-    margin: 'auto',
     [theme.breakpoints.up('sm')]: {
         width: '400px',
         maxWidth: '400px',
@@ -78,8 +74,23 @@ export default function SignInForm() {
         setloading(false);
     };
 
+    const shouldShowPasswordField = !usernameError && username.length > 0;
+    const shouldShowButton = !passwordError && shouldShowPasswordField && password.length > 0;
+
     return (
-        <Card variant="outlined">
+        <Card variant="outlined"
+              sx={{
+                  position: 'relative',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignSelf: 'center',
+                  width: '320px',
+                  maxWidth: '320px',
+                  margin: 'auto',
+
+                  height: shouldShowButton ? '370px' : shouldShowPasswordField ? '330px' : '240px',
+                  transition: 'height 0.5s ease',
+              }}>
 
             <PrevPageInfoBadge/>
 
@@ -109,7 +120,7 @@ export default function SignInForm() {
                     />
 
                     <AnimatedElement
-                        condition={!usernameError && username.length > 0}>
+                        condition={shouldShowPasswordField}>
                         <ValidatedPasswordField
                             password={password}
                             setPassword={setPassword}
@@ -119,7 +130,7 @@ export default function SignInForm() {
                     </AnimatedElement>
 
                     <AnimatedElement
-                        condition={!passwordError && !usernameError && username.length > 0 && password.length > 0}>
+                        condition={shouldShowButton}>
                         <div>
                             <LoadingButton
                                 loadingPosition="center"
@@ -135,9 +146,15 @@ export default function SignInForm() {
                     </AnimatedElement>
 
                     <Typography
-                        variant="body2"
+                        variant="body1"
                         component="p"
-                        sx={{textAlign: 'center', marginTop: 2}}
+                        sx={{
+                            position: 'absolute',
+                            transform: 'translateX(-50%)',
+                            left: '50%',
+                            width: '100%',
+                            bottom: 10
+                        }}
                     >
                         Don't have an account?{' '}
                         <Link to="/weather-app/registration" style={{color: '#1976d2'}}>

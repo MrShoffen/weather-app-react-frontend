@@ -74,7 +74,7 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
         >
 
             <FormLabel htmlFor="avatar-upload" sx={{
-                backgroundColor: 'background.default',
+                backgroundColor: 'background.paper',
                 position: "absolute",
                 left: 10,
                 top: 0,
@@ -93,7 +93,7 @@ export default function ValidatedAvatarInput({setAvatarUrl, initialAvatarUrl = '
                     width: "100%",
                     border: "1px solid",
                     borderRadius: "4px",
-                    borderColor: "gray",
+                    borderColor: "action.disabled",
                     padding: "6px",
                     paddingLeft: 1,
                     paddingRight: 1,

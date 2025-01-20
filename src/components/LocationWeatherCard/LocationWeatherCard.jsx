@@ -14,7 +14,12 @@ import {getFullCountryNameFromCode} from "../../services/util/LocationsUtil.jsx"
 import {isCloudy, isDay, windDirection} from "../../services/util/WeatherStateUtil.jsx";
 import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 
-export default function LocationWeatherCard({locationAndWeather, onDelete, isDeleting}) {
+export default function LocationWeatherCard({
+                                                locationAndWeather,
+                                                onDelete,
+                                                isDeleting,
+                                                setActiveLocation
+                                            }) {
     const location = locationAndWeather.location;
     const weather = locationAndWeather.weather;
 
@@ -80,7 +85,8 @@ export default function LocationWeatherCard({locationAndWeather, onDelete, isDel
 
 
                         <Typography variant="body2" sx={{fontSize: 16}}>
-                            Country: <span style={{fontWeight: 500}}>{getFullCountryNameFromCode(location.country)}</span>
+                            Country: <span
+                            style={{fontWeight: 500}}>{getFullCountryNameFromCode(location.country)}</span>
                         </Typography>
 
                         <Typography variant="body2" sx={{fontSize: 16}}>
@@ -289,6 +295,26 @@ export default function LocationWeatherCard({locationAndWeather, onDelete, isDel
                         delete
                         <DeleteIcon style={{fontSize: 16, position: 'absolute', right: 0, top: -3}}/>
 
+
+                    </LoadingButton>
+
+                    <LoadingButton size="small"
+                                   variant="contained"
+                                   style={{
+                                       position: 'absolute',
+                                       bottom: 11,
+                                       left: 8.5,
+                                   }}
+                                   sx={{
+                                       // backgroundColor: 'error.main',
+                                   }}
+                                   onClick={() => {
+                                       setActiveLocation(location);
+                                   }}
+
+                    >
+
+                        forecast
 
                     </LoadingButton>
 

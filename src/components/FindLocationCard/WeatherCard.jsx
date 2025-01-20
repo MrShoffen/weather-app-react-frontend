@@ -19,7 +19,6 @@ export default function WeatherCard({location, flipped, handleFlip, auth, favori
 
                 try {
                     const weatherJson = await sendGetWeather(location.lat, location.lon);
-                    console.log(weatherJson);
                     setWeatherData(weatherJson);
                 } catch (error) {
                     console.log(error);

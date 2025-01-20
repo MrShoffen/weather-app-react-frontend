@@ -15,11 +15,11 @@ export const sendGetForecast = async (locationId) => {
     });
 
 
-
-
     if (!response.ok) {
         const error = await response.json();
         throwSpecifyException(error);
     }
+
+    return await response.json();
 
 }

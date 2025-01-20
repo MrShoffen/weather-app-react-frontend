@@ -23,7 +23,6 @@ export default function Header() {
                 transition: "transform 0.3s linear",
                 boxShadow:  5,
                 height: "65px",
-
             }}
         >
             <Container disableGutters>

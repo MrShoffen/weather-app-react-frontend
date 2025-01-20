@@ -24,11 +24,14 @@ export default function ValidatedTextField({
     };
 
 
+
+
     return (
-        <FormControl variant='outlined' style={{marginBottom: 25}}>
+        <FormControl variant='outlined' style={{marginBottom: 25, width: '100%'}}
+        >
             <FormLabel htmlFor={id}
                        sx={{
-                           backgroundColor: 'background.default',
+                           backgroundColor: 'background.paper',
                            position: "absolute",
                            left: 10,
                            top: 0,

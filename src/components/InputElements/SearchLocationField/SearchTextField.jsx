@@ -4,8 +4,8 @@ import {Divider} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import React from "react";
-import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
-import {getAutofilledCities} from "../../services/fetch/unauth/SendNameForAutofill.js";
+import {useCustomThemeContext} from "../../../context/CustomTheme/CustomThemeContext.jsx";
+import {getAutofilledCities} from "../../../services/fetch/unauth/SendNameForAutofill.js";
 import {Autocomplete} from "@mui/material";
 
 export default function SearchTextField({locationName, setLocationName, onChange, handleSubmit, errors, loading}) {
@@ -117,10 +117,10 @@ export default function SearchTextField({locationName, setLocationName, onChange
 
             <IconButton
                 sx={{
-                    p: '10px',
+
                     position: "absolute",
-                    top: 0,
-                    right: 0,
+                    top: -4,
+                    right: -4,
                     outline: 'none',
                     '&:hover': {
                         backgroundColor: 'transparent',
@@ -139,7 +139,7 @@ export default function SearchTextField({locationName, setLocationName, onChange
                 aria-label="search"
                 onClick={handleSubmit}
             >
-                <SearchIcon/>
+                <SearchIcon sx={{fontSize: '32px'}}/>
             </IconButton>
         </Box>
     )

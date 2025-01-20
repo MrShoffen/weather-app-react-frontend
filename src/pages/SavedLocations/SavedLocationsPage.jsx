@@ -16,6 +16,7 @@ import {sendDeleteSavedLocations} from "../../services/fetch/auth/SendDeleteSave
 import LocationModal from "../../modal/LocationsModal/LocationModal.jsx";
 import {Paper} from "@mui/material";
 import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
+import ForecastModal from "../../modal/ForecastModal/ForecastModal.jsx";
 
 function SavedLocationsPage() {
     const [loading, setLoading] = useState(false);
@@ -58,13 +59,12 @@ function SavedLocationsPage() {
     };
 
     const handleOpenLocationModal = async () => {
+        setLocationModalOpen(true);
         const locationsFromServer = await sendGetSavedLocations();
-
         if (locationListUpdated(savedLocations, locationsFromServer)) {
             const locationsAndWeather = await sendGetLocationsAndWeather();
             setSavedLocations(locationsAndWeather);
         }
-        setLocationModalOpen(true);
     }
 
 
@@ -95,11 +95,15 @@ function SavedLocationsPage() {
         }, 500);
     };
 
-
-    const [activeCardId, setActiveCardId] = useState(null);
-
     const {isScrolled, isVisible} = useCustomThemeContext();
 
+    const [activeLocationForecast, setActiveLocationForecast] = useState(null);
+
+
+
+    const handleForecastModalClose = () => {
+        setActiveLocationForecast(null);
+    }
 
     return (
         <>
@@ -118,10 +122,10 @@ function SavedLocationsPage() {
                            zIndex: 2,
                            paddingBottom: '19px',
                            paddingTop: '78px',
-                           backgroundColor: 'background.paper',
+                           backgroundColor: 'background.default',
                            width: '100%',
                            transform: isVisible ? "translateY(0)" : "translateY(-65px)",
-                           transition: "transform 0.3s linear",
+                           transition: "transform 0.3s linear, box-shadow 0.3s linear"
                        }}>
                     <Typography
                         sx={{fontSize: 28, fontWeight: 500}}
@@ -162,8 +166,7 @@ function SavedLocationsPage() {
                                     locationAndWeather={locAndWeath}
                                     onDelete={handleDelete}
                                     isDeleting={deletingLocations.includes(locAndWeath.location.id)}
-                                    activeCardId={activeCardId}
-                                    setActiveCardId={setActiveCardId}
+                                    setActiveLocation={setActiveLocationForecast}
                                 />
                             ))
                         )
@@ -171,6 +174,7 @@ function SavedLocationsPage() {
                 </Box>
                 <div style={{
                     color: "rgba(0,0,0,0)",
+                    userSelect: "none",
                 }}> first first first first first first first first first first first first first first first first
                     first
                     first first first fi rst fir i i i i i ааfi fi i i i i i i i i fi fi а rst first fir st fir st first
@@ -182,6 +186,10 @@ function SavedLocationsPage() {
                            open={isLocationModalOpen}
                            alreadySavedLocations={savedLocations}
                            setAlreadySavedLocations={setSavedLocations}
+            />
+
+            <ForecastModal activeLocationForecast={activeLocationForecast}
+                           onClose={handleForecastModalClose}
             />
         </>
     )

@@ -5,11 +5,11 @@ import Box from "@mui/material/Box";
 import LocationCard from "../../components/FindLocationCard/LocationCard.jsx";
 import {sendFindLocations} from "../../services/fetch/unauth/SendFindLocations.js";
 import LoadingLocationCard from "../../components/FindLocationCard/LoadingLocationCard.jsx";
-import SearchTextField from "../../components/InputElements/SearchTextField.jsx";
+import SearchTextField from "../../components/InputElements/SearchLocationField/SearchTextField.jsx";
 import Typography from "@mui/material/Typography";
 import WeatherApiException from "../../exception/WeatherApiException.jsx";
 import thunderstorm from "../../assets/img/weather-state/thunderstorms.svg";
-import ClearLocationBadge from "../../components/InputElements/ClearLocationBadge/ClearLocationBadge.jsx";
+import ClearLocationBadge from "../../components/InputElements/SearchLocationField/ClearLocationBadge.jsx";
 import {Paper} from "@mui/material";
 import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 
@@ -87,7 +87,7 @@ function FindLocationPage() {
                        zIndex: 2,
 
                        paddingTop: '70px',
-                       backgroundColor: 'background.paper',
+                       backgroundColor: 'background.default',
                        width: '100%',
                        transform: isVisible ? "translateY(0)" : "translateY(-60px)",
                        transition: "transform 0.3s linear",
@@ -172,6 +172,7 @@ function FindLocationPage() {
 
             <div style={{
                 color: "rgba(0,0,0,0)",
+                userSelect: "none",
             }}> first first first first first first first first first first first first first first first first
                 first
                 first first first fi rst fir ааfi fi fi fi а а а а а а а
