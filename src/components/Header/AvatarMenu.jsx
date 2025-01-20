@@ -11,7 +11,7 @@ import {useAuthContext} from "../../context/Auth/AuthContext.jsx";
 import {sendLogout} from "../../services/fetch/auth/SendLogout.js";
 import {useNavigate} from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
-import {Divider, Drawer} from "@mui/material";
+import {Collapse, Divider, Drawer, Slide, Zoom} from "@mui/material";
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -187,10 +187,11 @@ export default function AvatarMenu() {
                 :
                 <Menu
                     sx={{
-                        mt: '45px',
+                        mt: '53px',
                         "& .MuiPaper-root": {
                             width: "140px",
-                        }
+                        },
+                        zIndex: 2
                     }}
                     id="menu-appbar"
                     anchorEl={anchorElUser}
@@ -203,6 +204,7 @@ export default function AvatarMenu() {
                         vertical: 'top',
                         horizontal: 'right',
                     }}
+                    TransitionComponent={Slide}
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                 >

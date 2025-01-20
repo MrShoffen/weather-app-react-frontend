@@ -6,11 +6,12 @@ import Typography from "@mui/material/Typography";
 export default function ForecastRow({row}) {
 
 
+
     return (
         <>
            <Box>
                <Typography variant="h6" textAlign='center' component="div" >
-                   {row[0].date}
+                     {row  ? row[0].date : '...' }
                </Typography>
            </Box>
         <Box
@@ -19,9 +20,9 @@ export default function ForecastRow({row}) {
             overflowX: "auto",
             whiteSpace: "nowrap",
             gap: "5px",
-            padding: "5px 0",
+            padding: "3px",
             paddingLeft: '5px',
-            paddingRight: '5px',
+            paddingRight: '0px',
             "&::-webkit-scrollbar": {
                 height: "6px",
             },
@@ -33,9 +34,20 @@ export default function ForecastRow({row}) {
         >
 
             {
+                row ?
                 row.map((weather) =>
                     <ForecastCell weather={weather}/>
-                )
+                ) :
+                    <>
+                        <ForecastCell/>
+                        <ForecastCell/>
+                        <ForecastCell/>
+                        <ForecastCell/>
+                        <ForecastCell/>
+                        <ForecastCell/>
+                        <ForecastCell/>
+                        <ForecastCell/>
+                    </>
 
             }
         </Box>

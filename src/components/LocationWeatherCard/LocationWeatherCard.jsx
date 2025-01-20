@@ -13,6 +13,7 @@ import './LocWeather.css';
 import {getFullCountryNameFromCode} from "../../services/util/LocationsUtil.jsx";
 import {isCloudy, isDay, windDirection} from "../../services/util/WeatherStateUtil.jsx";
 import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
+import DeleteLocationButton from "./DeleteLocationButton.jsx";
 
 export default function LocationWeatherCard({
                                                 locationAndWeather,
@@ -44,7 +45,7 @@ export default function LocationWeatherCard({
 
                 style={{
                     minWidth: "290px",
-                    minHeight: 320,
+                    minHeight: 315,
                     maxHeight: 400,
                     position: "relative",
 
@@ -145,7 +146,7 @@ export default function LocationWeatherCard({
                                 component="div"
                                 sx={{
                                     position: "absolute",
-                                    top: 148,
+                                    top: 155,
                                     right: 102,
                                     fontWeight: 500
 
@@ -275,43 +276,18 @@ export default function LocationWeatherCard({
 
                     </CardContent>
 
+                    <DeleteLocationButton onDelete={onDelete} locationId={locationAndWeather.location.id} />
+
                     <LoadingButton size="small"
                                    variant="contained"
                                    style={{
                                        position: 'absolute',
                                        bottom: 11,
                                        right: 8.5,
-                                       paddingRight: 35,
-                                   }}
-                                   sx={{
-                                       backgroundColor: 'error.main',
-                                   }}
-                                   onClick={() => {
-                                       onDelete(locationAndWeather.location.id);
-                                   }}
-
-                    >
-
-                        delete
-                        <DeleteIcon style={{fontSize: 16, position: 'absolute', right: 0, top: -3}}/>
-
-
-                    </LoadingButton>
-
-                    <LoadingButton size="small"
-                                   variant="contained"
-                                   style={{
-                                       position: 'absolute',
-                                       bottom: 11,
-                                       left: 8.5,
-                                   }}
-                                   sx={{
-                                       // backgroundColor: 'error.main',
                                    }}
                                    onClick={() => {
                                        setActiveLocation(location);
                                    }}
-
                     >
 
                         forecast

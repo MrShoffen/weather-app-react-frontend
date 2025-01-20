@@ -8,7 +8,7 @@ import MuiCard from "@mui/material/Card";
 
 const Card = styled(MuiCard)(({theme, isVisible, isDarkMode}) => ({
     position: "fixed",
-    top: 73,
+    top: 78,
     bottom: 'auto',
     display: "flex",
     alignItems: "center",

@@ -32,7 +32,10 @@ function FindLocationPage() {
             setErrors("Field can't be empty");
             return;
         }
-
+        if (currentLocationName && currentLocationName.length <2) {
+            setErrors("Length must be at least 2 characters");
+            return;
+        }
         if (currentLocationName && currentLocationName.length > 20) {
             setErrors('Length is above 20 characters.')
             return;
@@ -42,8 +45,16 @@ function FindLocationPage() {
         setFoundLocations([]);
 
         try {
-            const promise = await sendFindLocations(currentLocationName);
-            setFoundLocations(promise);
+            const firstChunk = await sendFindLocations(currentLocationName);
+            const secondName = currentLocationName.substring(0,currentLocationName.length-1);
+            const secondChunk = await sendFindLocations(secondName);
+
+            const mergedLocations = [...firstChunk, ...secondChunk];
+            const uniqueLocations = mergedLocations.filter((location, index, self) =>
+                index === self.findIndex((loc) => loc.lat === location.lat && loc.lon === location.lon) // Условие уникальности по `id`
+            );
+
+            setFoundLocations(uniqueLocations);
         } catch (error) {
             switch (true) {
                 case error instanceof WeatherApiException:

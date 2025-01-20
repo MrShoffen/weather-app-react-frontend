@@ -120,8 +120,8 @@ function SavedLocationsPage() {
                            borderRadius: 0,
                            left: 0,
                            zIndex: 2,
-                           paddingBottom: '19px',
-                           paddingTop: '78px',
+                           paddingBottom: '24px',
+                           paddingTop: '62px',
                            backgroundColor: 'background.default',
                            width: '100%',
                            transform: isVisible ? "translateY(0)" : "translateY(-65px)",
@@ -138,7 +138,7 @@ function SavedLocationsPage() {
                 <Box
                     sx={{
                         width: '100%',
-                        pt: 18,
+                        pt: 17,
                         pl: 2,
                         pr: 2,
                         display: 'grid',

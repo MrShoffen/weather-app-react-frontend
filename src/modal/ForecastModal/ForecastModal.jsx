@@ -7,6 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import {sendGetForecast} from "../../services/fetch/auth/SendGetForecast.js";
 import parseWeatherData from "../../services/util/ForecastParserUtil.jsx";
 import ForecastRow from "./ForecastRow.jsx";
+import ForecastLoading from "./ForecastLoading.jsx";
 
 const Card = styled(MuiCard)(({theme}) => ({
     display: 'flex',
@@ -24,16 +25,9 @@ const Card = styled(MuiCard)(({theme}) => ({
     transform: "translate(-50%, 0%)",
     boxShadow: 24,
     borderRadius: "8px",
-
     [theme.breakpoints.up('md')]: {
-        width: '840px',
-        maxWidth: '840px',
-    },
-    [theme.breakpoints.up('lg')]: {
-        width: '847px',
+        width: '846px',
         maxWidth: '847px',
-        minHeight: '700px',
-
     },
 
 }));
@@ -59,12 +53,11 @@ export default function ForecastModal({activeLocationForecast, onClose}) {
                     console.log(error);
                 }
 
-                setTimeout(() => {
-                    setIsLoading(false);
-                }, 500);
             }
 
-            setIsLoading(false);
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 1000);
         };
 
         if (activeLocationForecast !== null) {
@@ -72,32 +65,6 @@ export default function ForecastModal({activeLocationForecast, onClose}) {
         }
     }, [activeLocationForecast]);
 
-    const handleMouseDragScroll = (event, rowRef) => {
-        let isMouseDown = false;
-        let startX;
-        let scrollStart;
-
-        const mouseDownHandler = (e) => {
-            isMouseDown = true;
-            startX = e.pageX - rowRef.current.offsetLeft;
-            scrollStart = rowRef.current.scrollLeft;
-        };
-
-        const mouseMoveHandler = (e) => {
-            if (!isMouseDown) return;
-            e.preventDefault();
-
-            const x = e.pageX - rowRef.current.offsetLeft;
-            const walk = (x - startX) * 1.5;
-            rowRef.current.scrollLeft = scrollStart - walk;
-        };
-
-        const mouseUpHandler = () => {
-            isMouseDown = false;
-        };
-
-        return {mouseDownHandler, mouseMoveHandler, mouseUpHandler};
-    };
 
     return (
         <Modal
@@ -157,9 +124,10 @@ export default function ForecastModal({activeLocationForecast, onClose}) {
                         }}
                     >
                         {
-                            isLoading
+                            isLoading && activeLocationForecast
                                 ? (
-                                    <Typography>loading...</Typography>
+                                    <ForecastLoading name={activeLocationForecast.name}
+                                                     country={activeLocationForecast.country}/>
                                 )
                                 : (
                                     weatherData && activeLocationForecast &&
@@ -185,7 +153,7 @@ export default function ForecastModal({activeLocationForecast, onClose}) {
                                                 variant="h6"
                                                 component="div"
                                                 textAlign="center"
-                                                sx={{  }}
+                                                sx={{}}
                                             >
                                                 <img
                                                     alt={activeLocationForecast.country}
@@ -217,7 +185,7 @@ export default function ForecastModal({activeLocationForecast, onClose}) {
                                             }}
                                         >
                                             {weatherData.map((row, index) => (
-                                                <ForecastRow key={index} row={row} />
+                                                <ForecastRow key={index} row={row}/>
                                             ))}
                                         </Box>
                                     </>
