@@ -19,7 +19,7 @@ export default function Footer() {
                 }}
         >
 
-            <span className="text-muted">2024 Roadmap:</span>
+            <span className="text-muted">2025 Roadmap:</span>
             <a className="contact_link" href="/currency-exchange"
                style={{position: "absolute", left: "132px"}}><CurrencyExchangeIcon/></a>
 
