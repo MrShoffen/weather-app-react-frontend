@@ -8,23 +8,9 @@ import {sendGetForecast} from "../../services/fetch/auth/SendGetForecast.js";
 import parseWeatherData from "../../services/util/ForecastParserUtil.jsx";
 import ForecastRow from "./ForecastRow.jsx";
 import ForecastLoading from "./ForecastLoading.jsx";
+import {useCustomThemeContext} from "../../context/CustomTheme/CustomThemeContext.jsx";
 
 const Card = styled(MuiCard)(({theme}) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    alignSelf: 'center',
-    width: '90%',
-    maxWidth: '90%',
-    margin: 'auto',
-    minHeight: '500px',
-    maxHeight: '80%',
-    position: "absolute",
-    top: "70px",
-    left: "50%",
-    backgroundColor: "background.paper",
-    transform: "translate(-50%, 0%)",
-    boxShadow: 24,
-    borderRadius: "8px",
     [theme.breakpoints.up('md')]: {
         width: '846px',
         maxWidth: '847px',
@@ -63,13 +49,14 @@ export default function ForecastModal({activeLocationForecast, onClose}) {
             }, 200);
 
 
-
         };
 
         if (activeLocationForecast !== null) {
             loadWeather();
         }
     }, [activeLocationForecast]);
+
+    const {isDarkMode} = useCustomThemeContext();
 
 
     return (
@@ -91,9 +78,21 @@ export default function ForecastModal({activeLocationForecast, onClose}) {
             >
                 <Card variant="outlined"
                       sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignSelf: 'center',
+                          width: '90%',
+                          maxWidth: '90%',
+                          margin: 'auto',
+                          minHeight: '500px',
+                          maxHeight: '80%',
+                          position: "absolute",
+                          top: "70px",
+                          left: "50%",
+                          backgroundColor: "background.paper",
+                          transform: "translate(-50%, 0%)",
                           boxShadow: 24,
-                          transform: "translate(50%,50%)",
-
+                          borderRadius: "8px",
                       }}
                 >
 
@@ -107,8 +106,8 @@ export default function ForecastModal({activeLocationForecast, onClose}) {
 
                         sx={{
                             position: 'absolute',
-                            top: 5,
-                            right: 5,
+                            top: 7,
+                            right: 7,
                             width: '25px',
                             height: '25px',
                             zIndex: 5,
@@ -133,19 +132,20 @@ export default function ForecastModal({activeLocationForecast, onClose}) {
                             isLoading && activeLocationForecast
                                 ? (
                                     <ForecastLoading name={activeLocationForecast.name}
-                                                     country={activeLocationForecast.country}/>
+                                                     country={activeLocationForecast.country}
+                                                     isDarkMode={isDarkMode}/>
                                 )
                                 : (
                                     weatherData && activeLocationForecast &&
                                     <>
                                         {/* Заголовок с флагом и названием города */}
                                         <Paper
-                                            elevation={3}
+                                            elevation={2}
                                             sx={{
                                                 position: "sticky",
                                                 top: 0,
                                                 zIndex: 3,
-                                                backgroundColor: "background.paper",
+                                                backgroundColor: isDarkMode ? "background.paper" : "primary.main",
                                                 borderRadius: 0,
                                                 height: "45px",
                                                 padding: 1,
@@ -158,8 +158,9 @@ export default function ForecastModal({activeLocationForecast, onClose}) {
                                                 gutterBottom
                                                 variant="h6"
                                                 component="div"
+                                                color="white"
                                                 textAlign="center"
-                                                sx={{}}
+                                                sx={{paddingTop: '7px'}}
                                             >
                                                 <img
                                                     alt={activeLocationForecast.country}
@@ -172,7 +173,7 @@ export default function ForecastModal({activeLocationForecast, onClose}) {
                                                     style={{
                                                         position: "absolute",
                                                         left: 5,
-                                                        top: 10,
+                                                        top: 13,
                                                     }}
                                                 />
                                                 {activeLocationForecast.name}

@@ -4,19 +4,19 @@ import React from "react";
 import ForecastCell from "./ForecastCell.jsx";
 
 
-export default function ForecastLoading({country, name}) {
+export default function ForecastLoading({country, name, isDarkMode}) {
 
 
     return (
         <>
             {/* Заголовок с флагом и названием города */}
             <Paper
-                elevation={3}
+                elevation={2}
                 sx={{
                     position: "sticky",
                     top: 0,
                     zIndex: 3,
-                    backgroundColor: "background.paper",
+                    backgroundColor: isDarkMode ? "background.paper" : "primary.main",
                     borderRadius: 0,
                     height: "45px",
                     padding: 1,
@@ -28,9 +28,10 @@ export default function ForecastLoading({country, name}) {
                 <Typography
                     gutterBottom
                     variant="h6"
+                    color="white"
                     component="div"
                     textAlign="center"
-                    sx={{}}
+                    sx={{paddingTop: '7px'}}
                 >
                     <img
                         alt={country}
@@ -43,7 +44,7 @@ export default function ForecastLoading({country, name}) {
                         style={{
                             position: "absolute",
                             left: 5,
-                            top: 10,
+                            top: 13,
                         }}
                     />
                     {name}

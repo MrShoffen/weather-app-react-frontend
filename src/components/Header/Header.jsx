@@ -17,6 +17,7 @@ export default function Header() {
         <AppBar
             component="nav"
             position="fixed"
+            elevation={0}
             sx={{
                 borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
                 transform: isVisible ? "translateY(0)" : "translateY(-100%)",
